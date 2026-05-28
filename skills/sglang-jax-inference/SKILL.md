@@ -18,6 +18,7 @@ SGL-JAX uses a multi-process architecture (Tokenizer, Scheduler, ModelRunner) an
 - **Serving**: Launch the server with `sgl_jax.launch_server`.
 - **Benchmarking**: Use `sgl_jax.bench_serving`.
 - **Testing**: Run `python test/srt/run_suite.py`.
+- **Docker Dev**: See [docker_development.md](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/sglang-jax-inference/references/docker_development.md) for setup instructions.
 - See [serving.md](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/sglang-jax-inference/references/serving.md) for example commands.
 
 ## 4. Developer Guidelines
