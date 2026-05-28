@@ -1,0 +1,52 @@
+suite_name: sglang_jax_inference
+timeout_seconds: 300
+max_tool_calls: 50
+
+cases:
+  - name: launch_qwen_server
+    prompt: >
+      I want to launch an SGL-JAX server for Qwen on TPU. What command should I run?
+    skills: [sglang-jax-inference]
+    rubric: |
+      The agent must:
+      - Identify the correct command: uv run python -u -m sgl_jax.launch_server
+      - Suggest appropriate flags like --model-path, --device=tpu, and --mem-fraction-static.
+    expect_keywords_any:
+      - "launch_server"
+      - "Qwen"
+      - "tpu"
+
+  - name: run_throughput_benchmark
+    prompt: >
+      How do I run a throughput benchmark on SGL-JAX?
+    skills: [sglang-jax-inference]
+    rubric: |
+      The agent must:
+      - Identify the need to use the sgl_jax.bench_serving module.
+      - Suggest a command like: uv run python -m sgl_jax.bench_serving --backend sgl-jax
+    expect_keywords_any:
+      - "bench_serving"
+      - "sgl-jax"
+
+  - name: add_new_model
+    prompt: >
+      Where should I add a new model implementation in SGL-JAX?
+    skills: [sglang-jax-inference]
+    rubric: |
+      The agent must:
+      - Point to the correct directory for model definitions: python/sgl_jax/srt/models/
+      - Mention that it should be implemented using JAX/Flax.
+    expect_keywords_any:
+      - "python/sgl_jax/srt/models/"
+      - "models"
+
+  - name: troubleshoot_oom
+    prompt: >
+      I am getting OOM errors when serving with SGL-JAX on TPU. What should I do?
+    skills: [sglang-jax-inference]
+    rubric: |
+      The agent must:
+      - Suggest reducing --max-prefill-tokens or --mem-fraction-static based on the skill's debugging section.
+    expect_keywords_any:
+      - "--max-prefill-tokens"
+      - "--mem-fraction-static"
