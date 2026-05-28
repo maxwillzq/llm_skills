@@ -21,3 +21,7 @@ tools/tpu_dev_sync.py [push|pull|both] [project_name]
 - **`both`**: Safe bidirectional sync (NO deletions, default).
 
 If `project_name` is omitted, it will try to infer it from the current directory if it is under `~/projects/`.
+
+## General References
+
+- [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/tools/references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.

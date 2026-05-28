@@ -32,27 +32,23 @@ pre-commit install
 
 ## 3. Get Docker Image
 
-On your **TPU VM**:
-```bash
-# Docker setup (reconnect SSH after usermod)
-sudo usermod -aG docker $USER
-gcloud auth configure-docker us-central1-docker.pkg.dev
+For general Docker setup on TPU VM (permissions, auth), see [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/tools/references/tpu_vm_setup.md).
 
-# Pull the pre-built dev image instead of building it locally:
+On your **TPU VM**, pull the specific image for `torchtpu-vllm`:
+```bash
 docker pull us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
 ```
 
-or build by yourself
-
+Or build it locally:
 ```bash
+cd /mnt/pd/projects/torchtpu-vllm
 ./docker/build_image.sh --torch-tpu-registry --target dev -t torchtpu-vllm-dev:local
 ```
 
-
-
 ## 4. Run Container
 
-Mount your local code directory for real-time sync:
+Run the container with the specific project volume mount. Refer to [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/tools/references/tpu_vm_setup.md) for details on general flags.
+
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
   -v /mnt/pd/.cache/huggingface:/root/.cache/huggingface \
