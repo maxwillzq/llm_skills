@@ -9,10 +9,10 @@ cases:
     skills: [vllm-on-tpu]
     rubric: |
       The agent must:
-      - Identify the need to use the tpu_dev_sync.sh script with the 'push' argument.
-      - Run the command: bash learning/infra/mira/experimental/vllm_on_tpu/agents/skills/vllm_on_tpu/scripts/tpu_dev_sync.sh push
+      - Identify the need to use the tpu_dev_sync.py script with the 'push' argument.
+      - Run the command: tools/tpu_dev_sync.py push
     expect_keywords_any:
-      - "tpu_dev_sync.sh"
+      - "tpu_dev_sync.py"
       - "push"
 
   - name: pull_code
@@ -21,10 +21,10 @@ cases:
     skills: [vllm-on-tpu]
     rubric: |
       The agent must:
-      - Identify the need to use the tpu_dev_sync.sh script with the 'pull' argument.
-      - Run the command: bash learning/infra/mira/experimental/vllm_on_tpu/agents/skills/vllm_on_tpu/scripts/tpu_dev_sync.sh pull
+      - Identify the need to use the tpu_dev_sync.py script with the 'pull' argument.
+      - Run the command: tools/tpu_dev_sync.py pull
     expect_keywords_any:
-      - "tpu_dev_sync.sh"
+      - "tpu_dev_sync.py"
       - "pull"
 
   - name: setup_tpu_vm

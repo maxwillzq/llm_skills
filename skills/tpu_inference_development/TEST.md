@@ -40,8 +40,7 @@ ensure it completes without errors. Assume you have a directory
 `~/projects/my-project`.
 
 ```bash
-bash learning/infra/mira/experimental/vllm_on_tpu/agents/skills/\
-vllm_on_tpu/scripts/tpu_dev_sync.sh both my-project
+tools/tpu_dev_sync.py both my-project
 ```
 
 **Expected Output**: - Should print `=== Ensuring Remote Directory Exists
@@ -67,8 +66,7 @@ fails:
 
 ```bash
 cd ~
-bash learning/infra/mira/experimental/vllm_on_tpu/agents/skills/\
-vllm_on_tpu/scripts/tpu_dev_sync.sh push
+tools/tpu_dev_sync.py push
 ```
 
 **Expected Output**: The script should fail with: `ERROR: Project name not

@@ -10,9 +10,9 @@ On your **Cloudtop**:
 cd ~/projects
 git clone git@github.com:google-pytorch/torchtpu-vllm.git
 
-# Run from google3 workspace to sync to TPU VM
-SYNC_SCRIPT="learning/infra/mira/experimental/vllm_on_tpu/agents/skills/vllm_on_tpu/scripts/tpu_dev_sync.sh"
-bash $SYNC_SCRIPT push torchtpu-vllm
+# Run from repo root to sync to TPU VM
+SYNC_SCRIPT="tools/tpu_dev_sync.py"
+python3 $SYNC_SCRIPT push torchtpu-vllm
 ```
 
 ## 2. Setup Local Environment (Cloudtop)
