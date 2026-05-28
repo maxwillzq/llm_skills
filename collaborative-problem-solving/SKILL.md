@@ -1,5 +1,5 @@
 ---
-name: Structured Debugging and Collaboration
+name: Collaborative Problem Solving
 description: Guidelines for avoiding rash file modifications, analyzing problems thoroughly, and discussing solutions with the user before execution.
 ---
 
