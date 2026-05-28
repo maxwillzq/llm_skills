@@ -29,4 +29,4 @@ SGL-JAX uses a multi-process architecture (Tokenizer, Scheduler, ModelRunner) an
 - **TPU IP & GCS Bucket**: Check the `config.json` file at the root of the `llm_skills` repository for user-specific configuration.
 
 ---
-*Refer to the official documentation in `~/projects/sglang-jax/docs/` for the full source of truth.*
+*Refer to the official documentation in `<local_projects_dir>/sglang-jax/docs/` (see `local_projects_dir` in `config.json`) for the full source of truth.*
