@@ -16,7 +16,7 @@ def main():
     target_dir.mkdir(parents=True, exist_ok=True)
     
     # Find all directories containing SKILL.md
-    patterns = ["skills/*/SKILL.md", "tools/SKILL.md"]
+    patterns = ["skills/*/SKILL.md"]
     for pattern in patterns:
         for skill_file in repo_dir.glob(pattern):
             skill_dir = skill_file.parent

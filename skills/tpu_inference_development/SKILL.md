@@ -124,7 +124,7 @@ analysis for a model on TPU.
 
 ### Key Tool
 
-Script: `tools/tpu_dev_sync.py` (in repo root)
+Script: `skills/llm_tools/tpu_dev_sync.py` (in repo)
 
 ### Usage Instructions
 
@@ -142,13 +142,13 @@ the absolute path `/usr/bin/gcloud`.
 Jetski must run the sync script to keep code in sync. You need to specify the
 project name or be inside the project directory under `~/projects/`.
 
-*   **Push Changes (Local -> Remote)**: `tools/tpu_dev_sync.py push [project_name]` *Warning: This will delete files on the remote TPU VM
+*   **Push Changes (Local -> Remote)**: `skills/llm_tools/tpu_dev_sync.py push [project_name]` *Warning: This will delete files on the remote TPU VM
     that are not present locally.*
 
-*   **Pull Changes (Remote -> Local)**: `tools/tpu_dev_sync.py pull [project_name]` *Warning: This will delete files on the local Cloudtop
+*   **Pull Changes (Remote -> Local)**: `skills/llm_tools/tpu_dev_sync.py pull [project_name]` *Warning: This will delete files on the local Cloudtop
     that are not present on the remote TPU VM.*
 
-*   **Bidirectional Sync**: `tools/tpu_dev_sync.py both [project_name]`
+*   **Bidirectional Sync**: `skills/llm_tools/tpu_dev_sync.py both [project_name]`
 
 #### 2. Remote Execution
 

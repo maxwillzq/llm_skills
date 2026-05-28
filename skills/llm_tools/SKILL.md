@@ -14,7 +14,7 @@ A Python script to synchronize code between local Cloudtop and remote TPU VMs. I
 
 **Usage**:
 ```bash
-tools/tpu_dev_sync.py [push|pull|both] [project_name]
+skills/llm_tools/tpu_dev_sync.py [push|pull|both] [project_name]
 ```
 - **`push`**: Local -> Remote (Warning: deletes files on remote not present locally).
 - **`pull`**: Remote -> Local (Warning: deletes files on local not present on remote).
@@ -24,4 +24,4 @@ If `project_name` is omitted, it will try to infer it from the current directory
 
 ## General References
 
-- [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/tools/references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
+- [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/llm_tools/references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.

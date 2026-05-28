@@ -11,7 +11,7 @@ cd ~/projects
 git clone git@github.com:google-pytorch/torchtpu-vllm.git
 
 # Run from repo root to sync to TPU VM
-SYNC_SCRIPT="tools/tpu_dev_sync.py"
+SYNC_SCRIPT="skills/llm_tools/tpu_dev_sync.py"
 python3 $SYNC_SCRIPT push torchtpu-vllm
 ```
 

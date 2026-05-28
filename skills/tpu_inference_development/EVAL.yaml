@@ -10,7 +10,7 @@ cases:
     rubric: |
       The agent must:
       - Identify the need to use the tpu_dev_sync.py script with the 'push' argument.
-      - Run the command: tools/tpu_dev_sync.py push
+      - Run the command: skills/llm_tools/tpu_dev_sync.py push
     expect_keywords_any:
       - "tpu_dev_sync.py"
       - "push"
@@ -22,7 +22,7 @@ cases:
     rubric: |
       The agent must:
       - Identify the need to use the tpu_dev_sync.py script with the 'pull' argument.
-      - Run the command: tools/tpu_dev_sync.py pull
+      - Run the command: skills/llm_tools/tpu_dev_sync.py pull
     expect_keywords_any:
       - "tpu_dev_sync.py"
       - "pull"
