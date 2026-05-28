@@ -1,0 +1,6 @@
+{
+  "tpu_ip": "10.x.x.x",
+  "local_projects_dir": "/usr/local/google/home/USERNAME/projects",
+  "remote_projects_dir": "/mnt/pd/projects",
+  "remote_host": "USERNAME-tpu-v7"
+}
