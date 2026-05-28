@@ -17,7 +17,7 @@ def main():
     
     # Find all directories containing SKILL.md
     # glob("*/SKILL.md") matches one level deep directories containing SKILL.md
-    for skill_file in repo_dir.glob("*/SKILL.md"):
+    for skill_file in repo_dir.glob("skills/*/SKILL.md"):
         skill_dir = skill_file.parent
         skill_name = skill_dir.name
         
