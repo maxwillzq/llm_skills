@@ -1,0 +1,98 @@
+suite_name: vllm_on_tpu
+timeout_seconds: 300
+max_tool_calls: 50
+
+cases:
+  - name: push_code
+    prompt: >
+      I have made some local changes to vllm on my Cloudtop. Please push them to the remote TPU VM.
+    skills: [vllm-on-tpu]
+    rubric: |
+      The agent must:
+      - Identify the need to use the tpu_dev_sync.sh script with the 'push' argument.
+      - Run the command: bash learning/infra/mira/experimental/vllm_on_tpu/agents/skills/vllm_on_tpu/scripts/tpu_dev_sync.sh push
+    expect_keywords_any:
+      - "tpu_dev_sync.sh"
+      - "push"
+
+  - name: pull_code
+    prompt: >
+      I fixed some things on the TPU VM directly. Please pull the changes back to my Cloudtop.
+    skills: [vllm-on-tpu]
+    rubric: |
+      The agent must:
+      - Identify the need to use the tpu_dev_sync.sh script with the 'pull' argument.
+      - Run the command: bash learning/infra/mira/experimental/vllm_on_tpu/agents/skills/vllm_on_tpu/scripts/tpu_dev_sync.sh pull
+    expect_keywords_any:
+      - "tpu_dev_sync.sh"
+      - "pull"
+
+  - name: setup_tpu_vm
+    prompt: >
+      vllm-on-tpu skill: help me set up the gcloud TPU VM
+    skills: [vllm-on-tpu]
+    rubric: |
+      The agent must:
+      - Interactively work together with users to set up a TPU VM.
+      - Refer to the onboarding guide.
+      - Ask for necessary parameters but infer LDAP from environment.
+    expect_keywords_any:
+      - "interactively"
+      - "onboard_gcloud_tpu_vm.md"
+
+  - name: run_remote_test
+    prompt: >
+      Run the tests in tpu-inference repository on the remote TPU VM.
+    skills: [vllm-on-tpu]
+    rubric: |
+      The agent must:
+      - Identify the need to use tpu-vm-ssh to run commands on the remote TPU VM.
+      - Suggest a command like: tpu-vm-ssh "cd /mnt/pd/tpu-inference && pytest tests/"
+    expect_keywords_any:
+      - "tpu-vm-ssh"
+      - "pytest"
+
+  - name: quick_test_e2e
+    prompt: >
+      quick test the vllm-on-tpu jetski development end2end flow
+    skills: [vllm-on-tpu]
+    rubric: |
+      The agent must:
+      - Check if `tpu-vm-ssh` works.
+      - Check if `~/projects/` contains `tpu-inference` and `vllm` repos.
+      - Ask user to select commit IDs or branches.
+      - Check if `hf auth login` is okay on TPU VM.
+      - Run `tpu-inference/examples/offline_inference.py` via venv on remote VM.
+    expect_keywords_any:
+      - "tpu-vm-ssh"
+      - "offline_inference.py"
+
+  - name: benchmark_and_report
+    prompt: >
+      Benchmark the Qwen/Qwen2.5-7B-Instruct model, summarize a perf report on the doc, list which part of jax codes we can improve.
+    skills: [vllm-on-tpu, xprof_analysis, google_docs]
+    rubric: |
+      The agent must:
+      - Break down the complex task into manageable steps.
+      - Guide the user through setting up the vLLM server with the Qwen 480B model.
+      - Explain how to run the benchmark and capture XProf traces.
+      - Generate or plan to generate a Google Doc (or detailed report) containing XProf information, relevant links, and performance analysis.
+      - Provide suggestions for JAX code improvements based on the analysis.
+    expect_keywords_any:
+      - "xprof"
+      - "benchmark"
+      - "google doc"
+
+  - name: discuss_code_issue
+    prompt: >
+      vlm-on-tpu: I have some code question to discuss: why the loading checkpoint when ray enabled is so slow. It takes 9 hours.
+    skills: [vllm-on-tpu]
+    rubric: |
+      The agent must:
+      - Acknowledge the question and offer to discuss.
+      - Suggest reading the source code under `~/projects/` (e.g., `vllm` or `tpu-inference`) to understand how checkpoints are loaded with Ray.
+      - Engage in an interactive discussion with the user, asking for more details or proposing hypotheses.
+    expect_keywords_any:
+      - "source code"
+      - "ray"
+      - "checkpoint"
