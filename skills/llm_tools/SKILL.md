@@ -35,3 +35,4 @@ python3 skills/llm_tools/scripts/flatten_gcs_checkpoints.py <bucket_name>
 ## General References
 
 - [TPU VM Setup](references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
+- [GitHub CLI Guide for PR Reviews](references/gh_cli_guide.md): Quick commands and JQ pattern references for accessing PR diffs, review comments, and status checks using GitHub CLI.
