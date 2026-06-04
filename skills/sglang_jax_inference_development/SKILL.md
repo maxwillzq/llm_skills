@@ -1,5 +1,5 @@
 ---
-name: sglang_jax_inference
+name: sglang_jax_inference_development
 description: Guidelines for using, debugging, and extending SGL-JAX for high-performance LLM inference on JAX/TPU.
 ---
 
