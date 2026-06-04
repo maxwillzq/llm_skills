@@ -1,5 +1,5 @@
 ---
-name: Collaborative Problem Solving
+name: collaborative_problem_solving
 description: Guidelines for avoiding rash file modifications, analyzing problems thoroughly, and discussing solutions with the user before execution.
 ---
 
