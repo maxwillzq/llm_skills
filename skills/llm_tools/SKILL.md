@@ -14,7 +14,7 @@ A Python script to synchronize code between local Cloudtop and remote TPU VMs. I
 
 **Usage**:
 ```bash
-skills/llm_tools/scripts/tpu_dev_sync.py [push|pull|both] [project_name]
+python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py [push|pull|both] [project_name]
 ```
 - **`push`**: Local -> Remote (Warning: deletes files on remote not present locally).
 - **`pull`**: Remote -> Local (Warning: deletes files on local not present on remote).
@@ -27,7 +27,7 @@ A Python script to flatten HuggingFace model checkpoint cache folders in GCS buc
 
 **Usage**:
 ```bash
-python3 skills/llm_tools/scripts/flatten_gcs_checkpoints.py <bucket_name>
+python3 ~/.gemini/config/skills/llm_tools/scripts/flatten_gcs_checkpoints.py <bucket_name>
 ```
 
 ---
