@@ -56,10 +56,5 @@ All code check-ins must comply with the following style enforcement checks (conf
 *   **Manual Verification**: Use `./scripts/vllm/benchmarking/run_eval_flow.sh` on a development TPU VM to benchmark and verify.
 *   **Nightly Checks**: Nightly perf runs evaluate TP8 model checkpoints against regression baselines.
 
----
-
-## 5. Model Checkpoint Management
-
-*   **Checkpoints location**: Checkpoints used in CI tests or performance evaluations must be stored under `gs://tpu-inference-hf-llm-model-checkpoints/`.
-*   **Flat Structure**: Checkpoints should be stored in a flat directory layout (no nested `blobs/` and `snapshots/` subdirectories) to optimize copy time and prevent out-of-disk errors.
-*   **GCSFuse Support**: New models must be tested to ensure they support loading from mounted GCSFuse directories as well as direct local copy.
+### New Model Checkpoint Verification
+*   If a PR adds a new model config or expands evaluation tests, the author/reviewer must verify that the corresponding model checkpoint files are already uploaded to the GCS bucket `gs://tpu-inference-hf-llm-model-checkpoints/` in a flat layout. Otherwise, GHA workflows will fail immediately after merging. Refer to the [GCS Checkpoint Management Guide](../../torch_vllm_development/references/managing_checkpoint_bucket.md) for instructions.
