@@ -13,13 +13,16 @@ Every commit in a PR must be signed off to certify its developer origin.
 *   **Action**: Use `git commit -s` when committing.
 
 ### Pull Request Title Conventions
-PR titles should follow the [upstream vLLM Contribution Guidelines](https://docs.vllm.ai/en/latest/contributing/) to help categorize changes for release notes:
-*   Use classification prefixes in your PR title, such as:
-    *   `[Bugfix]`: For bug fixes.
-    *   `[Model]`: For new model implementations or model updates.
-    *   `[Core]`: For core engine/orchestration changes.
-    *   `[Kernel]`: For hardware-specific Pallas or TPU/GPU kernels.
-    *   `[Doc]`: For documentation improvements.
+PR titles should follow the [upstream vLLM Contribution Guidelines](https://docs.vllm.ai/en/latest/contributing/) to help categorize changes for release notes. Only specific types of PRs will be reviewed. Please use one of the following classification prefixes in your PR title:
+*   `[Bugfix]`: For bug fixes.
+*   `[CI/Build]`: For build or continuous integration improvements.
+*   `[Doc]`: For documentation fixes and improvements.
+*   `[Model]`: For adding a new model or improving an existing model. The model name should appear in the title.
+*   `[Frontend]`: For changes on the vLLM frontend (e.g., OpenAI API server, LLM class, entrypoints, etc.).
+*   `[Kernel]`: For changes affecting CUDA, Pallas, or other compute kernels.
+*   `[Core]`: For changes in the core engine logic (e.g., LLMEngine, AsyncLLMEngine, Scheduler, etc.).
+*   `[Hardware][Vendor]`: For hardware-specific changes (e.g., `[Hardware][AMD]`, `[Hardware][TPU]`). The vendor name should appear in the prefix.
+*   `[Misc]`: For PRs that do not fit the above categories (please use this sparingly).
 
 ---
 
