@@ -12,6 +12,15 @@ Every commit in a PR must be signed off to certify its developer origin.
 *   **Verification**: This is automatically added/enforced by the pre-commit `signoff-commit` hook. If bypass is needed, use `git commit --no-verify` (discouraged).
 *   **Action**: Use `git commit -s` when committing.
 
+### Pull Request Title Conventions
+PR titles should follow the upstream vLLM conventions to help categorize changes for release notes:
+*   Use classification prefixes in your PR title, such as:
+    *   `[Bugfix]`: For bug fixes.
+    *   `[Model]`: For new model implementations or model updates.
+    *   `[Core]`: For core engine/orchestration changes.
+    *   `[Kernel]`: For hardware-specific Pallas or TPU/GPU kernels.
+    *   `[Doc]`: For documentation improvements.
+
 ---
 
 ## 2. Directory and Architecture Conventions
