@@ -19,12 +19,9 @@ Every commit in a PR must be signed off to certify its developer origin.
 We maintain a strict separation between JAX and vLLM (PyTorch) layers and models to prevent cross-contamination:
 
 *   **`tpu_inference/layers/`**:
-    *   `common/`: Layers and utilities shared by both engines.
-    *   `jax/`: Layers used exclusively by JAX models.
+    *   `common/`: Layers and utilities shared across models.
     *   `vllm/`: Layers used exclusively by vLLM (PyTorch) models.
 *   **`tpu_inference/models/`**:
-    *   `common/`: Core model functionality shared by JAX and vLLM.
-    *   `jax/`: Model architectures specific to JAX.
     *   `vllm/`: Model architectures specific to vLLM (PyTorch).
 
 ### Package Init Verification
