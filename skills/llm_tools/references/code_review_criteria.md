@@ -13,7 +13,7 @@ Every commit in a PR must be signed off to certify its developer origin.
 *   **Action**: Use `git commit -s` when committing.
 
 ### Pull Request Title Conventions
-PR titles should follow the upstream vLLM conventions to help categorize changes for release notes:
+PR titles should follow the [upstream vLLM Contribution Guidelines](https://docs.vllm.ai/en/latest/contributing/) to help categorize changes for release notes:
 *   Use classification prefixes in your PR title, such as:
     *   `[Bugfix]`: For bug fixes.
     *   `[Model]`: For new model implementations or model updates.
