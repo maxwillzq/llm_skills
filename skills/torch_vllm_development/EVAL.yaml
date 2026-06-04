@@ -1,0 +1,59 @@
+suite_name: torch_vllm_development
+timeout_seconds: 300
+max_tool_calls: 50
+
+cases:
+  - name: setup_docker_environment
+    prompt: >
+      Set up the Docker development environment for torchtpu-vllm on my TPU VM.
+    skills: [torch-vllm-development]
+    rubric: |
+      The agent must:
+      - Point to pulling the pre-built us-docker us-docker.pkg.dev/.../torchtpu-vllm-dev:latest image.
+      - Recommend configuring gcloud docker credential helper (`gcloud auth configure-docker`).
+      - Suggest the standard run command with volume mounts for huggingface cache and code repository.
+    expect_keywords_any:
+      - "docker pull"
+      - "configure-docker"
+      - "torchtpu-vllm-dev"
+
+  - name: local_reproduction_ci_failure
+    prompt: >
+      My PR Guard CI run failed on GitHub. How do I locally reproduce the Qwen3-Coder-30B FP8 benchmark on my TPU VM?
+    skills: [torch-vllm-development]
+    rubric: |
+      The agent must:
+      - Direct the user to the local_reproduction.md reference guide.
+      - Present the docker run reproduction command mounting `/mnt/pd/.cache/huggingface` to `/local_hf_cache` and project path.
+      - Use `run_eval_flow.sh` with the config `--config qwen3-coder-30b-fp8-tp8-ep --run-lm-eval`.
+    expect_keywords_any:
+      - "local_reproduction.md"
+      - "run_eval_flow.sh"
+      - "qwen3-coder-30b-fp8-tp8-ep"
+
+  - name: verify_offline_inference
+    prompt: >
+      How do I run offline inference inside the dev container to verify the setup?
+    skills: [torch-vllm-development]
+    rubric: |
+      The agent must:
+      - Suggest running `offline_inference.py` inside the Docker container.
+      - Specify a test model path like `Qwen/Qwen2.5-1.5B-Instruct` to run a lightweight verification.
+    expect_keywords_any:
+      - "offline_inference.py"
+      - "Qwen2.5"
+
+  - name: review_pr_with_checklist
+    prompt: >
+      Please review PR #145 using the code review checklist.
+    skills: [torch-vllm-development]
+    rubric: |
+      The agent must:
+      - Acknowledge the request to review PR #145.
+      - Direct themselves to using `code_review_checklist.md` for PR checking.
+      - Retrieve the PR diff and metadata using gh CLI (based on gh_cli_guide.md).
+      - Present the review findings categorized by severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit).
+    expect_keywords_any:
+      - "code_review_checklist.md"
+      - "gh pr diff"
+      - "Blocker"

@@ -82,6 +82,14 @@ Refer to the `vllm-on-tpu` skill for detailed instructions on how to use TPU VMs
 If the user explicitly requests you to locally reproduce a GitHub Actions (CI/CD) workflow failure, or when you are asked to debug or validate PR Guard / Nightly runs on a development TPU VM:
 - Refer to the [Local Reproduction and Debugging](references/local_reproduction.md) reference guide for template commands and concrete examples of pulling the dev container, mounting local caches, and running evaluation benchmarks or unit tests.
 
+## Pull Request Code Reviews
+
+When the user explicitly requests you to review a GitHub Pull Request (e.g., "Please review PR #123" or "Perform a code review of my branch"):
+1.  **Retrieve PR Data**: Use the [GitHub CLI Guide for PR Reviews](../llm_tools/references/gh_cli_guide.md) to query the PR's details, diff, files changed, and comments.
+2.  **Evaluate against Checklist**: Systematically review the diff and changes against the [Code Review Checklist](references/code_review_checklist.md).
+3.  **Construct Report**: Create a structured markdown review report categorizing your findings using the specified severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit, 💡 Suggestion, ❓ Question, ✅ Praise).
+4.  **Submit Comments (Optional)**: If requested by the user, use the `gh` CLI commands in [gh_cli_guide.md](../llm_tools/references/gh_cli_guide.md) to post inline reviews or general comments directly to the pull request on GitHub.
+
 ## Verification
 
 You can verify the setup by running the test from the TPU VM host (outside the container) using a one-liner:
@@ -101,4 +109,5 @@ docker run --rm --privileged --net=host --shm-size=16g \
 ## References
 
 - [Local Reproduction and Debugging](references/local_reproduction.md): Detailed instructions on simulating GitHub Actions runs and debugging failures locally on a TPU VM.
+- [Code Review Checklist](references/code_review_checklist.md): Comprehensive checklist for pull requests, covering JAX/vLLM separation, static analysis, styling, baseline evaluations, and checkpoints.
 

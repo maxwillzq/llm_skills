@@ -70,7 +70,7 @@ When reviewing a PR, ensure changes are:
 
 ### Model Checkpoints Verification
 - [ ] **Are evaluation checkpoints ready in GCS?**
-  - If adding a new model or expanding test configs, verify that the corresponding model checkpoint files are uploaded to the GCS bucket `gs://tpu-inference-hf-llm-model-checkpoints/` in a flat directory layout. Refer to the [GCS Checkpoint Management Guide](../../torch_vllm_development/references/managing_checkpoint_bucket.md) for details.
+  - If adding a new model or expanding test configs, verify that the corresponding model checkpoint files are uploaded to the GCS bucket `gs://tpu-inference-hf-llm-model-checkpoints/` in a flat directory layout. Refer to the [GCS Checkpoint Management Guide](managing_checkpoint_bucket.md) for details.
 
 ---
 
