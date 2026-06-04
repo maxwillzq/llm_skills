@@ -19,7 +19,7 @@ Example:
 mkdir -p ~/hf_downloads/
 
 # Download the model
-hf download Qwen/Qwen3-0.6B --local-dir ~/hf_downloads/models--Qwen--Qwen3-0.6B
+huggingface-cli download Qwen/Qwen3-0.6B --local-dir ~/hf_downloads/models--Qwen--Qwen3-0.6B
 ```
 
 ### Step 2: Upload to GCS
@@ -40,5 +40,8 @@ rm -rf ~/hf_downloads/models--Qwen--Qwen3-0.6B
 
 > [!NOTE]
 > Everyone in the project has permission to upload directly to the CI/CD bucket.
+
+> [!TIP]
+> If a checkpoint folder was previously uploaded in the standard HuggingFace Hub directory cache structure (containing `blobs/` and `snapshots/` subfolders), you can flatten it directly on GCS using the shared script [flatten_gcs_checkpoints.py](../../llm_tools/scripts/flatten_gcs_checkpoints.py).
 
 

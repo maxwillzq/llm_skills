@@ -7,7 +7,7 @@ description: >-
 # Developing torchtpu-vllm on TPU
 
 use "ssh johnqiangzhang-tpu-v7" or alias "tpu-vm-ssh" to ssh login to tpu.
-use "skills/llm_tools/tpu_dev_sync.py" to push and sync torchtpu-vllm folder between cloudtop "~/project/torchtpu-vllm"  and 
+use "skills/llm_tools/scripts/tpu_dev_sync.py" to push and sync torchtpu-vllm folder between cloudtop "~/project/torchtpu-vllm"  and 
 tpu VM "/mnt/pd/projects/torchtpu-vllm".
 
 ## Local Environment Setup (Cloudtop)
@@ -67,15 +67,20 @@ docker run -it --privileged --net=host --shm-size=16g \
 
 ## Code Synchronization and Remote Execution
 
-Refer to the `vllm-on-tpu` skill for detailed instructions on how to use TPU VMs and synchronize code using the `skills/llm_tools/tpu_dev_sync.py` script.
+Refer to the `vllm-on-tpu` skill for detailed instructions on how to use TPU VMs and synchronize code using the `skills/llm_tools/scripts/tpu_dev_sync.py` script.
 
 ### Source Code Location
 *   **Local Cloudtop**: `~/projects/torchtpu-vllm`
 *   **Remote TPU VM**: `/mnt/pd/projects/torchtpu-vllm`
 
 ### Usage Summary
-*   **Syncing Code**: Use the `skills/llm_tools/tpu_dev_sync.py` script as described in the `vllm-on-tpu` skill to push local changes from Cloudtop to the remote TPU VM.
+*   **Syncing Code**: Use the `skills/llm_tools/scripts/tpu_dev_sync.py` script as described in the `vllm-on-tpu` skill to push local changes from Cloudtop to the remote TPU VM.
 *   **Remote Execution**: Use `ssh` (or the `tpu-vm-ssh` alias) to run tests and examples on the TPU VM.
+
+## Local Reproduction and CI Debugging
+
+If the user explicitly requests you to locally reproduce a GitHub Actions (CI/CD) workflow failure, or when you are asked to debug or validate PR Guard / Nightly runs on a development TPU VM:
+- Refer to the [Local Reproduction and Debugging](references/local_reproduction.md) reference guide for template commands and concrete examples of pulling the dev container, mounting local caches, and running evaluation benchmarks or unit tests.
 
 ## Verification
 
@@ -92,4 +97,8 @@ docker run --rm --privileged --net=host --shm-size=16g \
   --max-model-len 256 \
   --max-num-batched-tokens 256
 ```
+
+## References
+
+- [Local Reproduction and Debugging](references/local_reproduction.md): Detailed instructions on simulating GitHub Actions runs and debugging failures locally on a TPU VM.
 

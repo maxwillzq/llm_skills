@@ -12,14 +12,14 @@ SGL-JAX is a high-performance JAX-based inference engine for LLMs on TPUs, featu
 
 ## 2. Architecture & JAX Patterns
 SGL-JAX uses a multi-process architecture (Tokenizer, Scheduler, ModelRunner) and specific JAX patterns (NNX Graph-State separation, Pallas kernels for in-place updates).
-- See [architecture.md](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/sglang-jax-inference/references/architecture.md) for details.
+- See [architecture.md](references/architecture.md) for details.
 
 ## 3. Common Workflows
 - **Serving**: Launch the server with `sgl_jax.launch_server`.
 - **Benchmarking**: Use `sgl_jax.bench_serving`.
 - **Testing**: Run `python test/srt/run_suite.py`.
-- **Docker Dev**: See [docker_development.md](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/sglang-jax-inference/references/docker_development.md) for setup instructions.
-- See [serving.md](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/sglang-jax-inference/references/serving.md) for example commands.
+- **Docker Dev**: See [docker_development.md](references/docker_development.md) for setup instructions.
+- See [serving.md](references/serving.md) for example commands.
 
 ## 4. Developer Guidelines
 - **Adding Models**: Implement in `python/sgl_jax/srt/models/` (e.g., `qwen.py`).

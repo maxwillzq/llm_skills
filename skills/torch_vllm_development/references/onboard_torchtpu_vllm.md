@@ -11,7 +11,7 @@ cd ~/projects
 git clone git@github.com:google-pytorch/torchtpu-vllm.git
 
 # Run from repo root to sync to TPU VM
-SYNC_SCRIPT="skills/llm_tools/tpu_dev_sync.py"
+SYNC_SCRIPT="skills/llm_tools/scripts/tpu_dev_sync.py"
 python3 $SYNC_SCRIPT push torchtpu-vllm
 ```
 
@@ -32,7 +32,7 @@ pre-commit install
 
 ## 3. Get Docker Image
 
-For general Docker setup on TPU VM (permissions, auth), see [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/tools/references/tpu_vm_setup.md).
+For general Docker setup on TPU VM (permissions, auth), see [TPU VM Setup](../../llm_tools/references/tpu_vm_setup.md).
 
 On your **TPU VM**, pull the specific image for `torchtpu-vllm`:
 ```bash
@@ -47,7 +47,7 @@ cd /mnt/pd/projects/torchtpu-vllm
 
 ## 4. Run Container
 
-Run the container with the specific project volume mount. Refer to [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/tools/references/tpu_vm_setup.md) for details on general flags.
+Run the container with the specific project volume mount. Refer to [TPU VM Setup](../../llm_tools/references/tpu_vm_setup.md) for details on general flags.
 
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \

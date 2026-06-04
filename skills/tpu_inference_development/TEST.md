@@ -40,7 +40,7 @@ ensure it completes without errors. Assume you have a directory
 `~/projects/my-project`.
 
 ```bash
-skills/llm_tools/tpu_dev_sync.py both my-project
+skills/llm_tools/scripts/tpu_dev_sync.py both my-project
 ```
 
 **Expected Output**: - Should print `=== Ensuring Remote Directory Exists
@@ -66,7 +66,7 @@ fails:
 
 ```bash
 cd ~
-skills/llm_tools/tpu_dev_sync.py push
+skills/llm_tools/scripts/tpu_dev_sync.py push
 ```
 
 **Expected Output**: The script should fail with: `ERROR: Project name not

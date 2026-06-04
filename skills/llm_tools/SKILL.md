@@ -14,7 +14,7 @@ A Python script to synchronize code between local Cloudtop and remote TPU VMs. I
 
 **Usage**:
 ```bash
-skills/llm_tools/tpu_dev_sync.py [push|pull|both] [project_name]
+skills/llm_tools/scripts/tpu_dev_sync.py [push|pull|both] [project_name]
 ```
 - **`push`**: Local -> Remote (Warning: deletes files on remote not present locally).
 - **`pull`**: Remote -> Local (Warning: deletes files on local not present on remote).
@@ -22,6 +22,16 @@ skills/llm_tools/tpu_dev_sync.py [push|pull|both] [project_name]
 
 If `project_name` is omitted, it will try to infer it from the current directory if it is under `~/projects/`.
 
+### 2. `flatten_gcs_checkpoints.py`
+A Python script to flatten HuggingFace model checkpoint cache folders in GCS buckets to prevent space duplication. It copies snapshots directly to the model root (resolving symlinks to blobs if they are stored as text pointer files) and deletes redundant `blobs/`, `snapshots/`, `refs/`, and `.no_exist/` subdirectories.
+
+**Usage**:
+```bash
+python3 skills/llm_tools/scripts/flatten_gcs_checkpoints.py <bucket_name>
+```
+
+---
+
 ## General References
 
-- [TPU VM Setup](file:///usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/llm_tools/references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
+- [TPU VM Setup](references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
