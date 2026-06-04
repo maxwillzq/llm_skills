@@ -1,70 +1,98 @@
-# Code Review Criteria for torchtpu-vllm
+# Code Review Checklist for torchtpu-vllm
 
-This document defines the key standards, conventions, and requirements that must be met when reviewing pull requests (PRs) or developing code in the `torchtpu-vllm` repository.
+This document outlines the code review criteria and guidelines for the `torchtpu-vllm` repository. Use this checklist when reviewing pull requests (PRs) or preparing code for submission to ensure correctness, performance, consistency, and clean review communication.
 
 ---
 
-## 1. Commit and Licensing Requirements
+## PR Review Flow
 
-### Developer Certificate of Origin (DCO) Sign-off
-Every commit in a PR must be signed off to certify its developer origin.
-*   **Rule**: The commit message must contain a `Signed-off-by: User Name <user.email@example.com>` line at the very end.
-*   **Verification**: This is automatically added/enforced by the pre-commit `signoff-commit` hook. If bypass is needed, use `git commit --no-verify` (discouraged).
-*   **Action**: Use `git commit -s` when committing.
+When reviewing a PR, ensure changes are:
+*   **Correct**: Resolves the issue or implements the feature without bugs.
+*   **Performant**: Meets baseline performance targets without regressions.
+*   **Aligned**: Conforms to repository directory layout and styling rules.
+*   **Tested**: Covered by relevant unit tests and valid GCS test checkpoints.
+
+---
+
+## 1. Functionality & Architecture
+
+### Directory & Layer Conventions
+- [ ] **Are changes placed in the correct directories?**
+  - **`tpu_inference/layers/`**:
+    - `common/` for layers and utilities shared across models.
+    - `vllm/` for layers used exclusively by vLLM (PyTorch) models.
+  - **`tpu_inference/models/`**:
+    - `vllm/` for model architectures specific to vLLM (PyTorch) models.
+- [ ] **Are package inits present?**
+  - Verify that any new subdirectory under `tpu_inference/` contains an `__init__.py` file (enforced by `detect-missing-init` hook).
+
+### Bugs & Correctness
+- [ ] **Are edge cases covered?**
+  - Handle null/None values, empty input strings, and empty token arrays.
+- [ ] **Is error handling implemented?**
+  - Graceful degradation or meaningful error messages when TPU compilation or loading fails.
+
+---
+
+## 2. Style, Formatting & Conventions
+
+### Pre-commit Compliance
+- [ ] **Have all pre-commit hooks passed?**
+  - **Python formatting**: Run `yapf` (Google style) and `isort` for import order.
+  - **Lints**: Pass `ruff` checks.
+  - **Shell scripts**: Pass `shellcheck` linting.
+  - **CI configurations**: Pass `actionlint` check for GitHub Actions YAMLs.
+  - **Filenames**: Check for spaces in filenames (must not contain spaces).
+
+### Commit & Licensing (DCO)
+- [ ] **Is every commit signed off?**
+  - Every commit message must contain a `Signed-off-by: Author Name <email@example.com>` line. Run `git commit -s` when committing.
 
 ### Pull Request Title Conventions
-PR titles are recommended to use classification prefixes (inspired by the [upstream vLLM Contribution Guidelines](https://docs.vllm.ai/en/latest/contributing/)) to help categorize changes. Common prefixes include:
-*   `[Bugfix]`: For bug fixes.
-*   `[CI/Build]`: For build or continuous integration improvements.
-*   `[Doc]`: For documentation fixes and improvements.
-*   `[Model]`: For adding a new model or improving an existing model (the model name should appear in the title).
-*   `[Kernel]`: For changes affecting compute kernels (e.g., Pallas or TPU-specific kernels).
-*   `[Core]`: For core engine logic (e.g., LLMEngine, AsyncLLMEngine, Scheduler).
-*   `[Misc]`: For PRs that do not fit the above categories.
+- [ ] **Does the PR title use standard classification prefixes?**
+  - Recommended prefixes (inspired by [upstream vLLM Contribution Guidelines](https://docs.vllm.ai/en/latest/contributing/)):
+    - `[Bugfix]`: For bug fixes.
+    - `[CI/Build]`: For build/CI workflow updates.
+    - `[Doc]`: For documentation improvements.
+    - `[Model]`: For new model implementations or updates (model name in title).
+    - `[Kernel]`: For compute kernels (e.g., Pallas or TPU-specific kernels).
+    - `[Core]`: For core engine logic changes (e.g., LLMEngine, Scheduler).
+    - `[Misc]`: For PRs that do not fit the above categories.
 
 ---
 
-## 2. Directory and Architecture Conventions
+## 3. Testing and CI/CD Validation
 
-We maintain a strict separation between JAX and vLLM (PyTorch) layers and models to prevent cross-contamination:
+### Unit Tests
+- [ ] **Are there unit tests for the changes?**
+  - New features or bug fixes must include unit tests placed under the `tests/` directory.
+  - Run and verify tests locally on the TPU VM before submitting.
 
-*   **`tpu_inference/layers/`**:
-    *   `common/`: Layers and utilities shared across models.
-    *   `vllm/`: Layers used exclusively by vLLM (PyTorch) models.
-*   **`tpu_inference/models/`**:
-    *   `vllm/`: Model architectures specific to vLLM (PyTorch).
-
-### Package Init Verification
-*   Every subdirectory under `tpu_inference/` must contain an `__init__.py` file. This is enforced automatically by the `detect-missing-init` pre-commit hook to prevent import resolution failures.
+### Model Checkpoints Verification
+- [ ] **Are evaluation checkpoints ready in GCS?**
+  - If adding a new model or expanding test configs, verify that the corresponding model checkpoint files are uploaded to the GCS bucket `gs://tpu-inference-hf-llm-model-checkpoints/` in a flat directory layout. Refer to the [GCS Checkpoint Management Guide](../../torch_vllm_development/references/managing_checkpoint_bucket.md) for details.
 
 ---
 
-## 3. Formatting, Linting, and Coding Standards
+## 4. Performance & Baseline Parity
 
-All code check-ins must comply with the following style enforcement checks (configured via `.pre-commit-config.yaml`):
-
-### Python Style Guide
-*   **Formatting**: Python code is formatted according to Google's style using **`yapf`** (`args: [--in-place, --verbose]`).
-*   **Imports**: Imports must be sorted alphabetically and grouped using **`isort`**.
-*   **Lints & Quality**: Code must pass all lints checked by **`ruff`** (`--fix` is automatically applied on pre-commit).
-*   **Filename spacing**: Filenames must not contain spaces (enforced by `check-filenames` hook).
-
-### Shell and CI Scripts
-*   **Shell Scripts**: All `.sh` scripts must pass **`shellcheck`** to catch syntax errors and unsafe variable expansions.
-*   **GitHub Actions**: All `.github/workflows/*.yml` files must pass **`actionlint`** to ensure valid action syntax.
+### Baseline Verification
+- [ ] **Does the PR introduce performance regressions?**
+  - Verify performance metrics (throughput, latency) on a remote TPU VM using `./scripts/vllm/benchmarking/run_eval_flow.sh` against the established baselines.
+  - Ensure nightly performance checks pass.
 
 ---
 
-## 4. Testing and CI/CD Expectations
+## 5. Review Feedback Guidelines (For Reviewers)
 
-### Unit Testing
-*   Any new feature or bug fix must be accompanied by corresponding unit tests under the `tests/` directory.
-*   Ensure tests pass locally on the TPU VM before submitting a PR.
+When commenting on PRs, use clear severity markers to help authors prioritize updates:
 
-### Performance & Baseline Regression Checks
-*   For PRs modifying model implementations, kernels, or execution layers, performance must not degrade relative to the established baselines.
-*   **Manual Verification**: Use `./scripts/vllm/benchmarking/run_eval_flow.sh` on a development TPU VM to benchmark and verify.
-*   **Nightly Checks**: Nightly perf runs evaluate TP8 model checkpoints against regression baselines.
+*   **🔴 Blocker**: Critical issue (bugs, regression, DCO sign-off missing, failing tests) that **must** be resolved before merging.
+*   **🟡 Important**: Architectural design improvements or code structure issues that should be addressed.
+*   **🟢 Nit**: Minor styling preferences, typos, or optional changes.
+*   **💡 Suggestion**: Optional ideas for future improvements.
+*   **❓ Question**: Seeking clarification on code logic or decisions.
+*   **✅ Praise**: Highlight clean code, clever solutions, or good work.
 
-### New Model Checkpoint Verification
-*   If a PR adds a new model config or expands evaluation tests, the author/reviewer must verify that the corresponding model checkpoint files are already uploaded to the GCS bucket `gs://tpu-inference-hf-llm-model-checkpoints/` in a flat layout. Otherwise, GHA workflows will fail immediately after merging. Refer to the [GCS Checkpoint Management Guide](../../torch_vllm_development/references/managing_checkpoint_bucket.md) for instructions.
+### Communication Tone
+*   Be constructive and explain the *why* behind feedback (e.g., "Consider X because it prevents compilation overhead").
