@@ -10,11 +10,13 @@ DEFINE_string projects "tpu-prod-env-one-vm,cloud-tpu-inference-test" "Comma-sep
 DEFINE_string shared "false" "Filter by shared label (true/false)"
 DEFINE_string user "$(whoami)_google_com" "SSH username"
 DEFINE_bool list_all true "List all idle TPUs instead of stopping at the first one"
+DEFINE_string accelerator_type "tpu7x-8" "Filter by accelerator type"
 
 function main() {
   local shared="${FLAGS_shared}"
   local user="${FLAGS_user}"
   local list_all="${FLAGS_list_all}"
+  local accelerator_type="${FLAGS_accelerator_type}"
   
   # Convert comma-separated string to array
   IFS=',' read -r -a projects_array <<< "${FLAGS_projects}"
@@ -26,8 +28,22 @@ function main() {
 
   for project in "${projects_array[@]}"; do
     local filter=""
+    local filters=()
     if [[ "${shared}" == "true" ]]; then
-        filter="--filter=labels.shared=true"
+        filters+=("labels.shared=true")
+    fi
+    if [[ -n "${accelerator_type}" ]]; then
+        filters+=("acceleratorType:${accelerator_type}")
+    fi
+
+    if [[ ${#filters[@]} -gt 0 ]]; then
+        filter="--filter="
+        for i in "${!filters[@]}"; do
+            if [[ $i -gt 0 ]]; then
+                filter+=" AND "
+            fi
+            filter+="${filters[$i]}"
+        done
     fi
 
     local tpus_output
