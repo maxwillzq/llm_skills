@@ -30,6 +30,18 @@ A Python script to flatten HuggingFace model checkpoint cache folders in GCS buc
 python3 ~/.gemini/config/skills/llm_tools/scripts/flatten_gcs_checkpoints.py <bucket_name>
 ```
 
+### 3. `find_idle_tpu.sh`
+A Bash script (using `gbash`) to search for and list idle Cloud TPU VM resources across multiple Google Cloud projects. It checks if `libtpu.so` is mapped by any running processes on the VM, determines connection health (SSH/Timeout status), and reports last login info in CSV format.
+
+**Usage**:
+```bash
+bash ~/.gemini/config/skills/llm_tools/scripts/find_idle_tpu.sh --projects="tpu-prod-env-one-vm,cloud-tpu-inference-test" --user="<ssh_username>"
+```
+- `--projects`: Comma-separated list of GCP Projects to scan.
+- `--user`: SSH username (defaults to `<whoami>_google_com`).
+- `--shared`: Filter by shared label `true/false` (defaults to `false`).
+- `--list_all`: List all idle TPUs instead of stopping at the first one (defaults to `true`).
+
 ---
 
 ## General References
