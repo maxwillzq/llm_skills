@@ -320,3 +320,67 @@ find /tmp/vllm_xla_cache -name "*.pkl"
 # Verify C++ native compilation cache files (*.bin)
 find /tmp/vllm_xla_cache/torch_tpu_tier3 -name "*.bin"
 ```
+
+---
+
+### 5. Running Large-Scale Nightly Jobs with Persistent Cache & GCS FUSE
+
+To run benchmarking jobs on large models (such as Qwen3-Coder-480B or Qwen3.5-397B, which require 400-500GB of storage), GKE Standard nodes might have insufficient local ephemeral-storage. We use a combination of dynamic PersistentVolumeClaim (PVC) caching and GCS FUSE cache mounting.
+
+#### 5.1 Dynamic PVC for Large Cache Storage
+Create a 500Gi SSD Persistent Volume Claim to store model checkpoints and Hugging Face home directories:
+
+```yaml
+# torchtpu-vllm-cache-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: torchtpu-vllm-hf-cache-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard-rwo
+  resources:
+    requests:
+      storage: 500Gi
+```
+
+Apply the PVC:
+```bash
+kubectl apply -f torchtpu-vllm-cache-pvc.yaml
+```
+
+Mount this PVC to the pod under `/local_hf_cache` and map `HF_HOME=/local_hf_cache` in the Job container environment.
+
+#### 5.2 Workload Identity Mapping
+GCS FUSE mounting requires the K8s Service Account used by the pod to be mapped to a Google Service Account (GSA) that has access to the GCS bucket.
+
+Annotate the K8s Service Account:
+```bash
+kubectl annotate serviceaccount vllm-sa \
+  iam.gke.io/gcp-service-account=vllm-tpu-gsa@tpu-prod-env-one-vm.iam.gserviceaccount.com \
+  --overwrite
+```
+
+In your Job spec under `spec.template.spec`, specify:
+```yaml
+serviceAccountName: vllm-sa
+```
+
+#### 5.3 Troubleshooting GCS FUSE Sidecar Injection
+If GKE fails to inject the GCS FUSE sidecar (`gke-gcsfuse-sidecar`) container, leading to `FailedPrecondition desc = failed to find the sidecar container` errors, it means the GCS FUSE CSI driver webhook is missing or broken.
+
+You can trigger a master control plane reconcile by disabling and re-enabling the GCS FUSE CSI addon:
+```bash
+# Disable GCS FUSE CSI Addon
+gcloud container clusters update CLUSTER_NAME \
+  --region=REGION \
+  --update-addons GcsFuseCsiDriver=DISABLED --quiet
+
+# Re-enable GCS FUSE CSI Addon
+gcloud container clusters update CLUSTER_NAME \
+  --region=REGION \
+  --update-addons GcsFuseCsiDriver=ENABLED --quiet
+```
+
