@@ -35,4 +35,6 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/flatten_gcs_checkpoints.py <bu
 ## General References
 
 - [TPU VM Setup](references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
+- [GKE TPU Setup Guide](references/set_dev_env_using_gke.md): Reference guide to set up a GKE cluster with multi-TPU types and deploy/test workloads on GKE.
 - [GitHub CLI Guide for PR Reviews](references/gh_cli_guide.md): Quick commands and JQ pattern references for accessing PR diffs, review comments, and status checks using GitHub CLI.
+

@@ -221,3 +221,102 @@ curl http://localhost:8000/v1/completions \
 "max_tokens": 10
 }'
 ```
+
+---
+
+## **torchtpu-vllm (PyTorch TPU) Deployment**
+
+For PyTorch/XLA-based workloads, we deploy `torchtpu-vllm` which wraps PyTorch compilation and uses custom kernels for TPU execution.
+
+### 1. Build Docker Image (dev:latest target)
+We build the developer image target stage (`dev`), which copies the local `torchtpu-vllm` repository files and installs the package in editable mode with test and benchmarking dependencies. See [docker_readme.md](file:///usr/local/google/home/johnqiangzhang/projects/torchtpu-vllm/docker/docker_readme.md) for more details on build targets and helper options.
+
+
+```bash
+export REGISTRY="us-central1-docker.pkg.dev/tpu-prod-env-one-vm/vllm-tpu-repo"
+
+./docker/build_image.sh \
+  --target dev \
+  --torch-tpu-registry \
+  -t ${REGISTRY}/torchtpu-vllm-dev:latest
+```
+
+### 2. Push to Artifact Registry
+Authenticate and push the developer image:
+
+```bash
+docker push ${REGISTRY}/torchtpu-vllm-dev:latest
+```
+
+### 3. Deploy Interactive Pod to GKE
+Apply the interactive pod manifest `torchtpu-vllm-dev-pod.yaml`. This pod keeps the TPU resource allocated by sleeping forever, allowing you to SSH/exec into the environment to run tests:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: johnqiangzhang-tpu-dev-pod
+spec:
+  containers:
+  - name: vllm-tpu-dev
+    image: us-central1-docker.pkg.dev/tpu-prod-env-one-vm/vllm-tpu-repo/torchtpu-vllm-dev:latest
+    imagePullPolicy: Always
+    command: ["sleep", "infinity"]
+    env:
+    - name: HF_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: llm-d-hf-token
+          key: HF_TOKEN
+    - name: VLLM_TARGET_DEVICE
+      value: "tpu"
+    resources:
+      limits:
+        google.com/tpu: 4
+      requests:
+        google.com/tpu: 4
+    volumeMounts:
+    - name: dshm
+      mountPath: /dev/shm
+  tolerations:
+  - key: google.com/tpu
+    operator: Equal
+    value: present
+    effect: NoSchedule
+  nodeSelector:
+    cloud.google.com/gke-tpu-accelerator: tpu7x
+    cloud.google.com/gke-tpu-topology: 2x2x1
+  volumes:
+  - name: dshm
+    emptyDir:
+      medium: Memory
+```
+
+Apply the pod:
+```bash
+kubectl apply -f torchtpu-vllm-dev-pod.yaml
+```
+
+### 4. Interactive Verification & Caching
+
+Exec into the running pod:
+```bash
+kubectl exec -it johnqiangzhang-tpu-dev-pod -- /bin/bash
+```
+
+Run offline inference inside the container with `VLLM_XLA_CACHE_PATH` set to test compilation caching:
+```bash
+VLLM_XLA_CACHE_PATH=/tmp/vllm_xla_cache python3 examples/offline_inference.py \
+  --model Qwen/Qwen2.5-1.5B-Instruct \
+  --max-model-len 256 \
+  --max-num-batched-tokens 256
+```
+
+Verify that the cache directories and files are generated:
+```bash
+# Verify Python-level pickle cache files (*.pkl)
+find /tmp/vllm_xla_cache -name "*.pkl"
+
+# Verify C++ native compilation cache files (*.bin)
+find /tmp/vllm_xla_cache/torch_tpu_tier3 -name "*.bin"
+```
