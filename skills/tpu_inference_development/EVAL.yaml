@@ -35,7 +35,7 @@ cases:
       The agent must:
       - Interactively work together with users to set up a TPU VM.
       - Refer to the onboarding guide.
-      - Ask for necessary parameters but infer LDAP from environment.
+      - Ask for necessary parameters but infer username from environment.
     expect_keywords_any:
       - "interactively"
       - "onboard_gcloud_tpu_vm.md"
@@ -47,7 +47,7 @@ cases:
     rubric: |
       The agent must:
       - Identify the need to use tpu-vm-ssh to run commands on the remote TPU VM.
-      - Suggest a command like: tpu-vm-ssh "cd /mnt/pd/tpu-inference && pytest tests/"
+      - Suggest a command like: tpu-vm-ssh "cd /mnt/pd_<username>/tpu-inference && pytest tests/"
     expect_keywords_any:
       - "tpu-vm-ssh"
       - "pytest"

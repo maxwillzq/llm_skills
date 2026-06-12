@@ -24,7 +24,7 @@ cases:
     rubric: |
       The agent must:
       - Direct the user to the local_reproduction.md reference guide.
-      - Present the docker run reproduction command mounting `/mnt/pd/.cache/huggingface` to `/local_hf_cache` and project path.
+      - Present the docker run reproduction command mounting `/mnt/pd_<username>/.cache/huggingface` to `/local_hf_cache` and project path.
       - Use `run_eval_flow.sh` with the config `--config qwen3-coder-30b-fp8-tp8-ep --run-lm-eval`.
     expect_keywords_any:
       - "local_reproduction.md"

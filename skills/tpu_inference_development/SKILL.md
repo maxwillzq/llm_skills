@@ -31,7 +31,7 @@ On the **Remote TPU VM**:
 
 -   **Local Directory**: `/usr/local/google/home/$USER/projects/<project_name>/`
 -   **Remote TPU VM**: `$USER-tpu-v7` (default, or as specified by user)
--   **Remote TPU VM Directory**: `/mnt/pd/projects/<project_name>/`
+-   **Remote TPU VM Directory**: `/mnt/pd_<username>/projects/<project_name>/`
 
 ### Environment Setup Guidance
 
@@ -49,13 +49,13 @@ vLLM development.
 2.  Guide the user through the **Part 1: Step-by-Step Guide** interactively.
 3.  **Do NOT** run the commands automatically unless the user explicitly asks
     you to do so and provides all necessary parameters.
-4.  Infer LDAP from ${USER}. Ask the user to provide values for other variables
+4.  Infer username from ${USER}. Ask the user to provide values for other variables
     in Step 1 (e.g., PROJECT_ID) if they cannot be inferred.
 5.  Warn the user that some steps (like creating the disk or TPU) might incur
     costs and need appropriate permissions.
 6.  Pay special attention to **Step 8** of the guide to help the user set up the
     Python virtual environment and repositories on the TPU VM.
-7.  **Enforce HF Cache Location**: Instruct the user to set `export HF_HOME=/mnt/pd/.cache/huggingface` to ensure models are cached on the persistent disk.
+7.  **Enforce HF Cache Location**: Instruct the user to set `export HF_HOME=/mnt/pd_<username>/.cache/huggingface` to ensure models are cached on the persistent disk.
 
 ### End-to-End Testing Guidance
 
@@ -78,7 +78,7 @@ development flow.
     TPU VM (e.g., by running `hf auth login` or checking for a token).
 5.  **Run Verification Test**: Run the offline inference example on the remote
     VM using the configured venv: `bash tpu-vm-ssh "cd
-    /mnt/pd/projects/tpu-inference && /mnt/pd/vllm-venv/bin/python3
+    /mnt/pd_<username>/projects/tpu-inference && /mnt/pd_<username>/vllm-venv/bin/python3
     examples/offline_inference.py"`
 6.  Report the results to the user.
 
@@ -172,7 +172,7 @@ alias tpu-vm-ssh='ssh ${USER}-tpu-v7'
 **Example Usage**:
 
 ```bash
-tpu-vm-ssh "cd /mnt/pd/projects/my-project && pytest tests/"
+tpu-vm-ssh "cd /mnt/pd_<username>/projects/my-project && pytest tests/"
 ```
 
 Always ensure you have synced the code before running remote commands.

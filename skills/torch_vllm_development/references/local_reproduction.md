@@ -4,7 +4,7 @@ If the CI (GitHub Actions) fails or you want to test changes locally before push
 
 ## Prerequisites
 - A Cloud TPU VM with Docker installed.
-- Your code synced to the TPU VM (e.g., in `/mnt/pd/projects/torchtpu-vllm`).
+- Your code synced to the TPU VM (e.g., in `/mnt/pd_<username>/projects/torchtpu-vllm`).
 - `gcloud` authenticated on the TPU VM or passed from host.
 - An alias `tpu-vm-ssh` configured to SSH into your TPU VM (see below).
 
@@ -40,8 +40,8 @@ Then, run the following command from your local machine (Cloudtop) to trigger th
 
 ```bash
 ssh <TPU_VM_NAME> "docker run --rm --privileged --net=host --ipc=host \\
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \\
-  -v /mnt/pd/.cache/huggingface:/local_hf_cache \\
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \\
+  -v /mnt/pd_<username>/.cache/huggingface:/local_hf_cache \\
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \\
   bash -c 'cd /root/tpu_inference && bash ./scripts/vllm/benchmarking/run_eval_flow.sh --config <CONFIG_NAME> --run-lm-eval'"
 ```
@@ -57,8 +57,8 @@ Replace `<TPU_VM_NAME>` with your TPU VM hostname and `<CONFIG_NAME>` with one o
 **1. PR Guard (e.g., Qwen3-Coder-30B-A3B-Instruct-FP8)**
 ```bash
 tpu-vm-ssh "docker run --rm --privileged --net=host --ipc=host \\
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \\
-  -v /mnt/pd/.cache/huggingface:/local_hf_cache \\
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \\
+  -v /mnt/pd_<username>/.cache/huggingface:/local_hf_cache \\
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \\
   bash -c 'cd /root/tpu_inference && bash ./scripts/vllm/benchmarking/run_eval_flow.sh --config qwen3-coder-30b-fp8-tp8-ep --run-lm-eval'"
 ```
@@ -66,8 +66,8 @@ tpu-vm-ssh "docker run --rm --privileged --net=host --ipc=host \\
 **2. Nightly Benchmark with EvalPlus (e.g., Qwen 3.5-397B)**
 ```bash
 tpu-vm-ssh "docker run --rm --privileged --net=host --ipc=host \\
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \\
-  -v /mnt/pd/.cache/huggingface:/local_hf_cache \\
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \\
+  -v /mnt/pd_<username>/.cache/huggingface:/local_hf_cache \\
   -e EVALPLUS_DATASETS=\"humaneval mbpp\" \\
   -e EVALPLUS_PARALLEL=8 \\
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \\
@@ -77,8 +77,8 @@ tpu-vm-ssh "docker run --rm --privileged --net=host --ipc=host \\
 **3. Unit Tests**
 ```bash
 tpu-vm-ssh "docker run --rm --privileged --net=host --ipc=host \\
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \\
-  -v /mnt/pd/.cache/huggingface:/local_hf_cache \\
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \\
+  -v /mnt/pd_<username>/.cache/huggingface:/local_hf_cache \\
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \\
   bash -c 'cd /root/tpu_inference && bash ./scripts/vllm/benchmarking/run_unit_test.sh false'"
 ```

@@ -10,7 +10,7 @@ This folder contains shared utility tools for development workflows. As more too
 ## Available Tools
 
 ### 1. `tpu_dev_sync.py`
-A Python script to synchronize code between local Cloudtop and remote TPU VMs. It maps a project directory from `~/projects/` locally to `/mnt/pd/projects/` on the remote VM.
+A Python script to synchronize code between local Cloudtop and remote TPU VMs. It maps a project directory from `~/projects/` locally to `/mnt/pd_<username>/projects/` on the remote VM.
 
 **Usage**:
 ```bash

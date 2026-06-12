@@ -25,10 +25,10 @@ if it's the first time).
 
 ### 2. Verify Remote Projects Directory
 
-Run the following command to verify that you can write to `/mnt/pd/`:
+Run the following command to verify that you can write to `/mnt/pd_<username>/`:
 
 ```bash
-ssh ${USER}-tpu-v7 "mkdir -p /mnt/pd/projects && echo OK"
+ssh ${USER}-tpu-v7 "mkdir -p /mnt/pd_<username>/projects && echo OK"
 ```
 
 **Expected Output**: `OK`
@@ -53,7 +53,7 @@ end with `=== Sync Complete ===`.
 Run a simple command on the remote VM to verify execution works:
 
 ```bash
-ssh ${USER}-tpu-v7 "ls /mnt/pd/projects/my-project"
+ssh ${USER}-tpu-v7 "ls /mnt/pd_<username>/projects/my-project"
 ```
 
 **Expected Output**: Should list the contents of the remote `my-project`

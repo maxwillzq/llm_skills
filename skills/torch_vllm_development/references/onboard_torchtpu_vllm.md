@@ -41,7 +41,7 @@ docker pull us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-contai
 
 Or build it locally:
 ```bash
-cd /mnt/pd/projects/torchtpu-vllm
+cd /mnt/pd_<username>/projects/torchtpu-vllm
 ./docker/build_image.sh --torch-tpu-registry --target dev -t torchtpu-vllm-dev:local
 ```
 
@@ -51,8 +51,8 @@ Run the container with the specific project volume mount. Refer to [TPU VM Setup
 
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
-  -v /mnt/pd/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
@@ -63,8 +63,8 @@ docker run -it --privileged --net=host --shm-size=16g \
 You can verify the setup by running the test from the TPU VM host (outside the container) using a one-liner:
 ```bash
 docker run --rm --privileged --net=host --shm-size=16g \
-  -v /mnt/pd/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \

@@ -59,7 +59,7 @@ def main():
         sys.exit(1)
         
     local_dir = f"/usr/local/google/home/{user_name}/projects/{project_name}/"
-    remote_dir = f"/mnt/pd/projects/{project_name}/"
+    remote_dir = f"/mnt/pd_{user_name}/projects/{project_name}/"
     
     excludes = [
         "--exclude=__pycache__/",

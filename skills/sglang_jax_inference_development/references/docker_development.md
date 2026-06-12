@@ -13,8 +13,8 @@ Run the container interactively on your TPU VM, mounting your local code directo
 
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
-  -v /mnt/pd/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd/projects/sglang-jax:/app \
+  -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
+  -v /mnt/pd_<username>/projects/sglang-jax:/app \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/cloud-tpu-images/jax-ai-image/tpu:jax0.8.1-rev1 \
@@ -22,7 +22,7 @@ docker run -it --privileged --net=host --shm-size=16g \
 ```
 
 ### Key Flags:
-- `-v /mnt/pd/projects/sglang-jax:/app`: Mounts the project folder for live editing.
+- `-v /mnt/pd_<username>/projects/sglang-jax:/app`: Mounts the project folder for live editing.
 - `-v /dev/vfio:/dev/vfio`: Grants access to TPU devices.
 
 ## Inside the Container

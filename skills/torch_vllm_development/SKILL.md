@@ -8,7 +8,7 @@ description: >-
 
 use "ssh johnqiangzhang-tpu-v7" or alias "tpu-vm-ssh" to ssh login to tpu.
 use "python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py" to push and sync torchtpu-vllm folder between cloudtop "~/project/torchtpu-vllm"  and 
-tpu VM "/mnt/pd/projects/torchtpu-vllm".
+tpu VM "/mnt/pd_<username>/projects/torchtpu-vllm".
 
 ## Local Environment Setup (Cloudtop)
 
@@ -43,12 +43,12 @@ If you prefer to build the dev image locally (e.g., to include latest changes in
 
 On your **TPU VM**:
 ```bash
-cd /mnt/pd/projects/torchtpu-vllm
+cd /mnt/pd_<username>/projects/torchtpu-vllm
 ./docker/build_image.sh --torch-tpu-registry --target dev -t torchtpu-vllm-dev:local
 ```
 
 > [!TIP]
-> **Docker Disk Space**: Building Docker images can consume a lot of space on the root partition (`/`). If you need to migrate the Docker data directory to the larger `/mnt/pd` disk, see the [Docker Migration Guide](references/docker_migration.md).
+> **Docker Disk Space**: Building Docker images can consume a lot of space on the root partition (`/`). If you need to migrate the Docker data directory to the larger `/mnt/pd_<username>` disk, see the [Docker Migration Guide](references/docker_migration.md).
 
 
 
@@ -58,8 +58,8 @@ cd /mnt/pd/projects/torchtpu-vllm
 Mount your local code directory for real-time sync and persistent HuggingFace cache if not:
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
-  -v /mnt/pd/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
@@ -71,7 +71,7 @@ Refer to the `vllm-on-tpu` skill for detailed instructions on how to use TPU VMs
 
 ### Source Code Location
 *   **Local Cloudtop**: `~/projects/torchtpu-vllm`
-*   **Remote TPU VM**: `/mnt/pd/projects/torchtpu-vllm`
+*   **Remote TPU VM**: `/mnt/pd_<username>/projects/torchtpu-vllm`
 
 ### Usage Summary
 *   **Syncing Code**: Use the `python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py` script as described in the `vllm-on-tpu` skill to push local changes from Cloudtop to the remote TPU VM.
@@ -95,8 +95,8 @@ When the user explicitly requests you to review a GitHub Pull Request (e.g., "Pl
 You can verify the setup by running the test from the TPU VM host (outside the container) using a one-liner:
 ```bash
 docker run --rm --privileged --net=host --shm-size=16g \
-  -v /mnt/pd/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
+  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \
