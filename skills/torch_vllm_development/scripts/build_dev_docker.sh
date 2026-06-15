@@ -102,6 +102,22 @@ if [ ! -d "${TORCHTPU_VLLM_DIR}" ]; then
     echo "❌ Error: torchtpu-vllm source directory not found at ${TORCHTPU_VLLM_DIR}" >&2
     exit 1
   fi
+# Register cleanup trap to restore modified files on exit
+cleanup() {
+  if [ -f "${TORCHTPU_VLLM_DIR}/pyproject.toml.bak" ]; then
+    echo "🧹 Restoring torchtpu-vllm/pyproject.toml..."
+    mv "${TORCHTPU_VLLM_DIR}/pyproject.toml.bak" "${TORCHTPU_VLLM_DIR}/pyproject.toml"
+  fi
+}
+trap cleanup EXIT
+
+# Temporarily patch torchtpu-vllm/pyproject.toml to match local wheel version (0.1.1)
+if [ -f "${TORCHTPU_VLLM_DIR}/pyproject.toml" ]; then
+  echo "🔧 Temporarily patching torchtpu-vllm/pyproject.toml dependency constraints..."
+  # Create a backup
+  cp "${TORCHTPU_VLLM_DIR}/pyproject.toml" "${TORCHTPU_VLLM_DIR}/pyproject.toml.bak"
+  # Replace pinned dev version with local 0.1.1 version
+  sed -i 's/"torch-tpu==0.1.1.dev[0-9]*",/"torch-tpu==0.1.1",/' "${TORCHTPU_VLLM_DIR}/pyproject.toml"
 fi
 
 # Step 1: Build local torch-tpu
