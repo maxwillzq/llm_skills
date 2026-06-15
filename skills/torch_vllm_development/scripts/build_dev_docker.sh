@@ -112,13 +112,16 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Temporarily patch torchtpu-vllm/pyproject.toml to match local wheel version (0.1.1)
-if [ -f "${TORCHTPU_VLLM_DIR}/pyproject.toml" ]; then
-  echo "🔧 Temporarily patching torchtpu-vllm/pyproject.toml dependency constraints..."
-  # Create a backup
-  cp "${TORCHTPU_VLLM_DIR}/pyproject.toml" "${TORCHTPU_VLLM_DIR}/pyproject.toml.bak"
-  # Replace pinned dev version with local 0.1.1 version
-  sed -i 's/"torch-tpu==0.1.1.dev[0-9]*",/"torch-tpu==0.1.1",/' "${TORCHTPU_VLLM_DIR}/pyproject.toml"
+# Temporarily patch torchtpu-vllm/pyproject.toml to match local wheel version dynamically
+if [ -f "${TORCHTPU_VLLM_DIR}/pyproject.toml" ] && [ -f "${TORCH_TPU_DIR}/pyproject.toml" ]; then
+  LOCAL_VERSION=$(sed -nE '/^\[project\]/,/^\[/ { s/^version[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p }' "${TORCH_TPU_DIR}/pyproject.toml")
+  if [ -n "${LOCAL_VERSION}" ]; then
+    echo "🔧 Temporarily patching torchtpu-vllm/pyproject.toml to use torch-tpu==${LOCAL_VERSION}..."
+    # Create a backup
+    cp "${TORCHTPU_VLLM_DIR}/pyproject.toml" "${TORCHTPU_VLLM_DIR}/pyproject.toml.bak"
+    # Replace pinned dev version with local version pattern dynamically
+    sed -i "s/\"torch-tpu==[0-9]*\.[0-9]*\.[0-9]*\.dev[0-9]*\",/\"torch-tpu==${LOCAL_VERSION}\",/" "${TORCHTPU_VLLM_DIR}/pyproject.toml"
+  fi
 fi
 
 # Step 1: Build local torch-tpu
