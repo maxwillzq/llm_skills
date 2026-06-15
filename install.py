@@ -5,7 +5,7 @@ from pathlib import Path
 def main():
     # Target directory for skills
     home = Path.home()
-    target_dir = home / ".gemini" / "jetski" / "skills"
+    target_dir = home / ".gemini" / "config" / "skills"
     
     # Get the absolute path of the script's directory
     repo_dir = Path(__file__).resolve().parent

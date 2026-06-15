@@ -47,8 +47,12 @@ cd /mnt/pd_<username>/projects/torchtpu-vllm
 ./docker/build_image.sh --torch-tpu-registry --target dev -t torchtpu-vllm-dev:local
 ```
 
+> [!NOTE]
+> If you have modified both repositories (including custom C++ kernels in `torch_tpu`) and want to build the entire stack locally from source, refer to the [Building Developer Docker Images from Local Source](references/build_developer_docker.md) guide.
+
 > [!TIP]
 > **Docker Disk Space**: Building Docker images can consume a lot of space on the root partition (`/`). If you need to migrate the Docker data directory to the larger `/mnt/pd_<username>` disk, see the [Docker Migration Guide](references/docker_migration.md).
+
 
 
 
@@ -110,4 +114,6 @@ docker run --rm --privileged --net=host --shm-size=16g \
 
 - [Local Reproduction and Debugging](references/local_reproduction.md): Detailed instructions on simulating GitHub Actions runs and debugging failures locally on a TPU VM.
 - [Code Review Checklist](references/code_review_checklist.md): Comprehensive checklist for pull requests, covering JAX/vLLM separation, static analysis, styling, baseline evaluations, and checkpoints.
+- [Building Developer Docker Images from Local Source](references/build_developer_docker.md): Detailed guide and coordinator script to build the entire development stack (including C++ kernels) locally from source repositories.
+
 
