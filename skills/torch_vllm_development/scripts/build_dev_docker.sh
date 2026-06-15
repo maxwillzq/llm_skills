@@ -102,6 +102,7 @@ if [ ! -d "${TORCHTPU_VLLM_DIR}" ]; then
     echo "❌ Error: torchtpu-vllm source directory not found at ${TORCHTPU_VLLM_DIR}" >&2
     exit 1
   fi
+fi
 # Register cleanup trap to restore modified files on exit
 cleanup() {
   if [ -f "${TORCHTPU_VLLM_DIR}/pyproject.toml.bak" ]; then
