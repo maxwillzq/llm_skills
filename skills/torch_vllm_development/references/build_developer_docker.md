@@ -90,5 +90,4 @@ Yes, you can deploy these locally-built images containing your modifications dir
    kubectl apply -f torchtpu-vllm-dev-pod.yaml
    ```
 
-> [!TIP]
-   > For a detailed guide on configuring GKE secrets (Hugging Face tokens), node selectors for different TPU topologies (e.g. `tpu7x` 2x2x1), and persistent SSD caching, see the [GKE Multi-TPU Setup Guide](../../llm_tools/references/set_dev_env_using_gke.md).
+
