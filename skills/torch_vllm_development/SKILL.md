@@ -59,6 +59,10 @@ cd /mnt/pd_<username>/projects/torchtpu-vllm
 
 ### 2. Run Container
 
+> [!TIP]
+> **Verifying Disk Mounts**: On some TPU VMs, a plain `df -h` command may not display the `/mnt/pd_<username>` persistent disk due to mount namespace isolation. 
+> **Always use `lsblk`** as the source of truth to verify all attached block devices and their active mount points before assuming a disk is missing or unmounted.
+
 Mount your local code directory for real-time sync and persistent HuggingFace cache if not:
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
@@ -91,8 +95,9 @@ If the user explicitly requests you to locally reproduce a GitHub Actions (CI/CD
 When the user explicitly requests you to review a GitHub Pull Request (e.g., "Please review PR #123" or "Perform a code review of my branch"):
 1.  **Retrieve PR Data**: Use the [GitHub CLI Guide for PR Reviews](../llm_tools/references/gh_cli_guide.md) to query the PR's details, diff, files changed, and comments.
 2.  **Evaluate against Checklist**: Systematically review the diff and changes against the [Code Review Checklist](references/code_review_checklist.md).
-3.  **Construct Report**: Create a structured markdown review report categorizing your findings using the specified severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit, 💡 Suggestion, ❓ Question, ✅ Praise).
-4.  **Submit Comments (Optional)**: If requested by the user, use the `gh` CLI commands in [gh_cli_guide.md](../llm_tools/references/gh_cli_guide.md) to post inline reviews or general comments directly to the pull request on GitHub.
+3.  **Construct & Present Report**: Create a structured markdown review report categorizing your findings using the specified severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit, 💡 Suggestion, ❓ Question, ✅ Praise) and present it to the user in the chat. **Do not submit anything to GitHub at this stage.**
+4.  **Prompt for Confirmation**: After presenting the report, explicitly ask the user: "Would you like me to submit these review comments/ratings directly to the GitHub PR?"
+5.  **Submit Comments**: Only if the user explicitly confirms, use the `gh` CLI commands in [gh_cli_guide.md](../llm_tools/references/gh_cli_guide.md) to post the inline reviews or general comments directly to the pull request on GitHub.
 
 ## Verification
 

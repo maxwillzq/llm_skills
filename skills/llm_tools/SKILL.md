@@ -49,4 +49,6 @@ bash ~/.gemini/config/skills/llm_tools/scripts/find_idle_tpu.sh --projects="tpu-
 - [TPU VM Setup](references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
 - [GKE TPU Setup Guide](references/set_dev_env_using_gke.md): Reference guide to set up a GKE cluster with multi-TPU types and deploy/test workloads on GKE.
 - [GitHub CLI Guide for PR Reviews](references/gh_cli_guide.md): Quick commands and JQ pattern references for accessing PR diffs, review comments, and status checks using GitHub CLI.
+- [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Workflows for headless credential setup, avoiding GraphQL complexity errors, and extracting job execution error logs via REST API.
+
 
