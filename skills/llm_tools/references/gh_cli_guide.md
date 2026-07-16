@@ -139,6 +139,28 @@ gh api /repos/<owner>/<repo>/commits/<sha>/status
 gh api /repos/<owner>/<repo>/commits/<sha>/check-runs
 ```
 
+## GitHub Actions Workflows
+
+### List Running Workflow Runs
+```bash
+# List recent workflow runs in progress
+gh run list --repo <owner>/<repo> --status in_progress
+
+# Get run IDs via API
+gh api /repos/<owner>/<repo>/actions/runs?status=in_progress --jq '.workflow_runs[] | {id, name, html_url}'
+```
+
+### Cancel or Force-Cancel Workflow Runs
+```bash
+# Standard cancel of a workflow run
+gh run cancel <run_id> --repo <owner>/<repo>
+# Or via API:
+gh api -X POST /repos/<owner>/<repo>/actions/runs/<run_id>/cancel
+
+# Force-cancel a running or stuck workflow run via API
+gh api -X POST /repos/<owner>/<repo>/actions/runs/<run_id>/force-cancel
+```
+
 ## Adding Comments
 
 ### Add Inline Code Comment

@@ -8,11 +8,11 @@ We will use jetski on cloudtop.
 On your **Cloudtop**:
 ```bash
 cd ~/projects
-git clone git@github.com:google-pytorch/torchtpu-vllm.git
+git clone https://github.com/vllm-project/vllm-torchtpu.git
 
 # Run from repo root to sync to TPU VM
 SYNC_SCRIPT="skills/llm_tools/scripts/tpu_dev_sync.py"
-python3 $SYNC_SCRIPT push torchtpu-vllm
+python3 $SYNC_SCRIPT push vllm-torchtpu
 ```
 
 ## 2. Setup Local Environment (Cloudtop)
@@ -23,7 +23,7 @@ Assumes basic TPU VM setup is done (mounting storage, etc.).
 
 For IDE support and pre-commit hooks:
 ```bash
-cd ~/projects/torchtpu-vllm
+cd ~/projects/vllm-torchtpu
 uv venv
 source .venv/bin/activate
 uv pip install --no-config --index-url https://pypi.org/simple pre-commit pytest
@@ -39,12 +39,6 @@ On your **TPU VM**, pull the specific image for `torchtpu-vllm`:
 docker pull us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
 ```
 
-Or build it locally:
-```bash
-cd /mnt/pd_<username>/projects/torchtpu-vllm
-./docker/build_image.sh --torch-tpu-registry --target dev -t torchtpu-vllm-dev:local
-```
-
 ## 4. Run Container
 
 Run the container with the specific project volume mount. Refer to [TPU VM Setup](../../llm_tools/references/tpu_vm_setup.md) for details on general flags.
@@ -52,7 +46,7 @@ Run the container with the specific project volume mount. Refer to [TPU VM Setup
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
   -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/projects/vllm-torchtpu:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
@@ -64,7 +58,7 @@ You can verify the setup by running the test from the TPU VM host (outside the c
 ```bash
 docker run --rm --privileged --net=host --shm-size=16g \
   -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/projects/vllm-torchtpu:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \

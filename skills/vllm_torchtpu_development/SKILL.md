@@ -1,5 +1,5 @@
 ---
-name: torch-vllm-development
+name: vllm-torchtpu-development
 description: >-
   Develops and tests torchtpu-vllm on TPU VMs. Use when setting up the Python environment on a TPU VM, running verification tests like offline inference, or mocking HuggingFace downloads in the test environment to use GCS instead.
 ---
@@ -7,14 +7,14 @@ description: >-
 # Developing torchtpu-vllm on TPU
 
 use "ssh johnqiangzhang-tpu-v7" or alias "tpu-vm-ssh" to ssh login to tpu.
-use "python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py" to push and sync torchtpu-vllm folder between cloudtop "~/project/torchtpu-vllm"  and 
-tpu VM "/mnt/pd_<username>/projects/torchtpu-vllm".
+use "python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py" to push and sync torchtpu-vllm folder between cloudtop "~/projects/vllm-torchtpu"  and 
+tpu VM "/mnt/pd_<username>/projects/vllm-torchtpu".
 
 ## Local Environment Setup (Cloudtop)
 
 For IDE support and pre-commit hooks on your Cloudtop:
 ```bash
-cd ~/projects/torchtpu-vllm
+cd ~/projects/vllm-torchtpu
 uv venv
 source .venv/bin/activate
 uv pip install --no-config --index-url https://pypi.org/simple pre-commit pytest
@@ -38,17 +38,6 @@ gcloud auth configure-docker us-central1-docker.pkg.dev
 docker pull us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
 ```
 
-### Alternative: Build Dev Image Locally
-If you prefer to build the dev image locally (e.g., to include latest changes in `pyproject.toml` or `Dockerfile`):
-
-On your **TPU VM**:
-```bash
-cd /mnt/pd_<username>/projects/torchtpu-vllm
-./docker/build_image.sh --torch-tpu-registry --target dev -t torchtpu-vllm-dev:local
-```
-
-> [!NOTE]
-> If you have modified both repositories (including custom C++ kernels in `torch_tpu`) and want to build the entire stack locally from source, refer to the [Building Developer Docker Images from Local Source](references/build_developer_docker.md) guide.
 
 > [!TIP]
 > **Docker Disk Space**: Building Docker images can consume a lot of space on the root partition (`/`). If you need to migrate the Docker data directory to the larger `/mnt/pd_<username>` disk, see the [Docker Migration Guide](references/docker_migration.md).
@@ -67,7 +56,7 @@ Mount your local code directory for real-time sync and persistent HuggingFace ca
 ```bash
 docker run -it --privileged --net=host --shm-size=16g \
   -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/projects/vllm-torchtpu:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
@@ -78,8 +67,8 @@ docker run -it --privileged --net=host --shm-size=16g \
 Refer to the `vllm-on-tpu` skill for detailed instructions on how to use TPU VMs and synchronize code using the `python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py` script.
 
 ### Source Code Location
-*   **Local Cloudtop**: `~/projects/torchtpu-vllm`
-*   **Remote TPU VM**: `/mnt/pd_<username>/projects/torchtpu-vllm`
+*   **Local Cloudtop**: `~/projects/vllm-torchtpu`
+*   **Remote TPU VM**: `/mnt/pd_<username>/projects/vllm-torchtpu`
 
 ### Usage Summary
 *   **Syncing Code**: Use the `python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py` script as described in the `vllm-on-tpu` skill to push local changes from Cloudtop to the remote TPU VM.
@@ -99,13 +88,18 @@ When the user explicitly requests you to review a GitHub Pull Request (e.g., "Pl
 4.  **Prompt for Confirmation**: After presenting the report, explicitly ask the user: "Would you like me to submit these review comments/ratings directly to the GitHub PR?"
 5.  **Submit Comments**: Only if the user explicitly confirms, use the `gh` CLI commands in [gh_cli_guide.md](../llm_tools/references/gh_cli_guide.md) to post the inline reviews or general comments directly to the pull request on GitHub.
 
+## Developer Workflow & Code Governance
+
+During the pre-public phase (July 2026 – Oct 2026), automated branch protection rulesets are disabled. All pull request creations, test waiting, review approvals, and merges must strictly follow the pre-public code governance SOP:
+- Refer to the [Developer Workflow & Code Governance Guide](references/developer_workflow_governance.md) for full rationale, 4-step submission lifecycle, `gh` CLI commands, and pre-merge verification checklist.
+
 ## Verification
 
 You can verify the setup by running the test from the TPU VM host (outside the container) using a one-liner:
 ```bash
 docker run --rm --privileged --net=host --shm-size=16g \
   -v /mnt/pd_<username>/.cache/huggingface:/root/.cache/huggingface \
-  -v /mnt/pd_<username>/projects/torchtpu-vllm:/root/tpu_inference \
+  -v /mnt/pd_<username>/projects/vllm-torchtpu:/root/tpu_inference \
   -v /dev/vfio:/dev/vfio \
   -e HF_HOME=/root/.cache/huggingface \
   us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest \
@@ -117,8 +111,9 @@ docker run --rm --privileged --net=host --shm-size=16g \
 
 ## References
 
+- [Developer Workflow & Code Governance Guide](references/developer_workflow_governance.md): Special pre-public governance SOP for PR creation, DCO sign-offs, reviewer assignments, CI tracking, guarded merges, and post-merge validation.
 - [Local Reproduction and Debugging](references/local_reproduction.md): Detailed instructions on simulating GitHub Actions runs and debugging failures locally on a TPU VM.
 - [Code Review Checklist](references/code_review_checklist.md): Comprehensive checklist for pull requests, covering JAX/vLLM separation, static analysis, styling, baseline evaluations, and checkpoints.
-- [Building Developer Docker Images from Local Source](references/build_developer_docker.md): Detailed guide and coordinator script to build the entire development stack (including C++ kernels) locally from source repositories.
+
 
 
