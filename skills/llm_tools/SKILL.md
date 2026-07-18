@@ -40,7 +40,17 @@ bash ~/.gemini/config/skills/llm_tools/scripts/find_idle_tpu.sh --projects="tpu-
 - `--projects`: Comma-separated list of GCP Projects to scan.
 - `--user`: SSH username (defaults to `<whoami>_google_com`).
 - `--shared`: Filter by shared label `true/false` (defaults to `false`).
-- `--list_all`: List all idle TPUs instead of stopping at the first one (defaults to `true`).
+### 4. `add_collaborators.sh`
+A Bash script to batch add or invite GitHub collaborators with write access (or custom permission roles) to a repository. Automatically detects CSV headers (e.g. `GitHub Handle`, `GitHub Account`, `GitHub Username`) and extracts the target column, or accepts plain handle lists/text. **Note**: Dry-run is active by default to prevent accidental invites; pass `--execute` or `-x` to execute.
+
+**Usage**:
+```bash
+bash ~/.gemini/config/skills/llm_tools/scripts/add_collaborators.sh [options] [user1 user2 ...]
+```
+- `-x, --execute`: Perform actual GitHub API invitations (disables dry-run mode).
+- `-r, --repo`: Target repository (default: `vllm-project/vllm-torchtpu`).
+- `-p, --permission`: Permission level: `push` (write), `pull` (read), `maintain`, `admin`, `triage` (default: `push`).
+- `-f, --file`: Input file (supports `.csv` with header columns, text files, or direct username lists).
 
 ---
 
@@ -50,5 +60,6 @@ bash ~/.gemini/config/skills/llm_tools/scripts/find_idle_tpu.sh --projects="tpu-
 - [GKE TPU Setup Guide](references/set_dev_env_using_gke.md): Reference guide to set up a GKE cluster with multi-TPU types and deploy/test workloads on GKE.
 - [GitHub CLI Guide for PR Reviews](references/gh_cli_guide.md): Quick commands and JQ pattern references for accessing PR diffs, review comments, and status checks using GitHub CLI.
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Workflows for headless credential setup, avoiding GraphQL complexity errors, and extracting job execution error logs via REST API.
+- [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors for vllm-torchtpu.
 
 

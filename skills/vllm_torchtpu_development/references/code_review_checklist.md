@@ -1,6 +1,6 @@
-# Code Review Checklist for torchtpu-vllm
+# Code Review Checklist for vllm-torchtpu
 
-This document outlines the code review criteria and guidelines for the `torchtpu-vllm` repository. Use this checklist when reviewing pull requests (PRs) or preparing code for submission to ensure correctness, performance, consistency, and clean review communication.
+This document outlines the code review criteria and guidelines for the `vllm-torchtpu` repository. Use this checklist when reviewing pull requests (PRs) or preparing code for submission to ensure correctness, performance, consistency, and clean review communication.
 
 ---
 

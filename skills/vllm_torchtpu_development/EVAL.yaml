@@ -5,7 +5,7 @@ max_tool_calls: 50
 cases:
   - name: setup_docker_environment
     prompt: >
-      Set up the Docker development environment for torchtpu-vllm on my TPU VM.
+      Set up the Docker development environment for vllm-torchtpu on my TPU VM.
     skills: [vllm-torchtpu-development]
     rubric: |
       The agent must:

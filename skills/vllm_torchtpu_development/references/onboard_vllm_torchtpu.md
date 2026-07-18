@@ -34,7 +34,7 @@ pre-commit install
 
 For general Docker setup on TPU VM (permissions, auth), see [TPU VM Setup](../../llm_tools/references/tpu_vm_setup.md).
 
-On your **TPU VM**, pull the specific image for `torchtpu-vllm`:
+On your **TPU VM**, pull the specific image for `vllm-torchtpu`:
 ```bash
 docker pull us-docker.pkg.dev/ml-oss-artifacts-transient/torch-tpu-docker-container/torchtpu-vllm-dev:latest
 ```

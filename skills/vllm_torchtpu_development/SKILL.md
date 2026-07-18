@@ -1,13 +1,13 @@
 ---
 name: vllm-torchtpu-development
 description: >-
-  Develops and tests torchtpu-vllm on TPU VMs. Use when setting up the Python environment on a TPU VM, running verification tests like offline inference, or mocking HuggingFace downloads in the test environment to use GCS instead.
+  Develops and tests vllm-torchtpu on TPU VMs. Use when setting up the Python environment on a TPU VM, running verification tests like offline inference, or mocking HuggingFace downloads in the test environment to use GCS instead.
 ---
 
-# Developing torchtpu-vllm on TPU
+# Developing vllm-torchtpu on TPU
 
 use "ssh johnqiangzhang-tpu-v7" or alias "tpu-vm-ssh" to ssh login to tpu.
-use "python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py" to push and sync torchtpu-vllm folder between cloudtop "~/projects/vllm-torchtpu"  and 
+use "python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py" to push and sync vllm-torchtpu folder between cloudtop "~/projects/vllm-torchtpu"  and 
 tpu VM "/mnt/pd_<username>/projects/vllm-torchtpu".
 
 ## Local Environment Setup (Cloudtop)
