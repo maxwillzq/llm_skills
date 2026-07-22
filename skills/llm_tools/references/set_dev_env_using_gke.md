@@ -134,6 +134,31 @@ kubectl create secret generic ${HF_TOKEN_NAME} \
     --dry-run=client -o yaml | kubectl apply -f -
 ```
 
+> [!TIP]
+> **Switching Between GKE Contexts (CDK vs Custom Clusters)**:
+> When using `cdk` CLI or switching between workloads (e.g. `cloud-devkit-gke` in project `cloud-tpu-inference-test` vs `vllm-multi-tpu-cluster-regional-poc` in project `tpu-prod-env-one-vm`), verify your `kubectl` context is pointing to the correct cluster.
+>
+> * **Check current context**:
+>   ```bash
+>   kubectl config current-context
+>   ```
+> * **Switch to CDK Cluster (`cloud-tpu-inference-test`)**:
+>   ```bash
+>   kubectl config use-context gke_cloud-tpu-inference-test_us-central1_cloud-devkit-gke
+>   # Or via gcloud:
+>   gcloud container clusters get-credentials cloud-devkit-gke --location=us-central1 --project=cloud-tpu-inference-test
+>   ```
+> * **Switch to Regional POC Cluster (`tpu-prod-env-one-vm`)**:
+>   ```bash
+>   kubectl config use-context gke_tpu-prod-env-one-vm_us-central1_vllm-multi-tpu-cluster-regional-poc
+>   # Or via gcloud:
+>   gcloud container clusters get-credentials vllm-multi-tpu-cluster-regional-poc --location=us-central1 --project=tpu-prod-env-one-vm
+>   ```
+>
+> *Note: If `cdk job create` panics with `could not find the requested resource (post jobsets.jobset.x-k8s.io)`, your `kubectl` context is pointing to a cluster missing the JobSet CRD. Switch context to `cloud-devkit-gke` to resolve it.*
+
+
+
 ### 6. Resize the TPU Node Pool
 
 To scale up the cluster, we resized the Spot node pool to 2 nodes (and subsequently scaled it to 8 nodes).
