@@ -22,21 +22,30 @@ jq --arg token "$(gh auth token)" '.github_oauth_token = {"access_token": $token
 
 ## 3. Retrieving Job Logs via REST API
 
-### A. Step ID (`sid`) vs. Job ID (`id`)
-In web dashboard URLs (e.g., `https://buildkite.com/tpu-commons/vllm-torchtpu-ci/builds/67/list?sid=019f1aa9-90fa-4a36-9d47-e498d338333f`), `sid` represents the frontend UI Step Group identifier. REST API endpoints require the specific **Job ID** (`id`).
+### A. URL Mapping (Web UI -> API Endpoint)
+When given a Buildkite job URL containing `jid`:
+`https://buildkite.com/{org}/{pipeline}/builds/{build_number}/list?jid={job_id}`
+
+Map directly to the plain-text API log URL:
+`https://api.buildkite.com/v2/organizations/{org}/pipelines/{pipeline}/builds/{build_number}/jobs/{job_id}/log.txt`
 
 ### B. List Failed Jobs in a Build
-To find the exact Job IDs and names of failed jobs in a build:
+If you only have the build URL without `jid` (e.g., `builds/590`), list all failed job IDs:
 ```bash
 curl -s -H "Authorization: Bearer $(jq -r .graphql_token ~/.buildkite/config.json)" \
   "https://api.buildkite.com/v2/organizations/<ORG_SLUG>/pipelines/<PIPELINE_SLUG>/builds/<BUILD_NUMBER>" \
   | jq '.jobs[] | select(.state == "failed") | {id: .id, name: .name}'
 ```
 
-### C. Fetch & Filter Job Output Log
-Once you have the Job ID, retrieve the terminal output log and filter for errors:
+### C. Download & Clean Raw Job Logs
+Use `/log.txt` to retrieve raw output directly without JSON overhead. Buildkite prepends internal timestamps (`bk;t=1784677318164 `) to log lines; strip them using `sed 's/bk;t=[0-9]* //'`:
+
 ```bash
+# Fetch log, strip Buildkite timestamp prefixes, and save to local file
 curl -s -H "Authorization: Bearer $(jq -r .graphql_token ~/.buildkite/config.json)" \
-  "https://api.buildkite.com/v2/organizations/<ORG_SLUG>/pipelines/<PIPELINE_SLUG>/builds/<BUILD_NUMBER>/jobs/<JOB_ID>/log" \
-  | jq -r .content | grep -E "FAILED|RuntimeError|ValueError|Error:"
+  "https://api.buildkite.com/v2/organizations/<ORG_SLUG>/pipelines/<PIPELINE_SLUG>/builds/<BUILD_NUMBER>/jobs/<JOB_ID>/log.txt" \
+  | sed 's/bk;t=[0-9]* //' > /tmp/buildkite_job.log
+
+# View pytest failure summary
+grep -E "FAILED|FAILURES|ERROR" /tmp/buildkite_job.log -A 10 -B 2
 ```
