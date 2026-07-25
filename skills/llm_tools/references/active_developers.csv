@@ -1,0 +1,121 @@
+Type,LDAP / Email,GitHub Account,Company,Permission,Interested Areas,Code Review,Notes
+Internal Developer,johnqiangzhang@google.com,maxwillzq,Google,admin,General,Yes,Status: active
+Internal Developer,jcgu@google.com,juncgu-google,Google,write,"KV, model runner, distributed",Yes,Status: active
+Internal Developer,dananghel@google.com,dan-anghel,Google,write,"KV, model runner, distributed, performance",Yes,Status: active
+Internal Developer,patemotter@google.com,patemotter,Google,write,"general, performance",Yes,Status: active
+Internal Developer,linchai@google.com,lc5211,Google,write,General,Usecase with RL rollout engine,Status: active
+Internal Developer,shobhitbehl@google.com,ShobhitBehl,Google,write,General,Yes,Status: active
+Internal Developer,rsinghc@google.com,rsingh-g,Google,write,General,Yes,Status: active
+Internal Developer,huycao@google.com,huybro,Google,write,General,Yes,Status: active
+Internal Developer,victorlxh@google.com,lxhfirenking,Google,write,General,Yes,Status: active
+Internal Developer,haotianx@google.com,haotianxue-google,Google,write,general,Google,Status: active
+Internal Developer,yijiaj@google.com,jyj0w0,Google,write,general,Yes,Status: active
+Internal Developer,guoweij@google.com,guowei-dev,Google,write,General,Yes,Status: active
+Internal Developer,iharsh@google.com,hks-9697-v2,Google,write,general,yes,Status: active
+Internal Developer,vsayyagari@google.com,vsaatg,Google,write,general,yes,Status: active
+Internal Developer,lkchen@google.com,lk-chen,Google,write,General,Yes,Status: active
+Internal Developer,yxshi@google.com,yixinshi,Google,write,General,Google,Status: active
+Internal Developer,harut@google.com,harutmov,Google,write,General,Yes,Status: active
+Internal Developer,piv@google.com,pv97,Google,write,General,Need access to compare Raiden integration,Status: active
+Internal Developer,sierraq@google.com,sierraisland,Google,write,General,Yes,Status: active
+Internal Developer,geyuhao@google.com,geyuhao,Google,maintain,General,Yes,Status: active
+Internal Developer,qizzzh@google.com,qizzzh,Google,admin,General,Yes,Status: active
+Internal Developer,maniket@google.com,aniket20,Google,write,General,Yes,Status: active
+Internal Developer,wdhongtw@google.com,wdhongtw,Google,write,General,Yes,Status: active
+Internal Developer,amylin@google.com,linamy85,Google,write,General,Google,Status: active
+Internal Developer,yuyanpeng@google.com,yuyanpeng-google,Google,write,General,Yes,Status: active
+Internal Developer,jimmytsai@google.com,ChingTsai,Google,write,General,Yes,Status: active
+Internal Developer,cliffkao@google.com,cliffkao,Google,write,General,Google,Status: active
+Internal Developer,chishuen@google.com,chishuen,Google,write,General,Google,Status: active
+Internal Developer,horacehylin@google.com,hylin2002,Google,write,General,Yes,Status: active
+Internal Developer,amangu@google.com,aman2930,Google,write,General,Yes,Status: active
+Internal Developer,wyzhang@google.com,wyzhang,Google,write,General,Yes,Status: active
+Internal Developer,ckshah@google.com,ckshah79,Google,write,General,Google,Status: active
+Internal Developer,ricliu@google.com,richardsliu,Google,write,General,Yes,Status: active
+Internal Developer,caojx@google.com,caojx-google,Google,write,General,Yes,Submitted: 7/14/2026 11:05:18 | Status: active
+Internal Developer,jiries@google.com,JiriesKaileh,Google,write,General,Yes,Submitted: 7/14/2026 11:09:15 | Status: active
+Internal Developer,lukeauderer@google.com,LukeA12,Google,write,General,Yes,Submitted: 7/14/2026 11:10:42 | Status: active
+Internal Developer,patrickji2014@gmail.com,patrickji2014,Google,write,General,Yes,Submitted: 7/14/2026 11:11:02 | Status: active
+Internal Developer,keweiwang@google.com,kwang3939,Google,write,General,Yes,Submitted: 7/14/2026 11:11:28 | Status: active
+Internal Developer,xiaotongyang@google.com,syangx39,Google,write,General,Yes,Submitted: 7/14/2026 11:20:00 | Status: active
+Internal Developer,msingh@google.com,mitalisi,Google,write,General,Yes,Submitted: 7/14/2026 11:28:07 | Status: active
+Internal Developer,yunyao@google.com,yunyao-gg,Google,write,General,Yes,Submitted: 7/14/2026 11:28:39 | Status: active
+Internal Developer,yiweiw@google.com,yiw-wang,Google,write,General,Yes,Submitted: 7/14/2026 11:32:54 | Status: active
+Internal Developer,jacobplatin@google.com,jrplatin,Google,write,General,Yes,Submitted: 7/14/2026 12:00:10 | Status: active
+Internal Developer,mehdy@google.com,mbohlool,Google,write,General,Yes,Submitted: 7/14/2026 12:03:25 | Status: active
+External Contributor,zwzmzd@gmail.com,zwzmzd,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:48:04 | Status: active
+External Contributor,handsomehowyxh@gmail.com,HandsomeHow,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:48:16 | Status: active
+External Contributor,814429359@qq.com,acczz,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:49:32 | Status: active
+External Contributor,doran_zhu@163.com,zhubin086,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:49:44 | Status: active
+Existing Collaborator,russell.bryant@gmail.com,russellb,"Red Hat, Inc., @vllm-project",read,General,Yes,Current Live Collaborator (Role: read) | Status: active
+Existing Collaborator,sidhpurwala-huzaifa@github,sidhpurwala-huzaifa,Red Hat,read,General,Yes,Current Live Collaborator (Role: read) | Status: active
+Existing Collaborator,QiliangCui@github,QiliangCui,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,liuzijing2014@github,liuzijing2014,Inferact,write,General,Yes,Current Live Collaborator (Role: write) | Status: active
+Existing Collaborator,zhuohan@cs.berkeley.edu,zhuohan123,vLLM / Meta,admin,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
+Existing Collaborator,youkaichao@github,youkaichao,vllm-project,admin,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
+Existing Collaborator,bvrockwell@github,bvrockwell,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,vipannalla@github,vipannalla,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,khluu000@gmail.com,khluu,Inferact,read,General,Yes,Current Live Collaborator (Role: read) | Status: active
+Existing Collaborator,theminghuang@github,theminghuang,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,QiliangCui2023@github,QiliangCui2023,Google,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,ywang96@github,ywang96,inferact,admin,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
+Internal Developer,stephenchen@google.com,tracelog0,Google,write,General,Yes,Current Live Collaborator (Role: write) - Core ML Inference UTL | Status: active
+External Contributor,jspisak@meta.com,jspisak,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,clementab@meta.com,ClementABC,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,oulgen@meta.com,oulgen,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,jansel@meta.com,jansel,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,yifeixu@meta.com,norx1991,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,angelayi@meta.com,angelayi,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,colin2328@meta.com,colin2328,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,avenkataraman@meta.com,aditvenk,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,albandes@meta.com,albanD,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,lufang@meta.com,houseroad,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,tristanr@meta.com,d4l3k,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,kaiwu@meta.com,wukaixingxp,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,rzou@meta.com,zou3519,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,dunfanlu@meta.com,AmesingFlank,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,lmzheng@meta.com,merrymercy,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,feid@meta.com,ifding,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,yzha@meta.com,yizhang82,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,zhaozhu@meta.com,zhaozhul,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,chrislambert@meta.com,lamberce,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,shakhzod@meta.com,salizade22,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,yanningc@meta.com,momochen,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,wangyang19@meta.com,wangyang59,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,alitehrani@meta.com,Ali-Tehrani,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,lty@meta.com,tianyu-l,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,eche@meta.com,ethche,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
+External Contributor,zey@meta.com,ZeYang1025,Meta,write,MRS,Yes,Meta Intake | Status: active
+External Contributor,prajj@meta.com,prajjwal1,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,chenran@meta.com,lichenran1234,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,yichaofu@meta.com,Viol2000,Meta,write,MSL,Yes,Meta Intake | Status: active
+External Contributor,chengjiyao@meta.com,yaochengji,Meta,write,MSL,Yes,Meta Intake | Status: active
+Internal Developer,xfgu@google.com,xuefgu,Google,write,General,Yes,Added | Status: active
+Internal Developer,sangamjindal@google.com,sangam-jindal,Google,write,General,Yes,Added | Status: active
+Internal Developer,kyuyeunk@google.com,kyuyeunk,Google,write,General,Yes,Added | Status: active
+Internal Developer,benliangw@google.com,benliangw,Google,write,General,Yes,Added | Status: active
+Internal Developer,liquncheng@google.com,liquncheng,Google,write,General,Google,Added | Status: active
+Internal Developer,joeywan@google.com,joeywan-google,Google,write,General,Yes,Added | Status: active
+Internal Developer,ranlihao@google.com,Lumosis,Google,write,General,Yes,Submitted: 7/16/2026 10:27:20 | Status: active
+Internal Developer,mrjunwan@google.com,mrjunwan-lang,Google,write,General,Yes,Submitted: 7/16/2026 10:45:11 | Status: active
+Internal Developer,sixiang@google.com,sixiang-google,Google,write,General,Yes,Submitted: 7/16/2026 10:50:12 | Status: active
+Internal Developer,donghyun@google.com,bigeye,Google,write,General,Yes,Added | Status: active
+Internal Developer,wppark@google.com,lenscloth,Google,write,General,Yes,Added | Status: active
+Internal Developer,xiangll@google.com,xli87437,Google,write,Gemeral,Yes,Added | Status: active
+Internal Developer,wjess@google.com,wjessG,Google,write,General,Yes,Added | Status: active
+Internal Developer,dongruizi@google.com,drzdong,Google,write,General,,Added | Status: active
+Internal Developer,gxd@google.com,gxd3,Google,write,General,Yes,Added | Status: active
+Internal Developer,evangelenes@google.com,evangelenes08,Google,write,General,,Added | Status: active
+Internal Developer,gangji@google.com,gangji,Google,write,General,,Added | Status: active
+Internal Developer,miliu@google.com,m-liu,Google,write,General,Yes,Added | Status: active
+Internal Developer,anudeepgoudk@google.com,anudeepk224,Google,write,General,,Added | Status: active
+Internal Developer,kevw@google.com,kevinwang27,Google,write,General,,Added | Status: active
+Internal Developer,pyc@google.com,pyc96,Google,write,General,Yes,Added | Status: active
+Internal Developer,jialeic@google.com,jialei777,Google,write,its application to RL,Yes,Added | Status: active
+Internal Developer,youchuanhu@google.com,aaronndx,Google,write,General,,Added | Status: active
+Internal Developer,yinlin@google.com,yinlin09,Google,write,general,Yes,Added | Status: active
+Internal Developer,bhupendradubey@google.com,bdubey,Google,write,Profiling,Yes,Added | Status: active
+Internal Developer,ckstanton@google.com,ckstanton,Google,write,General,Yes,Submitted: 7/16/2026 11:34:25 | Status: active
+Internal Developer,caslyn@google.com,caslyn,Google,write,General,Yes,Submitted: 7/16/2026 15:21:13 | Status: active
+Internal Developer,silkyarora@google.com,silkyarora,Google,write,General,Yes,Pending Invitation (Added via Script) | Status: active
+External Contributor,57064620@qq.com,GlockGao,Alibaba,write,NULL,NULL,Pending Invitation (Added via Script) | Status: active
