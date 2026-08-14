@@ -3,12 +3,14 @@ import argparse
 import csv
 import json
 import os
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone, timedelta
 
 REPO = "vllm-project/vllm-torchtpu"
 DEFAULT_RECIPIENT = "johnqiangzhang@google.com"
+DEFAULT_SENDER = '"vLLM-Torchtpu Governance Audit (No-Reply)" <johnqiangzhang@google.com>'
 
 def load_recipients(cli_recipients=None, csv_path=None):
     recipients = []
@@ -104,7 +106,7 @@ def check_premature_merges(hours):
     """Rule 2: Detect PRs merged while CI checks were failing or in progress."""
     violations = []
     all_merged_prs = []
-    cmd = f"gh pr list --repo {REPO} --state merged --limit 20 --json number,title,mergedAt,author,statusCheckRollup,reviews"
+    cmd = f"gh pr list --repo {REPO} --base main --state merged --limit 20 --json number,title,mergedAt,author,statusCheckRollup,reviews"
     output = run_command(cmd)
     if not output:
         return violations
@@ -191,10 +193,19 @@ def check_premature_merges(hours):
 
     return violations, all_merged_prs
 
-def send_email_report(direct_pushes, premature_merges, all_merged_prs, recipients=None, bcc=True):
+def send_email_report(direct_pushes, premature_merges, all_merged_prs, recipients=None, bcc=True, sender=None):
+    # Determine TL;DR status message
     if not direct_pushes and not premature_merges and not all_merged_prs:
-        print("\n✅ No activity or governance violations detected! Skipping email report.")
-        return
+        tldr_msg = "✅ No activity or governance violations detected!"
+    elif direct_pushes or premature_merges:
+        violations_summary = []
+        if direct_pushes:
+            violations_summary.append(f"{len(direct_pushes)} direct push(es)")
+        if premature_merges:
+            violations_summary.append(f"{len(premature_merges)} premature merge(s)")
+        tldr_msg = f"🚨 Governance violations detected! ({', '.join(violations_summary)})"
+    else:
+        tldr_msg = f"✅ {len(all_merged_prs)} PR(s) merged with no governance violations detected."
 
     # Determine subject based on violations
     repo_short = REPO.split('/')[-1]
@@ -206,7 +217,8 @@ def send_email_report(direct_pushes, premature_merges, all_merged_prs, recipient
     # --- Generate Plain Text for Console ---
     text_body_lines = [
         f"Repository Governance Audit Report for {REPO}",
-        f"Audit Time: {datetime.now(timezone.utc).isoformat()}\n",
+        f"Audit Time: {datetime.now(timezone.utc).isoformat()}",
+        f"TL;DR: {tldr_msg}\n",
         "=" * 60,
     ]
 
@@ -246,7 +258,8 @@ def send_email_report(direct_pushes, premature_merges, all_merged_prs, recipient
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
-            <p style="margin: 0; color: #666;"><strong>Audit Time:</strong> {audit_time_str}</p>
+            <p style="margin: 0 0 8px 0; color: #666;"><strong>Audit Time:</strong> {audit_time_str}</p>
+            <p style="margin: 0; color: #333; font-size: 1.05em;"><strong>TL;DR:</strong> {tldr_msg}</p>
         </div>
 
         <div style="padding: 20px;">
@@ -357,13 +370,16 @@ def send_email_report(direct_pushes, premature_merges, all_merged_prs, recipient
     elif isinstance(recipients, str):
         recipients = [r.strip() for r in recipients.split(",") if r.strip()]
 
-    sender = DEFAULT_RECIPIENT
+    if not sender:
+        sender = DEFAULT_SENDER
 
-    g3_dir = "/google/src/cloud/johnqiangzhang/vllm/google3"
-    tool_path = f"{g3_dir}/blaze-bin/caribou/delivery/tools/send_rfc822"
-    if not os.path.exists(tool_path):
-        print("\nsend_rfc822 binary not found in blaze-bin. Automatically building it in google3...")
-        run_command("blaze build //caribou/delivery/tools:send_rfc822", cwd=g3_dir)
+    tool_path = shutil.which("send_rfc822") or "/usr/local/google/home/johnqiangzhang/bin/send_rfc822"
+    if not (tool_path and os.path.exists(tool_path)):
+        g3_dir = "/google/src/cloud/johnqiangzhang/vllm/google3"
+        tool_path = f"{g3_dir}/blaze-bin/caribou/delivery/tools/send_rfc822"
+        if not os.path.exists(tool_path):
+            print("\nsend_rfc822 binary not found in blaze-bin. Automatically building it in google3...")
+            run_command("blaze build //caribou/delivery/tools:send_rfc822", cwd=g3_dir)
 
     success_count = 0
     for target in recipients:
@@ -396,6 +412,12 @@ def main():
         help="Time window in hours to audit (default: 24.0)"
     )
     parser.add_argument(
+        "--sender",
+        type=str,
+        default=DEFAULT_SENDER,
+        help=f"Sender email address (default: {DEFAULT_SENDER})"
+    )
+    parser.add_argument(
         "--recipients",
         type=str,
         default=None,
@@ -424,10 +446,11 @@ def main():
     recipients = load_recipients(cli_recipients=args.recipients, csv_path=args.recipients_csv)
 
     print(f"Auditing repository {REPO} for the last {args.hours} hours...")
+    print(f"Sender: {args.sender}")
     print(f"Recipients: {', '.join(recipients)} (BCC: {args.bcc})")
     direct_pushes = check_direct_pushes(args.hours)
     premature_merges, all_merged_prs = check_premature_merges(args.hours)
-    send_email_report(direct_pushes, premature_merges, all_merged_prs, recipients=recipients, bcc=args.bcc)
+    send_email_report(direct_pushes, premature_merges, all_merged_prs, recipients=recipients, bcc=args.bcc, sender=args.sender)
 
 if __name__ == "__main__":
     main()
