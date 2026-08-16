@@ -52,6 +52,18 @@ bash ~/.gemini/config/skills/llm_tools/scripts/add_collaborators.sh [options] [u
 - `-p, --permission`: Permission level: `push` (write), `pull` (read), `maintain`, `admin`, `triage` (default: `push`).
 - `-f, --file`: Input file (supports `.csv` with header columns, text files, or direct username lists).
 
+### 5. `fetch_buildkite_pr.py`
+A Python script to inspect failing Buildkite CI checks for a GitHub pull request, clean logs (stripping timestamps and ANSI colors), and download all failure logs & artifacts into `/tmp/<repo_name>/PR_<PR_NUM>/`.
+
+**Usage**:
+```bash
+python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMBER_OR_URL> [--repo ORG/REPO] [--no-artifacts]
+```
+- `<PR_NUMBER_OR_URL>`: PR number (e.g. `383`) or GitHub PR URL.
+- `-r, --repo`: Target repo (default: inferred from current git repo or `vllm-project/vllm-torchtpu`).
+- `--no-artifacts`: Skip downloading build artifacts (downloads logs only).
+- `-o, --output-dir`: Custom output folder (defaults to `/tmp/<repo_name>/PR_<pr_num>`).
+
 ---
 
 ## General References
