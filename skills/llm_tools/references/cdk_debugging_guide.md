@@ -274,3 +274,96 @@ for proc, total_s in sorted(proc_durs.items(), key=lambda x: -x[1])[:10]:
 | **Slice duration is 0 or corrupted** | Start and end `name` strings differ (e.g. dynamic parameters) | Ensure `name` in `trace-start-event` and `trace-end-event` is 100% identical. |
 | **Trace UI flooded by thousands of slices** | High-frequency logging in inner loop (e.g. per-token DMA) | Move trace points outside tight iteration loops or trace step batches. |
 | **Job finished but `trace.json` not generated** | Container crashed before log archive or syntax error in logs | Check `cdk job log <JOB_ID>` and verify log archive phase completed in `cdk job desc <JOB_ID>`. |
+
+---
+
+## 7. Fast Iteration via Filestore NFS (Zero-Rebuild Hot Reloading)
+
+Prebuilt CDK Docker images (`vllm-torchtpu`, `vllm-torchax`) install packages in editable mode (`pip install -e /root/cloud-devkit/<repo>`). Mounting your working copy from Filestore NFS allows containers to run your latest edits instantly without rebuilding Docker images.
+
+### A. Architecture Overview
+
+```mermaid
+flowchart LR
+    A["Local Cloudtop\n(~/projects/vllm-torchtpu)"] -->|"rsync (excludes .venv, build)"| B["CPU VM Jump Host\n(johnqiangzhang-cpu-vm)"]
+    B -->|"mount -t nfs"| C["Google Filestore NFS\n(10.50.136.106:/share)"]
+    C -->|"volumeMounts"| D["GKE TPU Pods\n(/root/cloud-devkit/vllm-torchtpu)"]
+```
+
+---
+
+### B. One-Time Setup on CPU VM (Jump Host)
+
+Because Filestore uses internal VPC IPs (e.g. `10.50.136.106`), initialize your personal workspace via a CPU VM in the same VPC:
+
+1. **Install dependencies on CPU VM**:
+   ```bash
+   sudo apt-get update && sudo apt-get install -y rsync nfs-common
+   ```
+
+2. **Mount NFS and create user workspace**:
+   ```bash
+   sudo mkdir -p /mnt/share
+   sudo mount -t nfs 10.50.136.106:/share /mnt/share
+   sudo mkdir -p /mnt/share/workspaces/<username>/vllm-torchtpu \
+                 /mnt/share/workspaces/<username>/vllm-torchtpu-cache
+   sudo chown -R $(whoami):$(whoami) /mnt/share/workspaces/<username>/
+   ```
+
+3. **SSH alias in `~/.ssh/config` (on Cloudtop)**:
+   ```ssh
+   Host <username>-cpu-vm
+       HostName <EXTERNAL_IP>
+       User <username>_google_com
+       IdentityFile ~/.ssh/google_compute_engine
+       IdentitiesOnly yes
+       StrictHostKeyChecking no
+       UserKnownHostsFile /dev/null
+   ```
+
+---
+
+### C. Daily Code Sync Command (from Cloudtop)
+
+Run this high-speed `rsync` from Cloudtop whenever you make local code changes (skips large `.venv` environments, caches, and git metadata for 1-second syncs):
+
+```bash
+rsync -avz \
+  --exclude '.venv' \
+  --exclude '__pycache__' \
+  --exclude '*.pyc' \
+  --exclude '.git' \
+  --exclude '*.egg-info' \
+  --exclude 'build' \
+  --exclude 'dist' \
+  ~/projects/vllm-torchtpu/ \
+  <username>-cpu-vm:/mnt/share/workspaces/<username>/vllm-torchtpu/
+```
+
+---
+
+### D. JobSet Recipe YAML Configuration
+
+Map your NFS workspace and isolated compilation cache directory into the container:
+
+```yaml
+volumeMounts:
+  - name: vllm-torchtpu-<username>
+    mountPath: /root/cloud-devkit/vllm-torchtpu/
+  - name: xla-cache
+    mountPath: /root/vllm-torchtpu-cache/
+
+volumes:
+  - name: vllm-torchtpu-<username>
+    nfs:
+      server: 10.50.136.106
+      path: /share/workspaces/<username>/vllm-torchtpu/
+  - name: xla-cache
+    nfs:
+      server: 10.50.136.106
+      path: /share/workspaces/<username>/vllm-torchtpu-cache/
+```
+
+> [!TIP]
+> Always maintain an isolated `xla-cache` subfolder per user (e.g. `/share/workspaces/<username>/vllm-torchtpu-cache/`) to prevent compilation cache collisions across developers.
+
