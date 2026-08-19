@@ -340,6 +340,9 @@ rsync -avz \
   <username>-cpu-vm:/mnt/share/workspaces/<username>/vllm-torchtpu/
 ```
 
+> [!NOTE]
+> **No Manual PYTHONPATH Needed**: There is **no need** to add `export PYTHONPATH="/root/cloud-devkit/vllm-torchtpu/src:${PYTHONPATH:-}"` in the recipe's command line or container args. The recipe mount structure directly loads the updated files without manual path overrides.
+
 ---
 
 ### D. JobSet Recipe YAML Configuration
