@@ -21,6 +21,11 @@ uv pip install --no-config --index-url https://pypi.org/simple pre-commit pytest
 pre-commit install
 ```
 
+> [!IMPORTANT]
+> **Always activate `.venv` before running `pre-commit` or `git commit`**:
+> Cloudtop may have a global `pre-commit` in `/usr/local/bin` that lacks required dependencies or points to a mismatched Python version. Always run `source ~/projects/vllm-torchtpu/.venv/bin/activate` first to ensure hooks (like pyrefly, yapf, ruff) run with the correct virtual environment.
+
+
 ## Environment Setup
 
 We use Docker for development to ensure a consistent environment and easy dependency management. The Dockerfile supports multi-stage builds, allowing you to target a `dev` environment for editable mode.
