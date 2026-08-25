@@ -66,6 +66,17 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMB
 
 ---
 
+## CDK Local-Only Policy & Confidentiality Rule
+
+> [!IMPORTANT]
+> **Strict Local-Only Policy for Cloud DevKit (CDK) Changes**:
+> - **NEVER commit or push CDK recipes, configurations, or workflow changes to remote repositories** (`cloud-devkit`).
+> - All CDK experiments, JobSet YAML files, recipes, and benchmarking scripts must remain **strictly within the local repository** (e.g. `cloud-devkit/recipes/experimental/johnqiangzhang/`).
+> - Submit jobs directly from the local file path using `cdk job submit <local_recipe.yaml>`.
+> - Do not share or push proprietary recipes/configs to prevent unauthorized copying.
+
+---
+
 ## General References
 
 - [TPU VM Setup](references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
@@ -74,6 +85,7 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMB
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Workflows for headless credential setup, avoiding GraphQL complexity errors, and extracting job execution error logs via REST API.
 - [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Comprehensive guide to Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation in Python, C++, and Shell scripts.
 - [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors for vllm-torchtpu.
+
 
 
 
