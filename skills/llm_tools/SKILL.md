@@ -84,6 +84,7 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMB
 - [GitHub CLI Guide for PR Reviews](references/gh_cli_guide.md): Quick commands and JQ pattern references for accessing PR diffs, review comments, and status checks using GitHub CLI.
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Workflows for headless credential setup, avoiding GraphQL complexity errors, and extracting job execution error logs via REST API.
 - [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Comprehensive guide to Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation in Python, C++, and Shell scripts.
+- [`lj` CLI & Trace Debugging Guide](references/lj_cmd_debugging_guide.md): Complete reference for `lj` (`llm_jobs`) toolchain, covering CDK trace imports (`lj trace import-cdk`), A/B kernel diffing (`lj trace diff`), and TPU hardware bubble diagnostics.
 - [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors for vllm-torchtpu.
 
 
