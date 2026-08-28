@@ -1,34 +1,71 @@
 ---
 name: collaborative_problem_solving
-description: Guidelines for avoiding rash file modifications, analyzing problems thoroughly, and discussing solutions with the user before execution.
+description: Disciplined debugging and collaborative problem-solving workflow. Prevents rash modifications, defines action tiers, emphasizes deep analysis, structured alignment, and verifiable checkpoints.
 ---
 
-# Structured Debugging and Collaboration
+# Collaborative Problem Solving & Disciplined Engineering
 
-This skill defines a disciplined approach to debugging and problem-solving, emphasizing analysis, discussion, and planning over immediate code modification and job execution.
+This skill defines a disciplined, high-velocity engineering workflow for Jetski. It balances thorough analysis and safe collaboration with decisive execution, preventing rash code thrashing and unintended regressions.
 
-## Core Principles
+---
 
-1.  **Do Not Act Rashly**: Do not immediately start modifying files or running jobs as soon as you see an error or a request.
-2.  **Analyze the Context**: Take time to analyze the surrounding code (周边东西), the system architecture, and potential side effects.
-3.  **Propose and Discuss**: Before making non-trivial changes or running expensive jobs, formulate possible solutions, ask questions, and discuss them with the user.
-4.  **Solve the Right Problem**: Ensure you understand the root cause and seek standard, idiomatic solutions (e.g., using framework registration mechanisms) rather than ad-hoc hacks.
-5.  **Divide and Conquer**: If a change or feature is too large, break it down into 2-3 smaller, manageable tasks or problems. Discuss and analyze with the user first before starting implementation.
-6.  **Small Commits for Rollback Safety**: Adopt a "small steps, fast running" (小步快跑) approach. For changes that are confirmed and have high confidence, request user approval to create a git commit. This creates a safe checkpoint and makes it easier to roll back if subsequent high-risk experiments fail.
+## 🧭 Core Principles
 
+1. **Do Not Act Rashly (谋定而后动)**: Never start editing core files or triggering expensive cloud jobs immediately upon seeing an error. Understand the system architecture and data flow first.
+2. **Analyze the Context & Blast Radius**: Inspect surrounding code (周边环境), type signatures, lifecycle contracts, and downstream consumers before proposing changes.
+3. **Solve the Right Root Cause**: Prefer idiomatic, standard framework mechanisms (e.g. registration APIs, decorator hooks, proper schemas) over ad-hoc monkey patches or string-hacking wrappers.
+4. **Divide and Conquer (任务分治)**: Break complex multi-step refactorings into 2–3 self-contained, verifiable milestones. Align on the breakdown before implementation.
+5. **Small Steps, Fast Checkpoints (小步快跑 · 提交锚点)**: For validated, passing changes, proactively create atomic Git commits. This establishes safe rollback checkpoints before entering high-risk experimental phases.
+6. **Verifiable Definition of Done (闭环验证)**: Never claim a task is completed without concrete evidence (test outputs, curl status codes, diffs, live links).
 
-## Workflow
+---
 
-1.  **Observation**: When a problem is identified or a task is given, read the relevant code and logs thoroughly.
-2.  **Deep Analysis**:
-    *   Analyze the data structures involved.
-    *   Consider alternative solutions.
-    *   Formulate a plan.
-3.  **Proposal**: Present the analysis and proposed solutions to the user.
-4.  **Discussion**: Wait for user feedback and approval.
-5.  **Execution**: Proceed with the agreed-upon plan.
+## 🚦 Action Tier Matrix (行动分级与权限)
 
-## Examples
+| Tier | Scope / Actions | Execution Protocol |
+| :--- | :--- | :--- |
+| 🟢 **Tier 1: Autonomous (自治操作)** | • Read-only code search (`grep`, `find`, `view_file`)<br>• Local/unit test runs (`pytest`, `lj test`)<br>• Local syntax/typo fixes with 100% certainty | **Execute immediately**. Report concise results directly. |
+| 🟡 **Tier 2: Proposed (提案操作)** | • Adding local helper functions/utilities<br>• Surgical bug fixes with clear test coverage<br>• Low-cost dry-run commands | **Briefly state intent/diff**, then proceed to execute and verify. |
+| 🔴 **Tier 3: Collaborative (严格协作)** | • Destructive data operations (GCS/DB deletion, prune)<br>• Public API breaking changes & schema rewrites<br>• Large architecture overhauls / expensive cloud jobs | **Stop & Align first**. Present options clearly (or via `ask_question`) before execution. |
 
-*   **Anti-pattern**: Seeing a serialization error with integer keys and immediately writing a helper to recursively stringify all dict keys in a central wrapper without knowing the specific data structure.
-*   **Best Practice**: Pausing to ask which data structure has the problem, suggesting the use of `jax.export.register_pytree_node_serialization`, and adding informative error messages to help the user identify the structure in future runs.
+---
+
+## 🔄 Standard Workflow
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐     ┌──────────────────┐
+│ 1. Observation  │ ──► │ 2. Deep Analysis │ ──► │ 3. Alignment    │ ──► │ 4. Execution &   │
+│    & Context    │     │    & Root Cause  │     │    & Plan       │     │    Verification  │
+└─────────────────┘     └──────────────────┘     └─────────────────┘     └──────────────────┘
+```
+
+### 1. Observation & Context Gathering
+- Read error logs and source definitions thoroughly.
+- For broad multi-repo research, delegate to a read-only subagent to preserve the main context window.
+
+### 2. Deep Analysis
+- Trace inputs, outputs, data structures, and edge cases.
+- Identify the root cause rather than treating symptoms.
+
+### 3. Interactive Alignment (When Tier 3 / Trade-offs exist)
+- **Design Trade-offs**: Use structured multiple-choice questions (`ask_question`) with recommended defaults to minimize user friction.
+- **Complex Multi-Step Tasks**: Generate a structured plan artifact (`implementation_plan.md`) with actionable task checkboxes.
+
+### 4. Execution, Verification & Checkpoint
+- Make surgical, minimal edits.
+- Run automated tests to verify zero regressions.
+- Proactively propose atomic Git commits upon reaching verified milestones.
+
+---
+
+## 💡 Examples & Anti-Patterns
+
+### ❌ Anti-Patterns
+- **The Spray & Pray**: Seeing a serialization failure on integer keys and immediately writing a global recursive stringifier in a central middleware without knowing the underlying schema.
+- **The Blind Job Runner**: Submitting a 30-minute TPU job immediately after a 1-line edit without local dry-run or unit test verification.
+- **The Phantom Completion**: Telling the user "All fixed and verified" without actually running the test suite or checking command exit codes.
+
+### ✅ Best Practices
+- **Idiomatic Resolution**: Pausing to identify which PyTree structure failed serialization, recommending `jax.export.register_pytree_node_serialization`, and adding structured debugging logs.
+- **Dry-Run Confirmation**: When cleaning cloud artifacts, providing `lj trace clean --dry-run` and showing the exact list of candidate deletions before executing.
+- **Atomic Milestones**: "Core log parsing logic is implemented and 28/28 tests passed. Creating git commit `v1.0-checkpoint` before refactoring the UI layer."
