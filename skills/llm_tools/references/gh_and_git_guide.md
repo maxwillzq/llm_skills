@@ -1,6 +1,6 @@
-# GitHub CLI (gh) Guide for PR Reviews
+# GitHub CLI (gh) & Git Best Practices Guide
 
-This reference provides quick commands and patterns for accessing PR data using the GitHub CLI.
+This reference provides quick commands, PR commit organization standards, and patterns for accessing PR data using the GitHub CLI.
 
 ## Prerequisites
 
@@ -10,6 +10,67 @@ Authenticate:
 ```bash
 gh auth login
 ```
+
+---
+
+## PR Commit Organization & Commit Message Guidelines
+
+### 1. Commit Organization Principles
+When preparing PRs for review:
+- **Atomic Separation of Concerns**: Separate core implementations (`src/`) from test suites (`tests/`). Keep commits focused, self-contained, and independently reviewable.
+  - **Commit 1 (`feat`)**: Core feature / kernel / architecture implementation.
+  - **Commit 2 (`test`)**: Dedicated unit tests, numerical verification, and benchmark suites.
+- **Clean Squashing**: Squash intermediate fixups, formatting tweaks, and test debugging iterations before publishing or requesting review.
+- **Stacked PR Workflow**: For complex, multi-stage projects, stack PRs logically:
+  - **PR 1 (Baseline / Foundation)**: Unblocks the pipeline, fixes prerequisite bugs, and adds baseline E2E tests.
+  - **PR 2 (Optimization Engine)**: Implements the optimized kernel/architecture and adds comparative performance benchmarks.
+
+### 2. Commit Message Structure & Standards
+Every commit must adhere to the Conventional Commits format with a detailed technical breakdown:
+
+```text
+<type>(<scope>): <concise imperative summary in lowercase>
+
+- <Bullet 1: Clear explanation of WHAT was implemented/changed and WHY>
+- <Bullet 2: Specific technical/mathematical mechanism (e.g., XLA Einsum, StableHLO select)>
+- <Bullet 3: Concrete performance metric or benchmark result if applicable (e.g., 27.71x speedup)>
+- <Bullet 4: Key bug fix / compatibility details (e.g., non-inplace Dynamo returns)>
+
+Signed-off-by: Full Name <email@example.com>
+```
+
+#### Example Commit Message:
+```text
+feat(lora): implement static weight pool and XLA einsum linear layer on TPU
+
+- Implement `TPUMultiLoRAPool` managing static 3D/4D tensorized LoRA weight pools on TPU HBM [0 .. max_loras - 1].
+- Implement `TPUMultiLoRALinear` with zero-overhead XLA Static Einsum dispatch and StableHLO Select:
+  - Base Linear Projection: `y_base = base_linear(x)`
+  - Safe Index Clamp: `safe_slots = clamp(lora_indices - 1, min=0)`
+  - 1st GEMM: `h = einsum('ti, tri -> tr', x, lora_a_pool[safe_slots])`
+  - 2nd GEMM: `delta = einsum('tr, tor -> to', h, lora_b_pool[safe_slots]) * scale`
+  - StableHLO Select: `torch.where(has_lora, y_base + delta, y_base)`
+- Eliminate CPU host scheduling stalls, dynamic slice allocations, and HBM roundtrip thrashing.
+
+Signed-off-by: John Zhang <johnqiangzhang@google.com>
+```
+
+### 3. Commit Re-structuring Recipe
+To reorganize messy commits into clean atomic commits:
+```bash
+# 1. Soft reset to base branch (preserves all code changes as staged)
+git reset --soft origin/main
+
+# 2. Stage and commit implementation files first
+git reset tests/
+git commit -m "feat(...): ..."
+
+# 3. Stage and commit test files
+git add tests/
+git commit -m "test(...): ..."
+```
+
+---
 
 ## Basic PR Information
 
