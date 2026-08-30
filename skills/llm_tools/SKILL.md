@@ -64,6 +64,25 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMB
 - `--no-artifacts`: Skip downloading build artifacts (downloads logs only).
 - `-o, --output-dir`: Custom output folder (defaults to `/tmp/<repo_name>/PR_<pr_num>`).
 
+### 6. `lj pod` (Cloud TPU Dev Pod Management)
+Modern CLI subcommand in `llm_jobs` to manage persistent remote Cloud TPU development environments, perform incremental code synchronization, and execute remote test workloads inside containerized TPU pods.
+
+**Usage**:
+```bash
+# List all TPU dev pods and active statuses
+lj pod list
+
+# Start a dev pod if stopped
+lj pod start <pod-name>   # e.g., lj pod start vllm-torchtpu-dev-pod
+
+# Incrementally sync local repository to /workspace/<repo> inside the pod
+lj pod sync <pod-name>    # e.g., lj pod sync vllm-torchtpu-dev-pod
+
+# Execute remote tests, scripts, or benchmarks inside the pod container
+lj pod exec <pod-name> -- <command>
+# e.g., lj pod exec vllm-torchtpu-dev-pod -- pytest /workspace/vllm-torchtpu/tests/lora/test_tpu_lora_pool.py -v -s
+```
+
 ---
 
 ## CDK Local-Only Policy & Confidentiality Rule

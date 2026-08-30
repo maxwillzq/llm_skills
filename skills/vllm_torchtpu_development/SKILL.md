@@ -69,15 +69,19 @@ docker run -it --privileged --net=host --shm-size=16g \
 
 ## Code Synchronization and Remote Execution
 
-Refer to the `vllm-on-tpu` skill for detailed instructions on how to use TPU VMs and synchronize code using the `python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py` script.
+### 1. Modern Dev Pod Workflow (`lj pod`)
+Use `lj pod` from `llm_jobs` to seamlessly sync code and run remote tests:
+```bash
+# Sync local changes directly into the TPU container
+lj pod sync vllm-torchtpu-dev-pod
 
-### Source Code Location
-*   **Local Cloudtop**: `~/projects/vllm-torchtpu`
-*   **Remote TPU VM**: `/mnt/pd_<username>/projects/vllm-torchtpu`
+# Execute tests or benchmarks inside the dev pod
+lj pod exec vllm-torchtpu-dev-pod -- pytest /workspace/vllm-torchtpu/tests/entrypoints/llm/test_multi_lora_tpu.py -v -s
+```
 
-### Usage Summary
-*   **Syncing Code**: Use the `python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py` script as described in the `vllm-on-tpu` skill to push local changes from Cloudtop to the remote TPU VM.
-*   **Remote Execution**: Use `ssh` (or the `tpu-vm-ssh` alias) to run tests and examples on the TPU VM.
+### 2. Standalone TPU VM Workflow
+*   **Syncing Code**: `python3 ~/.gemini/config/skills/llm_tools/scripts/tpu_dev_sync.py both vllm-torchtpu`
+*   **Remote Execution**: Use `ssh johnqiangzhang-tpu-v7` (or the `tpu-vm-ssh` alias).
 
 ## Local Reproduction and CI Debugging
 
@@ -87,11 +91,11 @@ If the user explicitly requests you to locally reproduce a GitHub Actions (CI/CD
 ## Pull Request Code Reviews
 
 When the user explicitly requests you to review a GitHub Pull Request (e.g., "Please review PR #123" or "Perform a code review of my branch"):
-1.  **Retrieve PR Data**: Use the [GitHub CLI Guide for PR Reviews](../llm_tools/references/gh_cli_guide.md) to query the PR's details, diff, files changed, and comments.
+1.  **Retrieve PR Data**: Use the [GitHub CLI & PR Commit Standards Guide](../llm_tools/references/gh_and_git_guide.md) to query the PR's details, diff, files changed, and comments.
 2.  **Evaluate against Checklist**: Systematically review the diff and changes against the [Code Review Checklist](references/code_review_checklist.md).
 3.  **Construct & Present Report**: Create a structured markdown review report categorizing your findings using the specified severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit, 💡 Suggestion, ❓ Question, ✅ Praise) and present it to the user in the chat. **Do not submit anything to GitHub at this stage.**
 4.  **Prompt for Confirmation**: After presenting the report, explicitly ask the user: "Would you like me to submit these review comments/ratings directly to the GitHub PR?"
-5.  **Submit Comments**: Only if the user explicitly confirms, use the `gh` CLI commands in [gh_cli_guide.md](../llm_tools/references/gh_cli_guide.md) to post the inline reviews or general comments directly to the pull request on GitHub.
+5.  **Submit Comments**: Only if the user explicitly confirms, use the `gh` CLI commands in [gh_and_git_guide.md](../llm_tools/references/gh_and_git_guide.md) to post the inline reviews or general comments directly to the pull request on GitHub.
 
 ## Developer Workflow & Code Governance
 

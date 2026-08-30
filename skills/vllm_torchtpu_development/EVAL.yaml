@@ -51,7 +51,7 @@ cases:
       The agent must:
       - Acknowledge the request to review PR #145.
       - Direct themselves to using `code_review_checklist.md` for PR checking.
-      - Retrieve the PR diff and metadata using gh CLI (based on gh_cli_guide.md).
+      - Retrieve the PR diff and metadata using gh CLI (based on gh_and_git_guide.md).
       - Present the review findings categorized by severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit).
     expect_keywords_any:
       - "code_review_checklist.md"
