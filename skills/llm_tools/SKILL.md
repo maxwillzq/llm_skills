@@ -83,6 +83,14 @@ lj pod exec <pod-name> -- <command>
 # e.g., lj pod exec vllm-torchtpu-dev-pod -- pytest /workspace/vllm-torchtpu/tests/lora/test_tpu_lora_pool.py -v -s
 ```
 
+### 7. `audit_repo_governance.py`
+A Python automation tool to audit GitHub pull requests and repository governance compliance (DCO sign-off checks, label taxonomy, reviewer assignments, and approval verification).
+
+**Usage**:
+```bash
+python3 ~/.gemini/config/skills/llm_tools/scripts/audit_repo_governance.py --repo <owner>/<repo> [--pr <PR_NUMBER>]
+```
+
 ---
 
 ## CDK Local-Only Policy & Confidentiality Rule
@@ -98,13 +106,22 @@ lj pod exec <pod-name> -- <command>
 
 ## General References
 
+### Infrastructure & Cloud TPU Environment
 - [TPU VM Setup](references/tpu_vm_setup.md): General steps for setting up Docker and environment on a TPU VM.
+- [Docker Data Directory Migration](references/docker_migration.md): Moving Docker data root (`/var/lib/docker`) to persistent disk (`/mnt/pd_<username>/docker`) on Cloud TPU VMs.
+- [Managing GCS Checkpoint Buckets](references/managing_checkpoint_bucket.md): Managing, syncing, and organizing model weights in GCS buckets.
 - [GKE TPU Setup Guide](references/set_dev_env_using_gke.md): Reference guide to set up a GKE cluster with multi-TPU types and deploy/test workloads on GKE.
-- [GitHub CLI Guide & PR Commit Standards](references/gh_and_git_guide.md): Quick commands and JQ pattern references for accessing PR diffs, review comments, commit organization principles, and conventional commit message templates.
-- [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Workflows for headless credential setup, avoiding GraphQL complexity errors, and extracting job execution error logs via REST API.
-- [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Comprehensive guide to Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation in Python, C++, and Shell scripts.
-- [`lj` CLI & Trace Debugging Guide](references/lj_cmd_debugging_guide.md): Complete reference for `lj` (`llm_jobs`) toolchain, covering CDK trace imports (`lj trace import-cdk`), A/B kernel diffing (`lj trace diff`), and TPU hardware bubble diagnostics.
-- [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors for vllm-torchtpu.
+
+### GitHub, Code Review & Governance
+- [GitHub CLI Guide & PR Commit Standards](references/gh_and_git_guide.md): Commands for accessing PR diffs, review comments, commit organization principles, and conventional commit message templates.
+- [PR Code Review Checklist](references/code_review_checklist.md): Standard criteria and severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit) for structured code reviews.
+- [Developer Workflow & Code Governance](references/developer_workflow_governance.md): Code governance, DCO sign-offs, reviewer assignments, and merge lifecycle.
+- [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors.
+
+### Profiling & CI Debugging
+- [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation.
+- [`lj` CLI & Trace Debugging Guide](references/lj_cmd_debugging_guide.md): Complete reference for `lj` (`llm_jobs`) toolchain, CDK trace imports (`lj trace import-cdk`), and A/B kernel diffing.
+- [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Headless credential setup, avoiding GraphQL errors, and extracting job logs.
 
 
 
