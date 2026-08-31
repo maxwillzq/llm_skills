@@ -35,9 +35,9 @@ This guide establishes the mandatory writing and organizational standards for en
 ### 1.4 Data-Driven and Verifiable Metrics
 * **Never use vague quantifiers** (*"much faster"*, *"insignificant overhead"*, *"drastically improved"*).
 * **Always provide exact, reproducible measurements**:
-  * Cold compilation duration before and after (e.g., `105.68s -> 45.83s`).
+  * Cold compilation duration before and after (e.g., `105.68 s -> 45.83 s`).
   * Relative speedup and percentage delta (`2.30x speedup / -56.6% latency reduction`).
-  * Hardware environment, pod topology, chip count, and test scripts (e.g., `Cloud TPU v7x-8, 8 chips / 16 cores, scripts/vllm/integration/run_compilation_cache_e2e.sh`).
+  * Hardware environment, pod topology, chip count, and test scripts (e.g., `TPU v7x-8, 8 chips / 16 cores, scripts/vllm/integration/run_compilation_cache_e2e.sh`).
 * Distinguish between **empirically measured** numbers and **theoretical projections**.
 
 ### 1.5 Unit Formatting and Intranet Auto-Link Prevention ("单位斜杠空格法则")
@@ -73,26 +73,22 @@ This guide establishes the mandatory writing and organizational standards for en
   * Use actual hardware backend and device identifiers (e.g., `backend="tpu"` and `device="tpu"` in TorchTPU instead of legacy `openxla`).
   * Accompany code snippets with exact output shapes or assertion checks.
 
-### 1.8 Pull Request (PR) Citation Standards: Mandatory Hyperlinks ("PR 引用超链接标准化")
-* **Rule**: In design documents, RFCs, worklogs, and technical reports, **never leave PR numbers as unlinked plain text** (e.g., `PR #596`, `PR #667 to PR #686`, `PR #685/#686`). Every mention of a PR must be formatted as a direct, clickable markdown link pointing to the upstream GitHub PR URL:
-  * **Single PR**:
-    * *Correct*: `[PR #596](https://github.com/vllm-project/vllm-torchtpu/pull/596)`
-    * *Incorrect*: `PR #596` or `#596`
-  * **PR Stack or Continuous Range**:
-    * *Correct*: `PRs [#667](https://github.com/vllm-project/vllm-torchtpu/pull/667)–[#686](https://github.com/vllm-project/vllm-torchtpu/pull/686)` or `[PR #667](https://github.com/vllm-project/vllm-torchtpu/pull/667) through [PR #686](https://github.com/vllm-project/vllm-torchtpu/pull/686)`
-    * *Incorrect*: `PR #667 to PR #686`, `PR #667-PR #686`, `PRs 667-686`
-  * **Multiple Discrete PRs**:
-    * *Correct*: `[PR #685](https://github.com/vllm-project/vllm-torchtpu/pull/685) / [PR #686](https://github.com/vllm-project/vllm-torchtpu/pull/686)` or `[PR #685](url) and [PR #686](url)`
-    * *Incorrect*: `PR #685/#686` or `PR 685 & 686`
-  * **Section Headings & Benchmark Tables**:
-    * In table rows and section headers, always embed the link inside the bold/heading text:
-      * `| **Baseline ([PR #596](https://github.com/vllm-project/vllm-torchtpu/pull/596))** | ... |`
-      * `1. **Step 1 ([PR #667](https://github.com/vllm-project/vllm-torchtpu/pull/667)) - Device-Resident arange Pre-allocation**:`
-      * `### 1. Step 1 ([PR #667](https://github.com/vllm-project/vllm-torchtpu/pull/667)): Device-Resident arange Pre-Allocation`
+### 1.8 Editor-Safe PR Citation & RGBA Decoration Prevention ("杜绝编辑器注入 RGBA 装饰字符法则")
+* **Rule**:
+  * In pure Markdown documents, **never write `#` immediately followed by digits** (e.g., avoid `PR #722`, `#722`, or inline `[PR #722](...)` in narrative text).
+  * In the main body, TL;DR, and tables, write PR citations as clean, pure plain text: **`PR 722`** (or `PR-722`), omitting the `#` prefix:
+    * *Correct*: `PR 722`, `PRs 667–686`, `PR 685 / PR 686`
+    * *Incorrect*: `PR #722`, `PR #667 to PR #686`, `[PR #722](...)`
+  * In document header metadata, **never attach PR numbers or GitHub links to the `Status:` field**:
+    * *Correct*: `**Status:** Production Implementation` or `**Status:** In Review` or `**Status:** Drafted`
+    * *Incorrect*: `**Status:** Production Implementation (PR #722)` or `**Status:** ([PR #722](url))`
+  * All full GitHub URLs must be offloaded cleanly to **Appendix F: Upstream Pull Request & Commit Lineage**, formatted using standard path syntax:
+    * *Correct*: `* **Pull Request**: [vllm-project/vllm-torchtpu/pull/722](https://github.com/vllm-project/vllm-torchtpu/pull/722)`
+    * *Incorrect*: `* **Pull Request**: [vllm-project/vllm-torchtpu#722](...)` or `[PR #722](...)`
 * **Rationale**:
-  * *Immediate Verification*: Reviewers and engineers can click directly through to the upstream GitHub implementation, discussions, and CI test results without manual searching.
-  * *Disambiguation Across Repositories*: Explicit full URLs eliminate ambiguity when working across multiple repositories (`vllm-torchtpu`, `vllm`, `torch_xla`, etc.).
-  * *Professionalism & Traceability*: Establishes an unbroken audit trail connecting design RFC decisions directly to merged git commits.
+  * *VS Code / Monaco Decoration Injection*: Modern IDEs and editors with GitHub extensions (such as VS Code's *GitHub Pull Requests and Issues* extension) parse `#\d+` regex patterns and dynamically inject inline HTML/CSS RGBA-colored status widgets (colored SVG circles representing PR open/merged/closed states) directly between `PR ` and `#<number>`.
+  * *Markdown Plain-Text Purity*: A markdown document must remain pure, clean, predictable plain text across all viewing contexts (terminal, raw git diffs, web readers, and IDEs) without being hijacked by editor-specific DOM decoration widgets.
+  * *Separation of Concerns*: High-level executive text remains uncluttered, while Appendix F provides the single source of truth for full upstream URL lineages.
 
 ---
 
@@ -137,10 +133,11 @@ Appendices (Offload all secondary details here to keep the main text executive a
 Before finalizing any design doc, RFC, or PR description, verify:
 
 - [ ] Are all emojis removed?
+- [ ] Are editor-injected RGBA decoration characters eliminated by using clean PR references (e.g., `PR 722` without `#`) in the main text, with full URLs offloaded to Appendix F?
+- [ ] Is metadata `Status` clean without inline PR numbers or links?
 - [ ] Are all grandstanding buzzwords, promotional marketing phrases, and AI clichés ("surgical", "catastrophic", "harvesting low-hanging fruits", "slashed") eliminated?
-- [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware?
+- [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware (standardizing on 'TPU' rather than 'Cloud TPU')?
 - [ ] Are authors and contributors formatted with clickable GitHub profile links instead of corporate emails?
-- [ ] Are all PR citations (single, pairs, ranges, tables, headings) formatted as clickable GitHub markdown links with zero unlinked plain text?
 - [ ] Are compound engineering units spaced (e.g., `ms / step`, `ms / tok`, `tok / s`) to prevent Google Docs intranet URL auto-linkification?
 - [ ] Are code snippets runnable with real backend names and zero dead variables?
 - [ ] Is the main body readable in 3–5 minutes with code snippets <= 6 lines, and all complete diffs/schemas pushed to Appendices?
