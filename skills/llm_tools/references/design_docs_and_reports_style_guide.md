@@ -17,12 +17,12 @@ This guide establishes the mandatory writing and organizational standards for en
   * Never use consulting or business jargon in technical RFCs: *"harvesting low-hanging fruits"*, *"pragmatic, high-velocity strategy"*, *"paradigm shift"*, *"synergy"*.
   * Never anthropomorphize hardware: avoid *"starving the compute cores"*, use *"leaving compute cores idle"*.
 * **Use precise, objective systems engineering language**:
-  * Instead of: *"Our six-step surgical stack completely crushed the latency bottleneck..."*
-  * Write: *"Through a six-stage optimization pipeline, we eliminated host-side memory allocations and fused elementwise unpacking, reducing per-token latency from 4.04 ms to 1.03 ms (-74.5%)."*
-  * Instead of: *"We adopted a pragmatic high-velocity strategy to harvest low-hanging fruits rather than rewriting in Pallas assembly..."*
-  * Write: *"Rather than implementing custom Pallas TPU kernels, optimizations were implemented across host memory management and XLA compiler fusions using standard PyTorch/XLA abstractions."*
-  * Preferred: *"This optimization eliminates redundant Python bytecode evaluation, reducing cold compilation latency by 2.30x (-56.6%)."*
-  * Preferred: *"Sub-function compilation partitions the StableHLO graph into N disconnected executables, increasing HBM memory traffic and preventing cross-layer operator fusion."*
+  * Instead of: *"Our surgical multi-step stack completely crushed the latency bottleneck..."*
+  * Write: *"Through a multi-stage optimization pipeline, we eliminated host-side memory allocations and fused elementwise passes, reducing per-request latency from 4.04 ms to 1.03 ms (-74.5%)."*
+  * Instead of: *"We adopted a pragmatic strategy to harvest low-hanging fruits rather than rewriting in raw assembly..."*
+  * Write: *"Rather than implementing custom device assembly kernels, optimizations were implemented across host memory management and compiler passes using standard abstractions."*
+  * Preferred: *"This optimization eliminates redundant AST bytecode evaluation, reducing cold compilation latency by 2.30x (-56.6%)."*
+  * Preferred: *"Partitioning the execution graph into N disconnected modules increases off-chip memory traffic and prevents cross-layer operator fusion."*
 
 ### 1.3 Strict Division of Labor: Executive Main Body vs. Heavy Appendix ("深入浅出，主附分离")
 * **Main Body Accessibility ("深入浅出，简洁明了")**:
@@ -37,7 +37,7 @@ This guide establishes the mandatory writing and organizational standards for en
 * **Always provide exact, reproducible measurements**:
   * Cold compilation duration before and after (e.g., `105.68 s -> 45.83 s`).
   * Relative speedup and percentage delta (`2.30x speedup / -56.6% latency reduction`).
-  * Hardware environment, pod topology, chip count, and test scripts (e.g., `TPU v7x-8, 8 chips / 16 cores, scripts/vllm/integration/run_compilation_cache_e2e.sh`).
+  * Hardware environment, pod topology, chip count, and test scripts (e.g., `Server Node (8 accelerators / 64 cores), scripts/benchmarks/run_perf_e2e.sh`).
 * Distinguish between **empirically measured** numbers and **theoretical projections**.
 
 ### 1.5 Unit Formatting and Intranet Auto-Link Prevention ("单位斜杠空格法则")
@@ -45,27 +45,27 @@ This guide establishes the mandatory writing and organizational standards for en
   * Write: `ms / step`, `ms / tok`, `tok / s`
   * Avoid: `ms/step`, `ms/tok`, `tok/s`
 * **Rationale**:
-  * In corporate Google environments, Google Docs and internal Markdown parsers treat `<word>/<path>` (e.g., `ms/step`, `ms/tok`) as an internal intranet URL because `ms` is a registered corporate host (`ms.corp.google.com`).
-  * Without spaces, Google Docs automatically converts `ms/step` into an unwanted corporate hyperlink (`https://ms.corp.google.com/step`).
-  * Adding spaces (`ms / step`) breaks the URL regex pattern, preventing false-positive auto-linking while maintaining clean, standard scientific notation.
+  * In many enterprise document systems (such as Google Docs, Quip, Confluence) and internal Markdown parsers, `<word>/<path>` (such as `ms/step`, `ms/tok`, `req/s`) is aggressively auto-linked as an intranet URL if the prefix matches internal corporate hostnames or custom URI schemes.
+  * Without spaces, documents frequently convert `ms/step` into an unwanted corporate hyperlink.
+  * Adding spaces (`ms / step`) breaks URL autolink regexes, preventing false-positive hyperlinking while maintaining clean, standard scientific unit notation.
 
 ### 1.6 Author & Contributor Metadata: GitHub Profile Links ("作者与贡献者账号规范")
 * **Rule**: In design documents, RFCs, and technical one-pagers, **never use internal corporate emails** (e.g., `user@google.com`). Always format authors and contributors with their name and clickable GitHub profile link:
   * **Correct**:
     ```markdown
-    **Author:** John Zhang ([@maxwillzq](https://github.com/maxwillzq))  
+    **Author:** Alice Smith ([@alicesmith](https://github.com/alicesmith))  
     **Date:** August 31, 2026  
-    **Contributors:** Yuhao Ge ([@Geyuhao](https://github.com/Geyuhao)), Haotian Xue ([@haotianxue-google](https://github.com/haotianxue-google))  
+    **Contributors:** Bob Jones ([@bobjones](https://github.com/bobjones)), Carol Wu ([@carolwu](https://github.com/carolwu))  
     ```
   * **Incorrect**:
     ```markdown
-    **Author:** John Zhang (johnqiangzhang@google.com)  
-    **Contributors:** Yuhao Ge, Haotian Xue  
+    **Author:** Alice Smith (alice@corp-domain.com)  
+    **Contributors:** Bob, Carol  
     ```
 * **Rationale**:
-  * *Open-Source & Multi-Org Alignment*: `vllm-torchtpu` is an open-source collaboration hosted on GitHub. Readers and reviewers interact via GitHub handles rather than internal corporate email addresses.
-  * *Privacy & Information Leakage Prevention*: Prevents unintentional exposure of internal corporate email domains in documents that may be shared across teams or made public.
-  * *One-Click Navigation*: Allows readers to immediately inspect the author's and contributors' upstream PRs, branches, and code ownership.
+  * *Open-Source & Cross-Organizational Alignment*: Modern engineering projects frequently span multiple organizations, open-source communities, and external partners. Readers and reviewers interact via public GitHub/GitLab handles rather than organization-specific internal email addresses.
+  * *Privacy & Information Leakage Prevention*: Prevents accidental exposure of private corporate email addresses or internal team aliases in documents that may be shared externally or archived in public repositories.
+  * *Direct Attribution & Ownership*: Enables one-click navigation to inspect author/contributor commits, PRs, and repository ownership.
 
 ### 1.7 Self-Contained and Verified Code Snippets
 * Code examples in design docs must be **syntactically valid, self-contained, and tested**:
@@ -75,16 +75,16 @@ This guide establishes the mandatory writing and organizational standards for en
 
 ### 1.8 Editor-Safe PR Citation & RGBA Decoration Prevention ("杜绝编辑器注入 RGBA 装饰字符法则")
 * **Rule**:
-  * In pure Markdown documents, **never write `#` immediately followed by digits** (e.g., avoid `PR #722`, `#722`, or inline `[PR #722](...)` in narrative text).
-  * In the main body, TL;DR, and tables, write PR citations as clean, pure plain text: **`PR 722`** (or `PR-722`), omitting the `#` prefix:
-    * *Correct*: `PR 722`, `PRs 667–686`, `PR 685 / PR 686`
-    * *Incorrect*: `PR #722`, `PR #667 to PR #686`, `[PR #722](...)`
+  * In pure Markdown documents, **never write `#` immediately followed by digits** (e.g., avoid `PR #123`, `#123`, or inline `[PR #123](...)` in narrative text).
+  * In the main body, TL;DR, and tables, write PR citations as clean, pure plain text: **`PR 123`** (or `PR-123`), omitting the `#` prefix:
+    * *Correct*: `PR 123`, `PRs 101–105`, `PR 108 / PR 109`
+    * *Incorrect*: `PR #123`, `PR #101 to PR #105`, `[PR #123](...)`
   * In document header metadata, **never attach PR numbers or GitHub links to the `Status:` field**:
     * *Correct*: `**Status:** Production Implementation` or `**Status:** In Review` or `**Status:** Drafted`
-    * *Incorrect*: `**Status:** Production Implementation (PR #722)` or `**Status:** ([PR #722](url))`
-  * All full GitHub URLs must be offloaded cleanly to **Appendix F: Upstream Pull Request & Commit Lineage**, formatted using standard path syntax:
-    * *Correct*: `* **Pull Request**: [vllm-project/vllm-torchtpu/pull/722](https://github.com/vllm-project/vllm-torchtpu/pull/722)`
-    * *Incorrect*: `* **Pull Request**: [vllm-project/vllm-torchtpu#722](...)` or `[PR #722](...)`
+    * *Incorrect*: `**Status:** Production Implementation (PR #123)` or `**Status:** ([PR #123](url))`
+  * All full repository URLs must be offloaded cleanly to **Appendix F: Upstream Pull Request & Commit Lineage**, formatted using standard path syntax:
+    * *Correct*: `* **Pull Request**: [org/repo/pull/123](https://github.com/org/repo/pull/123)`
+    * *Incorrect*: `* **Pull Request**: [org/repo#123](...)` or `[PR #123](...)`
 * **Rationale**:
   * *VS Code / Monaco Decoration Injection*: Modern IDEs and editors with GitHub extensions (such as VS Code's *GitHub Pull Requests and Issues* extension) parse `#\d+` regex patterns and dynamically inject inline HTML/CSS RGBA-colored status widgets (colored SVG circles representing PR open/merged/closed states) directly between `PR ` and `#<number>`.
   * *Markdown Plain-Text Purity*: A markdown document must remain pure, clean, predictable plain text across all viewing contexts (terminal, raw git diffs, web readers, and IDEs) without being hijacked by editor-specific DOM decoration widgets.
@@ -105,13 +105,13 @@ A high-quality technical RFC or One-Pager should follow a top-down executive str
 Appendices (Offload all secondary details here to keep the main text executive and crisp):
 - Appendix A: Subsystem Architecture & Flowcharts
 - Appendix B: Full Implementation Details & Code Modifications (Complete git diffs)
-- Appendix C: Grammar / Schema Verification Oracle Specifications
-- Appendix D: Full Hardware Benchmark Tables & Methodology
-- Appendix E: Quantitative Diagnostics & Bubble Calculations
+- Appendix C: Formal Specifications & Interface Definitions (Schemas, APIs, grammar contracts)
+- Appendix D: Full Benchmark Tables, Harness Code & Experimental Methodology
+- Appendix E: Quantitative Diagnostics & Resource Profiling Calculations (Stall analyses, memory budgets)
 - Appendix F: Upstream Pull Request & Commit Lineage
-- Appendix G: Test Suite & Real-Hardware Verification Logs
+- Appendix G: Test Suite & Verification Results
 - Appendix H: Architectural Lessons Learned & Design Principles
-- Appendix I: Interactive Hardware Profile & Trace Catalog
+- Appendix I: Interactive Hardware Profile & Trace Catalog (Profiler dumps, trace viewer sessions)
 ```
 
 ### 2.1 Anti-Patterns in Structural Organization
@@ -133,13 +133,13 @@ Appendices (Offload all secondary details here to keep the main text executive a
 Before finalizing any design doc, RFC, or PR description, verify:
 
 - [ ] Are all emojis removed?
-- [ ] Are editor-injected RGBA decoration characters eliminated by using clean PR references (e.g., `PR 722` without `#`) in the main text, with full URLs offloaded to Appendix F?
+- [ ] Are editor-injected RGBA decoration characters eliminated by using clean PR references (e.g., `PR 123` without `#`) in the main text, with full URLs offloaded to Appendix F?
 - [ ] Is metadata `Status` clean without inline PR numbers or links?
 - [ ] Are all grandstanding buzzwords, promotional marketing phrases, and AI clichés ("surgical", "catastrophic", "harvesting low-hanging fruits", "slashed") eliminated?
-- [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware (standardizing on 'TPU' rather than 'Cloud TPU')?
+- [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware (using standard hardware names without promotional/commercial prefixes)?
 - [ ] Are authors and contributors formatted with clickable GitHub profile links instead of corporate emails?
-- [ ] Are compound engineering units spaced (e.g., `ms / step`, `ms / tok`, `tok / s`) to prevent Google Docs intranet URL auto-linkification?
-- [ ] Are code snippets runnable with real backend names and zero dead variables?
+- [ ] Are compound engineering units spaced (e.g., `ms / step`, `ms / tok`, `tok / s`) to prevent enterprise document tool URL auto-linkification?
+- [ ] Are code snippets runnable with production-accurate runtime targets and zero dead variables?
 - [ ] Is the main body readable in 3–5 minutes with code snippets <= 6 lines, and all complete diffs/schemas pushed to Appendices?
 - [ ] Are gratuitous diagrams eliminated, with execution timeline charts reserved for the Appendix?
 - [ ] Are conversational FAQs and redundant/strawman tradeoff tables avoided?
