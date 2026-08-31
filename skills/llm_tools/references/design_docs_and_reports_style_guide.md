@@ -101,7 +101,7 @@ This guide establishes the mandatory writing and organizational standards for en
 A high-quality technical RFC or One-Pager should follow a top-down executive structure:
 
 ```
-1. Title & Metadata (Author, Date, Contributors with GitHub links, Status, Target Systems)
+1. Title & Metadata (Author, Date, Contributors with GitHub links, Status)
 2. Problem Context & Architectural Questions (Pain point & root cause in 1-2 paragraphs)
 3. Failure Modes / Counterexamples (Why intuitive/naive fixes fail, with concrete code)
 4. Architectural Solutions: Optimization Stages (Direct engineering evolution)
