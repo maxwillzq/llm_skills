@@ -49,7 +49,25 @@ This guide establishes the mandatory writing and organizational standards for en
   * Without spaces, Google Docs automatically converts `ms/step` into an unwanted corporate hyperlink (`https://ms.corp.google.com/step`).
   * Adding spaces (`ms / step`) breaks the URL regex pattern, preventing false-positive auto-linking while maintaining clean, standard scientific notation.
 
-### 1.6 Self-Contained and Verified Code Snippets
+### 1.6 Author & Contributor Metadata: GitHub Profile Links ("作者与贡献者账号规范")
+* **Rule**: In design documents, RFCs, and technical one-pagers, **never use internal corporate emails** (e.g., `user@google.com`). Always format authors and contributors with their name and clickable GitHub profile link:
+  * **Correct**:
+    ```markdown
+    **Author:** John Zhang ([@maxwillzq](https://github.com/maxwillzq))  
+    **Date:** August 31, 2026  
+    **Contributors:** Yuhao Ge ([@Geyuhao](https://github.com/Geyuhao)), Haotian Xue ([@haotianxue-google](https://github.com/haotianxue-google))  
+    ```
+  * **Incorrect**:
+    ```markdown
+    **Author:** John Zhang (johnqiangzhang@google.com)  
+    **Contributors:** Yuhao Ge, Haotian Xue  
+    ```
+* **Rationale**:
+  * *Open-Source & Multi-Org Alignment*: `vllm-torchtpu` is an open-source collaboration hosted on GitHub. Readers and reviewers interact via GitHub handles rather than internal corporate email addresses.
+  * *Privacy & Information Leakage Prevention*: Prevents unintentional exposure of internal corporate email domains in documents that may be shared across teams or made public.
+  * *One-Click Navigation*: Allows readers to immediately inspect the author's and contributors' upstream PRs, branches, and code ownership.
+
+### 1.7 Self-Contained and Verified Code Snippets
 * Code examples in design docs must be **syntactically valid, self-contained, and tested**:
   * Do not leave unused imports, dummy variables, or dead code.
   * Use actual hardware backend and device identifiers (e.g., `backend="tpu"` and `device="tpu"` in TorchTPU instead of legacy `openxla`).
@@ -62,12 +80,11 @@ This guide establishes the mandatory writing and organizational standards for en
 A high-quality technical RFC or One-Pager should follow a top-down executive structure:
 
 ```
-1. Title & Metadata (Author, Date, Status, Target Systems)
+1. Title & Metadata (Author, Date, Contributors with GitHub links, Status, Target Systems)
 2. Problem Context & Architectural Questions (Pain point & root cause in 1-2 paragraphs)
-3. Underlying Mechanism / Theory (Why systems behave this way, with minimal verified code)
-4. Failure Modes / Counterexamples (Why intuitive/naive fixes fail, with concrete code)
-5. Architectural Solutions: Optimization Stages (Direct engineering evolution)
-6. Lessons Learned & Upstream Roadmap (Universal rules vs Case specializations + Compact PR stack)
+3. Failure Modes / Counterexamples (Why intuitive/naive fixes fail, with concrete code)
+4. Architectural Solutions: Optimization Stages (Direct engineering evolution)
+5. Lessons Learned & Upstream Roadmap (Universal rules vs Case specializations + Compact PR stack)
 ---
 Appendices (Offload all secondary details here to keep the main text executive and crisp):
 - Appendix A: Subsystem Architecture & Flowcharts
@@ -80,8 +97,11 @@ Appendices (Offload all secondary details here to keep the main text executive a
 ```
 
 ### 2.1 Anti-Patterns in Structural Organization
+* **Prohibit Gratuitous Architecture Diagrams ("拒绝为了画图而画图")**:
+  * Do NOT insert generic ASCII box diagrams (e.g., `Host CPU -> PCIe Bus -> Accelerator`) that merely restate standard system dataflow already described in the text.
+  * Every diagram must convey non-obvious technical insight (e.g., asynchronous execution timeline bubbles, pipeline stalls). When present, complex timeline flowcharts belong in the Appendix.
 * **Prohibit Conversational FAQ Sections**:
-  * Avoid conversational `Frequently Asked Questions (FAQ)` sections. Counterexamples and naive compilation questions belong in **Section 4 (Failure Modes & Counterexamples)**. Architectural invariants belong in **Section 6 (Lessons Learned)**.
+  * Avoid conversational `Frequently Asked Questions (FAQ)` sections. Counterexamples and naive compilation questions belong in **Failure Modes & Counterexamples**. Architectural invariants belong in **Lessons Learned**.
 * **Prohibit Strawman and Redundant Tradeoff Tables**:
   * Do NOT create comparison tables that merely duplicate bullet points in the same section.
   * Do NOT create strawman tradeoff tables comparing against unbuilt hypothetical solutions (e.g., comparing against a hypothetical unwritten kernel). If an alternative path was rejected early, state the technical rationale in 1–2 sentences and keep the section focused on the real solution.
@@ -97,8 +117,10 @@ Before finalizing any design doc, RFC, or PR description, verify:
 - [ ] Are all emojis removed?
 - [ ] Are all grandstanding buzzwords, promotional marketing phrases, and AI clichés ("surgical", "catastrophic", "harvesting low-hanging fruits", "slashed") eliminated?
 - [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware?
+- [ ] Are authors and contributors formatted with clickable GitHub profile links instead of corporate emails?
 - [ ] Are compound engineering units spaced (e.g., `ms / step`, `ms / tok`, `tok / s`) to prevent Google Docs intranet URL auto-linkification?
 - [ ] Are code snippets runnable with real backend names and zero dead variables?
 - [ ] Is the main body readable in 3–5 minutes with code snippets <= 6 lines, and all complete diffs/schemas pushed to Appendices?
+- [ ] Are gratuitous diagrams eliminated, with execution timeline charts reserved for the Appendix?
 - [ ] Are conversational FAQs and redundant/strawman tradeoff tables avoided?
 - [ ] Is the roadmap a compact PR list referencing the commit history appendix?
