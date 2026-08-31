@@ -123,6 +123,10 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/audit_repo_governance.py --rep
 - [`lj` CLI & Trace Debugging Guide](references/lj_cmd_debugging_guide.md): Complete reference for `lj` (`llm_jobs`) toolchain, CDK trace imports (`lj trace import-cdk`), and A/B kernel diffing.
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Headless credential setup, avoiding GraphQL errors, and extracting job logs.
 
+### Technical Writing & Design Documentation
+- [Design Documents & Technical Reports Style Guide](references/design_docs_and_reports_style_guide.md): Standards for engineering design docs, RFCs, and technical reports. Strictly prohibits emojis and marketing fluff; enforces objective, data-driven, and concise engineering prose.
+
+
 
 
 
