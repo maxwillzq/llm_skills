@@ -73,6 +73,27 @@ This guide establishes the mandatory writing and organizational standards for en
   * Use actual hardware backend and device identifiers (e.g., `backend="tpu"` and `device="tpu"` in TorchTPU instead of legacy `openxla`).
   * Accompany code snippets with exact output shapes or assertion checks.
 
+### 1.8 Pull Request (PR) Citation Standards: Mandatory Hyperlinks ("PR 引用超链接标准化")
+* **Rule**: In design documents, RFCs, worklogs, and technical reports, **never leave PR numbers as unlinked plain text** (e.g., `PR #596`, `PR #667 to PR #686`, `PR #685/#686`). Every mention of a PR must be formatted as a direct, clickable markdown link pointing to the upstream GitHub PR URL:
+  * **Single PR**:
+    * *Correct*: `[PR #596](https://github.com/vllm-project/vllm-torchtpu/pull/596)`
+    * *Incorrect*: `PR #596` or `#596`
+  * **PR Stack or Continuous Range**:
+    * *Correct*: `PRs [#667](https://github.com/vllm-project/vllm-torchtpu/pull/667)–[#686](https://github.com/vllm-project/vllm-torchtpu/pull/686)` or `[PR #667](https://github.com/vllm-project/vllm-torchtpu/pull/667) through [PR #686](https://github.com/vllm-project/vllm-torchtpu/pull/686)`
+    * *Incorrect*: `PR #667 to PR #686`, `PR #667-PR #686`, `PRs 667-686`
+  * **Multiple Discrete PRs**:
+    * *Correct*: `[PR #685](https://github.com/vllm-project/vllm-torchtpu/pull/685) / [PR #686](https://github.com/vllm-project/vllm-torchtpu/pull/686)` or `[PR #685](url) and [PR #686](url)`
+    * *Incorrect*: `PR #685/#686` or `PR 685 & 686`
+  * **Section Headings & Benchmark Tables**:
+    * In table rows and section headers, always embed the link inside the bold/heading text:
+      * `| **Baseline ([PR #596](https://github.com/vllm-project/vllm-torchtpu/pull/596))** | ... |`
+      * `1. **Step 1 ([PR #667](https://github.com/vllm-project/vllm-torchtpu/pull/667)) - Device-Resident arange Pre-allocation**:`
+      * `### 1. Step 1 ([PR #667](https://github.com/vllm-project/vllm-torchtpu/pull/667)): Device-Resident arange Pre-Allocation`
+* **Rationale**:
+  * *Immediate Verification*: Reviewers and engineers can click directly through to the upstream GitHub implementation, discussions, and CI test results without manual searching.
+  * *Disambiguation Across Repositories*: Explicit full URLs eliminate ambiguity when working across multiple repositories (`vllm-torchtpu`, `vllm`, `torch_xla`, etc.).
+  * *Professionalism & Traceability*: Establishes an unbroken audit trail connecting design RFC decisions directly to merged git commits.
+
 ---
 
 ## 2. Standard Structural Template for Design Docs / RFCs
@@ -118,6 +139,7 @@ Before finalizing any design doc, RFC, or PR description, verify:
 - [ ] Are all grandstanding buzzwords, promotional marketing phrases, and AI clichés ("surgical", "catastrophic", "harvesting low-hanging fruits", "slashed") eliminated?
 - [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware?
 - [ ] Are authors and contributors formatted with clickable GitHub profile links instead of corporate emails?
+- [ ] Are all PR citations (single, pairs, ranges, tables, headings) formatted as clickable GitHub markdown links with zero unlinked plain text?
 - [ ] Are compound engineering units spaced (e.g., `ms / step`, `ms / tok`, `tok / s`) to prevent Google Docs intranet URL auto-linkification?
 - [ ] Are code snippets runnable with real backend names and zero dead variables?
 - [ ] Is the main body readable in 3–5 minutes with code snippets <= 6 lines, and all complete diffs/schemas pushed to Appendices?
