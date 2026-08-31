@@ -115,6 +115,7 @@ Appendices (Offload all secondary details here to keep the main text executive a
 - Appendix F: Upstream Pull Request & Commit Lineage
 - Appendix G: Test Suite & Real-Hardware Verification Logs
 - Appendix H: Architectural Lessons Learned & Design Principles
+- Appendix I: Interactive Hardware Profile & Trace Catalog
 ```
 
 ### 2.1 Anti-Patterns in Structural Organization
