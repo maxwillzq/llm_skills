@@ -40,7 +40,16 @@ This guide establishes the mandatory writing and organizational standards for en
   * Hardware environment, pod topology, chip count, and test scripts (e.g., `Cloud TPU v7x-8, 8 chips / 16 cores, scripts/vllm/integration/run_compilation_cache_e2e.sh`).
 * Distinguish between **empirically measured** numbers and **theoretical projections**.
 
-### 1.5 Self-Contained and Verified Code Snippets
+### 1.5 Unit Formatting and Intranet Auto-Link Prevention ("单位斜杠空格法则")
+* **Rule**: When writing compound engineering units with slashes (such as milliseconds per step, milliseconds per token, or tokens per second), **always place spaces around the slash**:
+  * Write: `ms / step`, `ms / tok`, `tok / s`
+  * Avoid: `ms/step`, `ms/tok`, `tok/s`
+* **Rationale**:
+  * In corporate Google environments, Google Docs and internal Markdown parsers treat `<word>/<path>` (e.g., `ms/step`, `ms/tok`) as an internal intranet URL because `ms` is a registered corporate host (`ms.corp.google.com`).
+  * Without spaces, Google Docs automatically converts `ms/step` into an unwanted corporate hyperlink (`https://ms.corp.google.com/step`).
+  * Adding spaces (`ms / step`) breaks the URL regex pattern, preventing false-positive auto-linking while maintaining clean, standard scientific notation.
+
+### 1.6 Self-Contained and Verified Code Snippets
 * Code examples in design docs must be **syntactically valid, self-contained, and tested**:
   * Do not leave unused imports, dummy variables, or dead code.
   * Use actual hardware backend and device identifiers (e.g., `backend="tpu"` and `device="tpu"` in TorchTPU instead of legacy `openxla`).
@@ -88,6 +97,7 @@ Before finalizing any design doc, RFC, or PR description, verify:
 - [ ] Are all emojis removed?
 - [ ] Are all grandstanding buzzwords, promotional marketing phrases, and AI clichés ("surgical", "catastrophic", "harvesting low-hanging fruits", "slashed") eliminated?
 - [ ] Are all benchmark numbers verified with explicit units, deltas, and test hardware?
+- [ ] Are compound engineering units spaced (e.g., `ms / step`, `ms / tok`, `tok / s`) to prevent Google Docs intranet URL auto-linkification?
 - [ ] Are code snippets runnable with real backend names and zero dead variables?
 - [ ] Is the main body readable in 3–5 minutes with code snippets <= 6 lines, and all complete diffs/schemas pushed to Appendices?
 - [ ] Are conversational FAQs and redundant/strawman tradeoff tables avoided?
