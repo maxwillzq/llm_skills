@@ -105,7 +105,6 @@ A high-quality technical RFC or One-Pager should follow a top-down executive str
 2. Problem Context & Architectural Questions (Pain point & root cause in 1-2 paragraphs)
 3. Failure Modes / Counterexamples (Why intuitive/naive fixes fail, with concrete code)
 4. Architectural Solutions: Optimization Stages (Direct engineering evolution)
-5. Lessons Learned & Upstream Roadmap (Universal rules vs Case specializations + Compact PR stack)
 ---
 Appendices (Offload all secondary details here to keep the main text executive and crisp):
 - Appendix A: Subsystem Architecture & Flowcharts
@@ -115,6 +114,7 @@ Appendices (Offload all secondary details here to keep the main text executive a
 - Appendix E: Quantitative Diagnostics & Bubble Calculations
 - Appendix F: Upstream Pull Request & Commit Lineage
 - Appendix G: Test Suite & Real-Hardware Verification Logs
+- Appendix H: Architectural Lessons Learned & Design Principles
 ```
 
 ### 2.1 Anti-Patterns in Structural Organization
@@ -122,12 +122,12 @@ Appendices (Offload all secondary details here to keep the main text executive a
   * Do NOT insert generic ASCII box diagrams (e.g., `Host CPU -> PCIe Bus -> Accelerator`) that merely restate standard system dataflow already described in the text.
   * Every diagram must convey non-obvious technical insight (e.g., asynchronous execution timeline bubbles, pipeline stalls). When present, complex timeline flowcharts belong in the Appendix.
 * **Prohibit Conversational FAQ Sections**:
-  * Avoid conversational `Frequently Asked Questions (FAQ)` sections. Counterexamples and naive compilation questions belong in **Failure Modes & Counterexamples**. Architectural invariants belong in **Lessons Learned**.
+  * Avoid conversational `Frequently Asked Questions (FAQ)` sections. Counterexamples and naive compilation questions belong in **Failure Modes & Counterexamples**. Architectural invariants belong in **Appendix H (Lessons Learned & Design Principles)**.
 * **Prohibit Strawman and Redundant Tradeoff Tables**:
   * Do NOT create comparison tables that merely duplicate bullet points in the same section.
   * Do NOT create strawman tradeoff tables comparing against unbuilt hypothetical solutions (e.g., comparing against a hypothetical unwritten kernel). If an alternative path was rejected early, state the technical rationale in 1–2 sentences and keep the section focused on the real solution.
-* **Keep Upstream Roadmaps Compact**:
-  * Roadmaps in the main body should be a concise bullet list of PR numbers, commit links, and 1–2 immediate future milestones, referencing Appendix F for detailed changelogs.
+* **Keep PR Lineage and Roadmaps in Appendices**:
+  * PR stack lineages and upstream commit histories belong in **Appendix F**, keeping the executive body strictly focused on the architectural problem and technical solution.
 
 ---
 
