@@ -54,19 +54,24 @@ def render_mermaid_to_png(mermaid_code: str, output_path: str, timeout: int = 15
 
 def process_markdown_file(markdown_path: str, img_dir: str = None, output_md: str = None) -> tuple[str, list[str]]:
     """Process markdown file and generate gdocs-ready markdown."""
+    import tempfile
+
     markdown_path = os.path.abspath(markdown_path)
     if not os.path.exists(markdown_path):
         raise FileNotFoundError(f"Markdown file not found: {markdown_path}")
 
-    doc_dir = os.path.dirname(markdown_path)
     base_name = os.path.splitext(os.path.basename(markdown_path))[0]
 
+    # Default to an isolated temporary directory to ensure 100% zero workspace / git pollution
+    default_temp_dir = os.path.join(tempfile.gettempdir(), "gdocs_export", base_name)
+
     if img_dir is None:
-        img_dir = os.path.join(doc_dir, "images")
+        img_dir = os.path.join(default_temp_dir, "images")
     os.makedirs(img_dir, exist_ok=True)
 
     if output_md is None:
-        output_md = os.path.join(doc_dir, f"{base_name}_for_gdocs.md")
+        output_md = os.path.join(default_temp_dir, f"{base_name}_for_gdocs.md")
+    os.makedirs(os.path.dirname(os.path.abspath(output_md)), exist_ok=True)
 
     with open(markdown_path, "r", encoding="utf-8") as f:
         content = f.read()
@@ -86,7 +91,6 @@ def process_markdown_file(markdown_path: str, img_dir: str = None, output_md: st
         code = m.group(1).strip()
         img_filename = f"mermaid_{i}.png"
         img_path = os.path.join(img_dir, img_filename)
-        rel_img_path = os.path.relpath(img_path, doc_dir)
 
         title = extract_diagram_title(code, i)
         print(f"[{i}/{len(matches)}] Rendering '{title}' -> {img_path} ...", end=" ")
@@ -100,7 +104,7 @@ def process_markdown_file(markdown_path: str, img_dir: str = None, output_md: st
         placeholder = (
             f"\n\n---\n"
             f"> 🖼️ **【此处插入 {title}】**\n"
-            f"> *(对应高清图: {rel_img_path} ，在 Google Doc 中直接拖入或粘贴)*\n"
+            f"> *(对应高清图: {img_path} ，在 Google Doc 中直接拖入或粘贴)*\n"
             f"---\n\n"
         )
         replacements.append((m.span(), placeholder))
@@ -116,8 +120,9 @@ def process_markdown_file(markdown_path: str, img_dir: str = None, output_md: st
     with open(output_md, "w", encoding="utf-8") as f:
         f.write(new_content)
 
-    print(f"\n[Success] Generated Google-Docs-ready Markdown: {output_md}")
+    print(f"\n[Success] Generated Google-Docs-ready Markdown in temp dir: {output_md}")
     print(f"Rendered {len(saved_images)} images in: {img_dir}")
+    print("Project directory and git working tree remain completely clean!")
     return output_md, saved_images
 
 
@@ -126,8 +131,14 @@ def main():
         description="Extract Mermaid diagrams to PNG and prepare Markdown for Google Docs import."
     )
     parser.add_argument("markdown_file", help="Path to the source markdown file.")
-    parser.add_argument("--img-dir", help="Directory to save rendered PNG images (default: ./images).")
-    parser.add_argument("--output-md", help="Path for the generated output markdown file.")
+    parser.add_argument(
+        "--img-dir",
+        help="Directory to save rendered PNG images (default: /tmp/gdocs_export/<name>/images).",
+    )
+    parser.add_argument(
+        "--output-md",
+        help="Path for the generated output markdown file (default: /tmp/gdocs_export/<name>/<name>_for_gdocs.md).",
+    )
     args = parser.parse_args()
 
     try:
@@ -137,7 +148,7 @@ def main():
         print("\nNext Steps:")
         print("1. Call `codemind:create_document(title=..., markdown_text=...)` with the contents of the generated file.")
         print("2. Open the returned Google Doc URL.")
-        print("3. Drag-and-drop the rendered images from the images directory into each placeholder location.")
+        print(f"3. Drag-and-drop the rendered images from {os.path.dirname(saved_images[0]) if saved_images else 'images'} into each placeholder location.")
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
@@ -145,3 +156,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

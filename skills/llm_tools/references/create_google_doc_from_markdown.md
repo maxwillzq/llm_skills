@@ -39,23 +39,25 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/export_markdown_to_gdoc.py <pa
 ```
 * The script finds all ` ```mermaid ... ``` ` blocks.
 * It renders each diagram to a 2x crisp PNG using the Kroki POST endpoint (`https://kroki.io/mermaid/png`).
-* It saves the images into `<doc_dir>/images/mermaid_<N>.png`.
+* To keep the user's project directory and git working tree 100% clean, it isolates all generated files in `/tmp/gdocs_export/<base_name>/`:
+  * Images: `/tmp/gdocs_export/<base_name>/images/mermaid_<N>.png`
+  * Markdown payload: `/tmp/gdocs_export/<base_name>/<base_name>_for_gdocs.md`
 
 ### Step 2: Inject Prominent Visual Anchor Placeholders
 The script automatically replaces each Mermaid code block in the Markdown with an explicit visual anchor:
 ```markdown
 ---
 > 🖼️ **【此处插入 架构图 N: <图表名称>】**
-> *(对应高清图: images/mermaid_N.png ，直接拖入或粘贴)*
+> *(对应高清图: /tmp/gdocs_export/<base_name>/images/mermaid_N.png ，直接拖入或粘贴)*
 ---
 ```
-It writes the prepared document to `<doc_dir>/<base_name>_for_gdocs.md`.
+It writes the prepared document to `/tmp/gdocs_export/<base_name>/<base_name>_for_gdocs.md`.
 
 ### Step 3: Create Google Doc via `codemind:create_document`
 Call the MCP tool `codemind:create_document`:
 * `title`: `[Design Doc] <Document Title>`
 * `content_type`: `"doc"`
-* `markdown_text`: Contents of `<doc_dir>/<base_name>_for_gdocs.md`
+* `markdown_text`: Contents of `/tmp/gdocs_export/<base_name>/<base_name>_for_gdocs.md`
 
 Google Docs will natively parse and render all headings, tables, code blocks, lists, and the visual anchors. It returns a live URL:
 `https://docs.google.com/document/d/<doc_id>/edit`
@@ -63,8 +65,9 @@ Google Docs will natively parse and render all headings, tables, code blocks, li
 ### Step 4: Instruct User to Drag-and-Drop Images (10-20 Seconds)
 Output a clear, concise guide to the user:
 1. Provide the clickable Google Doc URL.
-2. Provide the local path to the `images/` directory.
+2. Provide the local path to `/tmp/gdocs_export/<base_name>/images/`.
 3. Guide the user to open the Doc and drag-and-drop the N images (`mermaid_1.png` ~ `mermaid_N.png`) directly into the marked placeholder rows (Google Docs natively accepts dragged PNGs and centers them).
+4. The user's project directory and git status remain completely untouched and clean.
 
 ---
 
