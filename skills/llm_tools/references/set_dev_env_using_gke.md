@@ -184,8 +184,6 @@ After setting up the `tpu7x` node pool, follow these steps to build the Docker i
 
 ### 1. Build Docker Image
 
-We build vLLM from source for TPU, pinning it to a known good commit hash to ensure compatibility with `tpu_inference`.
-
 ```bash
 # Get the LKG commit hash from tpu-inference repo
 export VLLM_COMMIT_HASH="08bfedc152f064d8e84f85c4f42b810e5a564229"

@@ -1,11 +1,6 @@
----
-name: collaborative_problem_solving
-description: Disciplined debugging and collaborative problem-solving workflow. Prevents rash modifications, defines action tiers, emphasizes deep analysis, structured alignment, and verifiable checkpoints.
----
-
 # Collaborative Problem Solving & Disciplined Engineering
 
-This skill defines a disciplined, high-velocity engineering workflow for Jetski. It balances thorough analysis and safe collaboration with decisive execution, preventing rash code thrashing and unintended regressions.
+This guide defines a disciplined, high-velocity engineering workflow. It balances thorough analysis and safe collaboration with decisive execution, preventing rash code thrashing and unintended regressions.
 
 ---
 

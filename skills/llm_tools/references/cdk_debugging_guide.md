@@ -187,20 +187,41 @@ CDK `tracegen` automatically recognizes several standard C++ runtime and compile
 
 ---
 
-## 4. Retrieving & Inspecting CDK Traces Headless
+## 4. Retrieving & Inspecting CDK Job Artifacts (sync-outputs & Traces)
 
-### A. Quick CLI Download
+### A. Full Artifact Sync (`cdk job sync-outputs`)
+
+`cdk job sync-outputs <JOB_ID>` is the primary tool to retrieve the complete artifact package for any completed or running CDK job.
+
 ```bash
-# Sync entire job output (logs, recipe, trace.json) locally:
+# Sync entire job output (recipe snapshot, container logs, Perfetto trace) locally:
 cdk job sync-outputs <JOB_ID>
-
-# Local files will be saved in:
-# ~/cloud-devkit-data/job-outputs/<JOB_ID>/debugging/perfetto/trace.json
 ```
 
-Or copy directly from GCS:
+#### Local Storage Structure:
+Artifacts are automatically synchronized into `~/cloud-devkit-data/job-outputs/<JOB_ID>/`:
+```text
+~/cloud-devkit-data/job-outputs/<JOB_ID>/
+├── recipe.yaml                 # ⭐️ Exact rendered YAML snapshot at execution time
+├── debugging/
+│   └── perfetto/
+│       └── trace.json.gz       # Perfetto Chrome trace timeline
+└── logs/                       # Full stdout/stderr logs from all pods & sidecars
+    ├── <JOB_ID>-bench-0/.../bench.0.active.log.gz
+    └── <JOB_ID>-vllm-server-0/.../vllm-server.0.active.log.gz
+```
+
+> [!TIP]
+> **Historical Recipe Snapshot Recovery**: Even if the original recipe template in Git has been modified, renamed, or deleted after the job ran, `sync-outputs` recovers the **100% exact rendered YAML** (`recipe.yaml`) with all template variables (`KEY=VALUE`) expanded at job submission time.
+
+#### Quick Direct GCS Access:
+You can also inspect or copy individual files directly from the job's GCS bucket:
 ```bash
-gcloud storage cp gs://cloud-devkit/jobs/<JOB_ID>/debugging/perfetto/trace.json /tmp/trace.json
+# View the exact rendered recipe directly:
+gcloud storage cat gs://cloud-devkit/jobs/<JOB_ID>/recipe.yaml
+
+# Download Perfetto trace directly:
+gcloud storage cp gs://cloud-devkit/jobs/<JOB_ID>/debugging/perfetto/trace.json.gz /tmp/trace.json.gz
 ```
 
 ---
@@ -391,4 +412,33 @@ volumes:
 | View Logs | `cdk job log <JOB_ID> [-f]` | Streams container logs directly |
 | Delete Job | `cdk job delete <JOB_ID>` | Cleanly terminates workload |
 | Cluster Capacity | `cdk usage -o json` | Inspects TPU slice allocations |
+
+---
+
+## 9. CDK Recipe Authoring & Minimal Diff Standard (配方编写与严格最小变更原则)
+
+当创建、修改或对比 CDK 实验配方（YAML）时，必须严格遵守以下 4 条铁律：
+
+### 1. 严格最小差异原则 (Strict Minimal Diff Invariant)
+* 创建对照组配方（如 PR A vs PR B、Baseline vs Experiment）时，**新配方与基准配方之间有且仅有被测试的核心变量（如 `prs/pr<PR_NUM>.tar.gz` 或特定 Flag）允许存在差异**。
+* 严禁夹带任何未经显式要求的参数修改、卷挂载变更或清理脚本。
+
+### 2. 原始/基准配方不可变 (Original/Baseline Recipes Are Read-Only)
+* 在创建实验变体时，**绝对不得修改、破坏或调整原有的基准文件**。
+* 所有变体必须独立新建文件（如 `*-pr<num>.yaml`），原文件保持 100% 原始状态。
+
+### 3. 标准 PR 源码拉取规范 (Standard PR Source Install Snippet)
+* 从 GCS 拉取 PR 源码时，一律使用标准的纯净 4 行模板：
+  ```bash
+  echo "--- Installing vllm-torchtpu PR <PR_NUM> ---"
+  mkdir -p /workspace/vllm-torchtpu
+  gcloud storage cp gs://llm-jobs-runs/repos/vllm-torchtpu/prs/pr<PR_NUM>.tar.gz /tmp/pr.tar.gz
+  tar -xzf /tmp/pr.tar.gz -C /workspace/vllm-torchtpu
+  pip install --no-deps -e /workspace/vllm-torchtpu/ || true
+  ```
+* **严禁追加冗余指令**：由于 `pip install -e` 已经正确注册了 editable 包，**严禁追加多余的 `export PYTHONPATH=...`**。
+
+### 4. 提交前强制 Self-Diff 审查 (Mandatory Pre-Submit Diff Check)
+* 在创建任何 CDK Job（`cdk job create`）之前，必须先在终端执行 `diff -u <baseline.yaml> <variant.yaml>`，逐行确认 Diff 干净无杂质。
+
 
