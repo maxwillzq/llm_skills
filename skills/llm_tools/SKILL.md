@@ -64,24 +64,14 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMB
 - `--no-artifacts`: Skip downloading build artifacts (downloads logs only).
 - `-o, --output-dir`: Custom output folder (defaults to `/tmp/<repo_name>/PR_<pr_num>`).
 
-### 6. `lj pod` (Cloud TPU Dev Pod Management)
-Modern CLI subcommand in `llm_jobs` to manage persistent remote Cloud TPU development environments, perform incremental code synchronization, and execute remote test workloads inside containerized TPU pods.
+### 6. `lj` (`llm_jobs` Unified Developer CLI)
+Unified CLI for Cloud TPU development, interactive Dev Pods, benchmark job orchestration, and hardware profiling on GKE & GCE.
 
-**Usage**:
-```bash
-# List all TPU dev pods and active statuses
-lj pod list
-
-# Start a dev pod if stopped
-lj pod start <pod-name>   # e.g., lj pod start vllm-torchtpu-dev-pod
-
-# Incrementally sync local repository to /workspace/<repo> inside the pod
-lj pod sync <pod-name>    # e.g., lj pod sync vllm-torchtpu-dev-pod
-
-# Execute remote tests, scripts, or benchmarks inside the pod container
-lj pod exec <pod-name> -- <command>
-# e.g., lj pod exec vllm-torchtpu-dev-pod -- pytest /workspace/vllm-torchtpu/tests/lora/test_tpu_lora_pool.py -v -s
-```
+All authoritative and comprehensive documentation is maintained directly in [`llm_jobs/docs/`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/):
+- **Fast ML Developer Loop**: [`01_fast_ml_workflow.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/01_fast_ml_workflow.md)
+- **TPU Performance & Trace Playbook**: [`02_perf_optimization_guide.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/02_perf_optimization_guide.md)
+- **CLI & Parameter Reference**: [`03_cli_complete_reference.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/03_cli_complete_reference.md)
+- **Experiment Artifacts Specification**: [`04_experiment_artifacts.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/04_experiment_artifacts.md)
 
 ### 7. `audit_repo_governance.py`
 A Python automation tool to audit GitHub pull requests and repository governance compliance (DCO sign-off checks, label taxonomy, reviewer assignments, and approval verification).
@@ -89,6 +79,27 @@ A Python automation tool to audit GitHub pull requests and repository governance
 **Usage**:
 ```bash
 python3 ~/.gemini/config/skills/llm_tools/scripts/audit_repo_governance.py --repo <owner>/<repo> [--pr <PR_NUMBER>]
+```
+
+### 8. `lj pr sync` (Mandatory PR Source Packaging Standard)
+When updating, uploading, or syncing `vllm-torchtpu` (or other repo) PR source code to GCS for remote CDK jobs, benchmark workloads, or cluster execution:
+- **ALWAYS use `lj pr sync <pr_number>`**.
+- **NEVER manually run `git archive` or `gcloud storage cp`** with custom tar prefixes.
+
+**Usage**:
+```bash
+# Package and sync local vllm-torchtpu branch for PR to GCS (Always Overwrites)
+lj pr sync <pr_number>
+```
+* **GCS Target**: `gs://llm-jobs-runs/repos/vllm-torchtpu/prs/pr<pr_number>.tar.gz`
+* **Guarantees**: Standard root-level flat archive (no nested prefix bugs), strict git-ref validation, and automated GCS overwrite.
+
+### 9. `export_markdown_to_gdoc.py`
+A Python utility to extract all Mermaid diagrams from a Markdown document, render them into high-resolution PNGs via Kroki, save them to a local `images/` directory, and generate a `*_for_gdocs.md` file with explicit visual anchor placeholders ready for `codemind:create_document`.
+
+**Usage**:
+```bash
+python3 ~/.gemini/config/skills/llm_tools/scripts/export_markdown_to_gdoc.py <path_to_markdown_file> [--img-dir <dir>] [--output-md <file>]
 ```
 
 ---
@@ -113,18 +124,23 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/audit_repo_governance.py --rep
 - [GKE TPU Setup Guide](references/set_dev_env_using_gke.md): Reference guide to set up a GKE cluster with multi-TPU types and deploy/test workloads on GKE.
 
 ### GitHub, Code Review & Governance
+- [Disciplined Engineering & Problem Solving](references/collaborative_problem_solving.md): Action tier matrix (Tier 1/2/3), blast radius control, and disciplined debugging loop.
+- [Karpathy LLM Coding Guidelines](references/karpathy_guidelines.md): Behavioral guidelines to reduce LLM pitfalls (Simplicity First, Surgical Changes, Goal-Driven Loops).
 - [GitHub CLI Guide & PR Commit Standards](references/gh_and_git_guide.md): Commands for accessing PR diffs, review comments, commit organization principles, and conventional commit message templates.
 - [PR Code Review Checklist](references/code_review_checklist.md): Standard criteria and severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit) for structured code reviews.
-- [Developer Workflow & Code Governance](references/developer_workflow_governance.md): Code governance, DCO sign-offs, reviewer assignments, and merge lifecycle.
+- [Pre-Public Development Guide (`vllm-torchtpu`)](file:///usr/local/google/home/johnqiangzhang/projects/vllm-torchtpu/docs/PRE_PUBLIC_DEV_GUIDE.md): Binding developer workflow, DCO sign-offs, reviewer assignments, and guarded merge SOP for the pre-public phase.
+- [General Contribution Guide (`vllm-torchtpu`)](file:///usr/local/google/home/johnqiangzhang/projects/vllm-torchtpu/CONTRIBUTING.md): Core contribution guidelines, pre-commit formatting, directory layout, and testing standards.
 - [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors.
 
 ### Profiling & CI Debugging
 - [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation.
-- [`lj` CLI & Trace Debugging Guide](references/lj_cmd_debugging_guide.md): Complete reference for `lj` (`llm_jobs`) toolchain, CDK trace imports (`lj trace import-cdk`), and A/B kernel diffing.
+- [`lj` (`llm_jobs`) Documentation Index](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/): Fast ML workflows, TPU performance playbooks, CLI reference, and experiment artifacts.
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Headless credential setup, avoiding GraphQL errors, and extracting job logs.
 
 ### Technical Writing & Design Documentation
 - [Design Documents & Technical Reports Style Guide](references/design_docs_and_reports_style_guide.md): Standards for engineering design docs, RFCs, and technical reports. Strictly prohibits emojis and marketing fluff; enforces objective, data-driven, and concise engineering prose.
+- [Creating Google Docs from Markdown with Diagrams](references/create_google_doc_from_markdown.md): Standard operating procedure (SOP) to export Markdown with Mermaid diagrams to Google Docs. Automatically extracts and renders Mermaid diagrams to local PNGs, injects visual anchors, generates a native Google Doc via `codemind:create_document`, and guides the user to drag-and-drop the images. **Trigger when user asks to "create google doc based on my markdown"**.
+
 
 
 
