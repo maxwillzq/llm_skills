@@ -174,14 +174,22 @@ Agent 无需等待用户交互确认，可直接自主执行：
      ```bash
      gh pr create --reviewer <username> --label "ready" ...
      ```
-   - **现有 PR 准备好发送审查时**：
+   - **现有 PR 准备好发送审查时（支持多 Reviewer，逗号隔开无空格）**：
      ```bash
-     gh pr edit <PR_NUM> --add-reviewer <username> --add-label ready
+     gh pr edit <PR_NUM> --add-reviewer user1,user2 --add-label ready
+     ```
+   - **底层 REST API 权威添加与复核（避开 CLI 边缘缓存延迟）**：
+     ```bash
+     gh api -X POST /repos/<owner>/<repo>/pulls/<PR_NUM>/requested_reviewers -f 'reviewers[]=user1' -f 'reviewers[]=user2'
+     gh api /repos/<owner>/<repo>/pulls/<PR_NUM>/requested_reviewers
      ```
 
-3. **双重门禁自查**：
-   - 检查 1：Commit 必须附带 DCO 规范签名（`Signed-off-by: Full Name <email>`）。
-   - 检查 2：PR Labels 中必须包含 `ready`。
+3. **核心审查规则与反直觉陷阱（Critical Invariants & Anti-Patterns）**：
+   - **作者规则 vs 协作者规则**：GitHub 仅禁止“PR 作者（Author）把自已加为 Reviewer”。在他人提的 PR 上，任何协作者（哪怕是用当前登录账号执行命令）**都可以把自已加为 Reviewer**。严禁将“作者限制”错误推断为“当前登录用户限制”。
+   - **缓存一致性原则**：`gh pr edit` 提交后，GitHub GraphQL/Web 缓存可能有 2-3 秒同步延迟。若 `gh pr view` 结果暂时不全，**严禁脑补“平台规则拦截”**，应直接通过 `requested_reviewers` REST API 获取权威结果。
+   - **双重门禁自查**：
+     - 检查 1：Commit 必须附带 DCO 规范签名（`Signed-off-by: Full Name <email>`）。
+     - 检查 2：PR Labels 中必须包含 `ready`。
 
 ---
 
