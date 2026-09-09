@@ -1,5 +1,5 @@
 Type,LDAP / Email,GitHub Account,Company,Permission,Interested Areas,Code Review,Notes
-Internal Developer,johnqiangzhang@google.com,maxwillzq,Google,admin,General,Yes,Status: active
+Internal Developer,johnqiangzhang@google.com,maxwillzq,Google,write,General,Yes,Status: active
 Internal Developer,jcgu@google.com,juncgu-google,Google,write,"KV, model runner, distributed",Yes,Status: active
 Internal Developer,dananghel@google.com,dan-anghel,Google,write,"KV, model runner, distributed, performance",Yes,Status: active
 Internal Developer,patemotter@google.com,patemotter,Google,write,"general, performance",Yes,Status: active
@@ -18,8 +18,8 @@ Internal Developer,yxshi@google.com,yixinshi,Google,write,General,Google,Status:
 Internal Developer,harut@google.com,harutmov,Google,write,General,Yes,Status: active
 Internal Developer,piv@google.com,pv97,Google,write,General,Need access to compare Raiden integration,Status: active
 Internal Developer,sierraq@google.com,sierraisland,Google,write,General,Yes,Status: active
-Internal Developer,geyuhao@google.com,geyuhao,Google,maintain,General,Yes,Status: active
-Internal Developer,qizzzh@google.com,qizzzh,Google,admin,General,Yes,Status: active
+Internal Developer,geyuhao@google.com,geyuhao,Google,write,General,Yes,Status: active
+Internal Developer,qizzzh@google.com,qizzzh,Google,write,General,Yes,Status: active
 Internal Developer,maniket@google.com,aniket20,Google,write,General,Yes,Status: active
 Internal Developer,wdhongtw@google.com,wdhongtw,Google,write,General,Yes,Status: active
 Internal Developer,amylin@google.com,linamy85,Google,write,General,Google,Status: active
@@ -47,18 +47,18 @@ External Contributor,zwzmzd@gmail.com,zwzmzd,Alibaba,write,General,Yes,Submitted
 External Contributor,handsomehowyxh@gmail.com,HandsomeHow,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:48:16 | Status: active
 External Contributor,814429359@qq.com,acczz,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:49:32 | Status: active
 External Contributor,doran_zhu@163.com,zhubin086,Alibaba,write,General,Yes,Submitted: 7/16/2026 0:49:44 | Status: active
-Existing Collaborator,russell.bryant@gmail.com,russellb,"Red Hat, Inc., @vllm-project",read,General,Yes,Current Live Collaborator (Role: read) | Status: active
-Existing Collaborator,sidhpurwala-huzaifa@github,sidhpurwala-huzaifa,Red Hat,read,General,Yes,Current Live Collaborator (Role: read) | Status: active
-Existing Collaborator,QiliangCui@github,QiliangCui,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,russell.bryant@gmail.com,russellb,"Red Hat, Inc., @vllm-project",write,General,Yes,Current Live Collaborator (Role: read) | Status: active
+Existing Collaborator,sidhpurwala-huzaifa@github,sidhpurwala-huzaifa,Red Hat,write,General,Yes,Current Live Collaborator (Role: read) | Status: active
+Existing Collaborator,QiliangCui@github,QiliangCui,External,write,General,Yes,Current Live Collaborator (Role: admin) | Status: active
 Existing Collaborator,liuzijing2014@github,liuzijing2014,Inferact,write,General,Yes,Current Live Collaborator (Role: write) | Status: active
-Existing Collaborator,zhuohan@cs.berkeley.edu,zhuohan123,vLLM / Meta,admin,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
-Existing Collaborator,youkaichao@github,youkaichao,vllm-project,admin,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
-Existing Collaborator,bvrockwell@github,bvrockwell,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
-Existing Collaborator,vipannalla@github,vipannalla,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
-Existing Collaborator,khluu000@gmail.com,khluu,Inferact,read,General,Yes,Current Live Collaborator (Role: read) | Status: active
-Existing Collaborator,theminghuang@github,theminghuang,External,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
-Existing Collaborator,QiliangCui2023@github,QiliangCui2023,Google,admin,General,Yes,Current Live Collaborator (Role: admin) | Status: active
-Existing Collaborator,ywang96@github,ywang96,inferact,admin,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
+Existing Collaborator,zhuohan@cs.berkeley.edu,zhuohan123,vLLM / Meta,write,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
+Existing Collaborator,youkaichao@github,youkaichao,vllm-project,write,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
+Existing Collaborator,bvrockwell@github,bvrockwell,External,write,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,vipannalla@github,vipannalla,External,write,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,khluu000@gmail.com,khluu,Inferact,write,General,Yes,Current Live Collaborator (Role: read) | Status: active
+Existing Collaborator,theminghuang@github,theminghuang,External,write,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,QiliangCui2023@github,QiliangCui2023,Google,write,General,Yes,Current Live Collaborator (Role: admin) | Status: active
+Existing Collaborator,ywang96@github,ywang96,inferact,write,General,Yes,Current Live Collaborator (Role: admin) - Inherited Org Admin | Status: active
 Internal Developer,stephenchen@google.com,tracelog0,Google,write,General,Yes,Current Live Collaborator (Role: write) - Core ML Inference UTL | Status: active
 External Contributor,jspisak@meta.com,jspisak,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
 External Contributor,clementab@meta.com,ClementABC,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: active
@@ -160,7 +160,7 @@ Internal Developer,hhb@google.com,hhb,Google,write,vllm TorchTpu performance,Yes
 Internal Developer,hwanginho@google.com,inucool12,Google,write,General,Yes,Status: active
 Internal Developer,ryanaoleary@google.com,ryanaoleary,Google,write,"Ray, TPU Inference, TorchTPU",Yes,Status: active
 Internal Developer,wenxindong@google.com,wenxindongwork,Google,write,General,Yes,Status: active
-Internal Developer,bavinainuganti9@google.com,bavinainuganti9,Google,maintain,General,Yes,Status: active
+Internal Developer,bavinainuganti9@google.com,bavinainuganti9,Google,write,General,Yes,Status: active
 Internal Developer,weiyulin@google.com,weiyu0824,Google,write,General,Yes,Status: active
 Internal Developer,junyanxu@google.com,junyanxu,Google,write,General,Yes,Status: active
 Internal Developer,alexis macaskill@google.com,amacaskill,Google,write,"TPU Inference, Torch TPU, RunAI model streamer",Yes,Status: active
