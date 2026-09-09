@@ -161,6 +161,28 @@ Agent 无需等待用户交互确认，可直接自主执行：
 2. **详细陈述影响半径（Blast Radius）**：清晰说明该操作将带来的后果（例如：“该操作将向用户 X 发送写权限邀请” 或 “该操作将向远端创建新的 PR #123”）。
 3. **挂起等待人工明确许可**：严禁在一个连续的脚本或复合命令中隐式夹带特权变更。必须停步等待用户回复明确的确认指令后，方可继续执行。
 
+### 3. PR 提交与发送审查规范：必须附带 `ready` 标签（Mandatory "ready" Label Protocol）
+
+在向 Reviewer 发起代码评审（无论是在创建 PR 时带 `--reviewer` 还是通过 `gh pr edit --add-reviewer` 请求审查）时，**必须且无条件为 PR 添加 `ready` 标签**：
+
+1. **为什么必须加 `ready`**：
+   - 在 `vllm-project/vllm-torchtpu` 等核心仓库中，完整的 CI 流水线（包括 TPU 硬件单元测试、多卡测试及基准回归）严格依赖 `ready` 标签触发（`ONLY add when PR is ready to merge/full CI is needed`）。
+   - Reviewer（CODEOWNERS）以 `ready` 标签作为作者自测完毕、正式请求评审的唯一信号。未打 `ready` 标签会被视为 Draft / 试验性分支而不会进入审查队列。
+
+2. **标准命令行规范**：
+   - **创建 PR 时同时指定**：
+     ```bash
+     gh pr create --reviewer <username> --label "ready" ...
+     ```
+   - **现有 PR 准备好发送审查时**：
+     ```bash
+     gh pr edit <PR_NUM> --add-reviewer <username> --add-label ready
+     ```
+
+3. **双重门禁自查**：
+   - 检查 1：Commit 必须附带 DCO 规范签名（`Signed-off-by: Full Name <email>`）。
+   - 检查 2：PR Labels 中必须包含 `ready`。
+
 ---
 
 ## General References

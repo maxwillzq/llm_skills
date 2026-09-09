@@ -70,6 +70,19 @@ git add tests/
 git commit -m "test(...): ..."
 ```
 
+### 4. Review Readiness & Mandatory `ready` Label Protocol
+When submitting a PR or requesting reviews (`gh pr create` or `gh pr edit --add-reviewer`), always adhere to the following checklist:
+
+- **Mandatory `ready` Label**: Many core repos (e.g., `vllm-project/vllm-torchtpu`) only trigger full CI hardware test pipelines and alert CODEOWNERS when the `ready` label is present (`ONLY add when PR is ready to merge/full CI is needed`).
+  ```bash
+  # When creating a new PR with a reviewer:
+  gh pr create --reviewer <reviewer> --label "ready" ...
+
+  # When requesting review on an existing PR:
+  gh pr edit <PR_NUMBER> --add-reviewer <reviewer> --add-label "ready"
+  ```
+- **Mandatory DCO Sign-off**: Every commit must have a valid DCO signature (`git commit -s` or `Signed-off-by: Full Name <email>`). Verify DCO pass status before requesting review.
+
 ---
 
 ## Basic PR Information
