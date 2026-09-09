@@ -1,10 +1,4 @@
 Type,LDAP / Email,GitHub Account,Company,Permission,Interested Areas,Code Review,Notes
-Internal Developer,srinathbabu@google.com,srinathmandalapu,Google,write,General,Yes,Status: not invite
-Internal Developer,aojea@google.com,aojea,Google,write,"Kubernetes, networking",Yes,Status: pending invitation
-Internal Developer,pooyam@google.com,py4,Google,write,general,Google,Status: pending invitation
-Internal Developer,hning@google.com,helloworld1,Google,write,kernel,Yes,Status: pending invitation
-Internal Developer,jparkerh@google.com,jparkerh,Google,write,All,As needed,Status: not invite
-Internal Developer,elisatsai@google.com,eltsai,Google,write,Diffusion Models,Google,Status: not invite
 External Contributor,janavg@meta.com,janavg,Meta,write,"PyTorch OSS, MSL",Yes,Meta Intake | Status: not invite
 External Contributor,mhoehnerbach@meta.com,v0i0,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: pending invitation
 External Contributor,jongsokchoi@meta.com,choijon5,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: not invite
@@ -24,7 +18,6 @@ External Contributor,IvanKobzarev@meta.com,IvanKobzarev,Meta,write,PyTorch OSS,Y
 External Contributor,yinghai@meta.com,yinghai,Meta,write,MRS,Yes,Meta Intake | Status: pending invitation
 External Contributor,cthi@meta.com,cthi,Meta,write,MSL,Yes,Meta Intake | Status: pending invitation
 External Contributor,ravitec@meta.com,r3t2,Meta,write,MRS,Yes,Meta Intake | Status: not invite
-External Contributor,bins@meta.com,binshi-bing,Meta,write,MRS,Yes,Meta Intake | Status: not invite
 External Contributor,qunshuzhang@meta.com,qunshuzhang1,Meta,write,MRS,Yes,Meta Intake | Status: not invite
 External Contributor,jial@meta.com,lijia19,Meta,write,MRS,Yes,Meta Intake | Status: pending invitation
 External Contributor,czheo@meta.com,czheo,Meta,write,MRS,Yes,Meta Intake | Status: pending invitation
@@ -59,18 +52,9 @@ External Contributor,jianiw@meta.com,wwwjn,Meta,write,MSL,Yes,Meta Intake | Stat
 External Contributor,vanjani@meta.com,yashN7,Meta,write,PyTorch OSS,Yes,Meta Intake | Status: not invite
 External Contributor,galrotem@meta.com,galrotem,Meta,write,MRS,Yes,Meta Intake | Status: not invite
 External Contributor,plund@meta.com,plund,Meta,write,MRS,Yes,Meta Intake | Status: pending invitation
-Internal Developer,rlalwani@google.com,rushabh-46,Google,write,General,Yes,Submitted: 7/16/2026 10:28:32 | Status: not invite
-Internal Developer,sanjayone@google.com,sanjayone,Google,write,General,,Added | Status: not invite
-Internal Developer,muditgokhale@google.com,muditgokhale2,Google,write,Profiling,Yes,Added | Status: not invite
-Internal Developer,arunaksha@google.com,arunaksha-commits,Google,write,Profiling,Yes,Added | Status: not invite
-Internal Developer,weiyulin@google.com,weiyu0824,Google,write,General,Yes,Submitted: 7/16/2026 16:38:26 | Status: not invite
 External Contributor,luluorta@gmail.com,luluorta,Singdata,read,NULL,NULL,Pending Invitation (Added via Script) | Status: pending invitation
 External Contributor,NULL,leonardo0lyj,NULL,read,NULL,NULL,Pending Invitation (Added via Script) | Status: not invite
 External Contributor,NULL,wintersurf,NULL,read,NULL,NULL,Pending Invitation (Added via Script) | Status: not invite
 External Contributor,NULL,Bran-Sun,Tsinghua University,read,NULL,NULL,Pending Invitation (Added via Script) | Status: not invite
-Internal Developer,tcombes@google.com,thcmbs,Google,write,Custom kernels / Helion,Yes,Pending Invitation (Added via Script) | Status: not invite
 External Contributor,hanshi.s@bytedance.com,preminstrel,CMU -> ByteDance Seed,read,NULL,NULL,Pending Invitation (Added via Script) | Status: not invite
 External Contributor,NULL,youchuanhuashui001,NULL,write,NULL,NULL,Pending Invitation (Added via Script) | Status: not invite
-Internal Developer,ymu@google.com,yarongmu-google,Google,write,Custom kernels / Helion,NULL,Pending Invitation (Added via Script) | Status: not invite
-Internal Developer,subhamsoni@google.com,subhamsoni-google,Google,write,Profiling,Yes,Pending Invitation (Added via Script) | Status: not invite
-Internal Developer,chenjincheng@google.com,jcc-google,Google,write,General,Yes,Pending Invitation (Added via Script) | Status: not invite

@@ -119,3 +119,183 @@ Internal Developer,ckstanton@google.com,ckstanton,Google,write,General,Yes,Submi
 Internal Developer,caslyn@google.com,caslyn,Google,write,General,Yes,Submitted: 7/16/2026 15:21:13 | Status: active
 Internal Developer,silkyarora@google.com,silkyarora,Google,write,General,Yes,Pending Invitation (Added via Script) | Status: active
 External Contributor,57064620@qq.com,GlockGao,Alibaba,write,NULL,NULL,Pending Invitation (Added via Script) | Status: active
+Internal Developer,srinathbabu@google.com,srinathmandalapu,Google,write,General,Yes,Status: active
+Internal Developer,aojea@google.com,aojea,Google,write,"Kubernetes, networking",Yes,Status: active
+Internal Developer,pooyam@google.com,py4,Google,write,general,Yes,Status: active
+Internal Developer,hning@google.com,helloworld1,Google,write,kernel,Yes,Status: active
+Internal Developer,jparkerh@google.com,jparkerh,Google,write,All,As needed,Status: active
+Internal Developer,elisatsai@google.com,eltsai,Google,write,Diffusion Models,Yes,Status: active
+Internal Developer,sanjayone@google.com,sanjayone-stack,Google,write,General,Yes,Status: active
+Internal Developer,subhamsoni@google.com,subhamsoni-google,Google,write,Profiling,Yes,Status: active
+Internal Developer,rlalwani@google.com,rushabh-46,Google,write,Profiling,Yes,Status: active
+Internal Developer,muditgokhale@google.com,muditgokhale2,Google,write,Profiling,Yes,Status: active
+Internal Developer,arunaksha@google.com,arunaksha-commits,Google,write,Profiling,Yes,Status: active
+Internal Developer,tcombes@google.com,thcmbs,Google,write,Custom kernels / Helion,Yes,Status: active
+Internal Developer,ymu@google.com,yarongmu-google,Google,write,Custom kernels / Helion,Yes,Status: active
+Internal Developer,ecg@google.com,cota,Google,write,Custom kernels / Helion,Yes,Status: active
+Internal Developer,mrtarunarora@google.com,mrtarunarora-google,Google,write,Profiling,Yes,Status: active
+Internal Developer,chenjincheng@google.com,jcc-google,Google,write,General,Yes,Status: active
+Internal Developer,chandrasekhard@google.com,chandrasekhard2,Google,write,General,Yes,Status: active
+Internal Developer,wenjung@google.com,wenjung2007,Google,write,Custom kernels,Yes,Status: active
+Internal Developer,bkaruturi@google.com,bhuvanpkaruturi,Google,write,General,Yes,Status: active
+Internal Developer,yangzhouml@google.com,yangzhou-ml,Google,write,General,Yes,Status: active
+Internal Developer,hmhsu@google.com,hmhsu,Google,write,General,Yes,Status: active
+Internal Developer,udipi@google.com,udipi,Google,write,General,Yes,Status: active
+Internal Developer,rgxu@google.com,rxu183,Google,write,General,Yes,Status: active
+Internal Developer,pridon@google.com,pritha90,Google,write,Custom kernels,Yes,Status: active
+Internal Developer,wangziyi@google.com,wzy-782,Google,write,General,Yes,Status: active
+Internal Developer,niyatic@google.com,niyatic21,Google,write,Custom kernels,Yes,Status: active
+Internal Developer,tsunlin@google.com,fro11o,Google,write,General,Yes,Status: active
+Internal Developer,robmulla@google.com,robmulla,Google,write,DevRel Support,Yes,Status: active
+Internal Developer,aysu@google.com,anthonsu,Google,write,General,Yes,Status: active
+Internal Developer,puneith@google.com,puneithk,Google,write,TPU Inference,Yes,Status: active
+Internal Developer,happygao@google.com,Shengming-Gao,Google,write,General,Yes,Status: active
+Internal Developer,basioli@google.com,basioli-k,Google,write,TorchTPU Core,Yes,Status: active
+Internal Developer,devjain@google.com,jndevanshu,Google,write,TPU Inference,Yes,Status: active
+Internal Developer,nanfang@google.com,nanfang-li,Google,write,TPU Inference,Yes,Status: active
+Internal Developer,akhilarunkumar@google.com,akhilarunkumar-google,Google,write,TPU Inference,Yes,Status: active
+Internal Developer,zhengxux@google.com,zxxia,Google,write,"TPU Inference, KV transfer performance",Yes,Status: active
+Internal Developer,zijianyi@google.com,zijian-yi,Google,write,"TPU Inference, KV transfer performance",Yes,Status: active
+Internal Developer,hhb@google.com,hhb,Google,write,vllm TorchTpu performance,Yes,Status: active
+Internal Developer,hwanginho@google.com,inucool12,Google,write,General,Yes,Status: active
+Internal Developer,ryanaoleary@google.com,ryanaoleary,Google,write,"Ray, TPU Inference, TorchTPU",Yes,Status: active
+Internal Developer,wenxindong@google.com,wenxindongwork,Google,write,General,Yes,Status: active
+Internal Developer,bavinainuganti9@google.com,bavinainuganti9,Google,maintain,General,Yes,Status: active
+Internal Developer,weiyulin@google.com,weiyu0824,Google,write,General,Yes,Status: active
+Internal Developer,junyanxu@google.com,junyanxu,Google,write,General,Yes,Status: active
+Internal Developer,alexis macaskill@google.com,amacaskill,Google,write,"TPU Inference, Torch TPU, RunAI model streamer",Yes,Status: active
+Internal Developer,shrihari murali@google.com,mshrihari3,Google,write,General,Yes,Status: active
+Internal Developer,jawadamin@google.com,jawadamingoog,Google,write,General,Yes,Status: active
+Internal Developer,brian seung@google.com,brianseung-google,Google,write,General,Yes,Status: active
+Internal Developer,muhuan huang@google.com,mhhuang-machine,Google,write,General,Yes,Status: active
+Internal Developer,ishark@google.com,ishark,Google,write,vllm+ Torch TPU for RL sampler,Yes,Status: active
+Internal Developer,xiaoxlu@google.com,xiaoxlu,Google,write,vllm+ Torch TPU for RL sampler,Yes,Status: active
+Internal Developer,chaowan@google.com,ica-chao,Google,write,General,Yes,Status: active
+Internal Developer,sameeragrawal@google.com,agrawalsameer1,Google,write,General,Yes,Status: active
+Internal Developer,gayar@google.com,gayar-g,Google,write,"vllm, TPU-inference",Yes,Status: active
+Internal Developer,saikalva@google.com,saikalv,Google,write,General,Yes,Status: active
+Internal Developer,chris jones@google.com,chrishjones20,Google,write,"vllm, tpu-inference",Yes,Status: active
+Internal Developer,josh ogbonda@google.com,jocstaa,Google,write,"vllm, tpu-inference",Yes,Status: active
+Internal Developer,chris achard@google.com,chrisachard,Google,write,vllm on TorchTPU,Yes,Status: active
+Internal Developer,stanley tzeng@google.com,stzeng,Google,write,"vllm, tpu-inference",Yes,Status: active
+Internal Developer,madisonzhao@google.com,mdszhao,Google,write,"vllm, tpu-inference",Yes,Status: active
+Internal Developer,itarun@google.com,tarunsharma27,Google,write,"vLLM on TorchTPU, KV transfer performance",Yes,Status: active
+Internal Developer,alynie@google.com,a1yssan13,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,vgu@google.com,vaibhavgurunathan,Google,write,General,Yes,Status: active
+Internal Developer,shen zhang@google.com,shenrunzhang,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,justinlu@google.com,justinlu13,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,dotzel@google.com,amishacorns,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,patrickcullen@google.com,patrickcullen-co,Google,write,vLlm_torchTPU,Yes,Status: active
+Internal Developer,yufengg@google.com,yufengg,Google,write,"vllm_torchTPU, tpu-inference",Yes,Status: active
+Internal Developer,xujiezhang@google.com,xujiezhang-google,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,aarfaian@google.com,arfaian,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,mgogineni@google.com,manasag967,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,jianpingsyu@google.com,david111esc,Google,write,"General, KV cache offload storage",Yes,Status: active
+Internal Developer,amandaliang@google.com,BirdsOfAFthr,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,yangligt@google.com,yangligt2,Google,write,"vllm_torchTPU, tpu-inference",Yes,Status: active
+Internal Developer,ben wilson@google.com,benawilson,Google,write,TorchTPU related issues,Yes,Status: active
+Internal Developer,zheng zhang@google.com,zhz125,Google,write,TorchTPU related issues,Yes,Status: active
+Internal Developer,chun-liang li@google.com,chunliangli,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,shubham agarwal@google.com,shubham3-ucb,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,mike heddes@google.com,mikeheddes,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,akshat gupta@google.com,akshat57,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,kishore jagannath@google.com,kishorerj,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,chris yang@google.com,yangwhale,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,ram j a@google.com,rkja22,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,joseph kottapurath@google.com,ashwinkjoseph,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,amy zhang@google.com,zhangamy-crypto,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,to be added - add below (pls wait ~24 hours for getting added)@google.com,,Google,write,General,Yes,Status: active
+Internal Developer,greg richards@google.com,glowing-sniffles,Google,write,<add your team details>,Yes,Status: active
+Internal Developer,mohammad ghodratigohar (mg)@google.com,MG-Cafe,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,dawn han@google.com,dawnhan1111,Google,write,<add your team details>,Yes,Status: active
+Internal Developer,jaganath achari@google.com,tmind236afk,Google,write,<add your team details>,Yes,Status: active
+Internal Developer,dilara soylu@google.com,dilarasoylu,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,nina cai@google.com,NinaCai,Google,write,<add your team details>,Yes,Status: active
+Internal Developer,madhan jaganathan@google.com,madhanj-dev,Google,write,"Ninja team ( tpu inference, torchtpu, torchtitan)",Yes,Status: active
+Internal Developer,bharath rathinam@google.com,engineerbharath12,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,jianming tong@google.com,jianmingtong,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,gang chen@google.com,gangchen03,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,agnieszka (aga) koziorowska@google.com,aga818,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,syeda anjum@google.com,syeda-anjum,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,kavitha rajendran@google.com,karajendran,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,ashish narasimham@google.com,anarasimham2,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,zijian zhao@google.com,zzj8222090,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,jerry hsu@google.com,jerryx99,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,aleksey vlasenko@google.com,vlasenkoalexey,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,alexander brauckmann@google.com,alexanderb14,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,jack oh@google.com,jack8558,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,snehal verma@google.com,snehalv2002,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,rishabh manoj@google.com,perseus14,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,joey burba@google.com,joeyburba-google,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,vidushi vashishth@google.com,VidushiVashishth,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,james huang@google.com,syhuang22,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,young chin@google.com,mhchin777,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,ann yan@google.com,annyan09023,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,james deng@google.com,JamesDeng42,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,eric hanley@google.com,ericehanley,Google,write,vllm-project/vllm-torchtpu,Yes,Status: active
+Internal Developer,jiafan yu@google.com,PalmDr,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,zhenzhen (jen) tan@google.com,lessizzmore,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,sergei ignatev@google.com,yralishe,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,rishabh baghel@google.com,notabee,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,mihika birmiwal@google.com,mihikabirmiwal,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,radhika lakhtakia@google.com,rlakhtakia,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,ton kalker@google.com,drkbts,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,forrest xi@google.com,gddezero,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,lixiang li@google.com,lixali,Google,write,verl_torchTPU,Yes,Status: active
+Internal Developer,ajay gopi@google.com,ajax98,Google,write,General,Yes,Status: active
+Internal Developer,askhat akhmetzhanov@google.com,askhat-g,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,raja viswanadha@google.com,gitrajav,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,daniel ning@google.com,yuhangning815,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,shuwen fang@google.com,Shuwen-Fang,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,allison ko@google.com,koallison,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,akiki liang@google.com,akiki-liang0,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,lalitha madhurima gayathri kolluru@google.com,lkolluru05,Google,write,"vllm_torchTPU, torchTPU, RL , Inference",Yes,Status: active
+Internal Developer,yi lin@google.com,linyigh,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,leo zhao@google.com,pmshst,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,leo chang@google.com,cszhz,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,michael voznesensky@google.com,voznesenskym,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,sriharsha sammeta@google.com,sriharsha-sammeta,Google,write,"vllm, TPU-inference, vllm_torchTPU",Yes,Status: active
+Internal Developer,arjan chakravarthy@google.com,arjanck,Google,write,General,Yes,Status: active
+Internal Developer,alisa chen@google.com,alisachen-google,Google,write,General,Yes,Status: active
+Internal Developer,elliot english@google.com,elliotenglishggl,Google,write,General,Yes,Status: active
+Internal Developer,shangkun wang@google.com,shangkunwang01,Google,write,custom kernel,Yes,Status: active
+Internal Developer,jahangir hasan@google.com,jahangir-google-com,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,zhanyong wan@google.com,zhanyong-wan,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,felix li@google.com,nonelse1101,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,amit kumar@google.com,amitkumar307d,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,shun wang@google.com,shungcp,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,takashi sato@google.com,takashixg,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,prisha jain@google.com,prishajain1,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,vlad moldoveanu@google.com,vladmoldo,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,prem pradeep motgi@google.com,pmotgi,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,bruk zewdie@google.com,bruk3,Google,write,"vllm_torchTPU, torchTPU",Yes,Status: active
+Internal Developer,ivan nardini@google.com,inardini,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,xiongfei wei@google.com,vanbasten23,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,daniel huang@google.com,pi314ever,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,michael ahn@google.com,michahn01,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,kai maeda@google.com,kaihmaeda,Google,write,General,Yes,Status: active
+Internal Developer,chris chan@google.com,cloudchrischan,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,vaibhav singh@google.com,ultrons,Google,write,"vllm_torchTPU, torchTPU",Yes,Status: active
+Internal Developer,sarthak rathor@google.com,kowalski-4831,Google,write,General,Yes,Status: active
+Internal Developer,siqiao (james) wu@google.com,SiqiaoWu1993,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,yanshu zhao@google.com,azhao155,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,anne stern@google.com,sternanne1,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,zichen huang@google.com,Annie215,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,hitesh yadav@google.com,h1t35h,Google,write,"vllm_torchTPU, torchTPU",Yes,Status: active
+Internal Developer,muskan sharma@google.com,muskansh-google,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,artur kornacki@google.com,hazyraven,Google,write,"Ninja team ( tpu inference, torchTPU, vllm_torchTPU, torchtitan)",Yes,Status: active
+Internal Developer,injae kwak@google.com,saltysoup,Google,write,"vllm_torchTPU, torchTPU",Yes,Status: active
+Internal Developer,kat ko@google.com,caffleine,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,armando ugalde velasco@google.com,armandouv,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,haixiong (sean) wang@google.com,hayshuteking,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,he jiang@google.com,hejiang0116,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,andrew sy kim@google.com,andrewsykim,Google,write,"vllm_torchTPU, TorchTPU",Yes,Status: active
+Internal Developer,karim roukoz@google.com,kkr16,Google,write,"AI Infra FSA Team: vllm_torchTPU, General access.",Yes,Status: active
+Internal Developer,spencer peterson@google.com,spencer-p,Google,write,vllm_torchTPU,Yes,Status: active
+Internal Developer,yun nam@google.com,yun-nam,Google,write,"vllm_torchTPU, TorchTPU",Yes,Status: active
+Internal Developer,ashish agarwal@google.com,agarwal-ashish,Google,write,"vllm_torchTPU, TorchTPU",Yes,Status: active
+External Contributor,bins@meta.com,binshi-bing,Meta,write,General,Yes,Submitted: 7/16/2026 10:28:32 | Status: active
+External Contributor,msokol@quansight.com,mtsokol,Quansight,write,General,Yes,Submitted: 8/27/2026 9:04:20 | Status: active
+Internal Developer,songbaie@google.com,songbai-blip,Google,write,General,Yes,Submitted: 9/3/2026 18:10:18 | Status: active
+External Contributor,lbh2001930@gmail.com,lbh2001,Alibaba,write,General,Yes,Submitted: 9/1/2026 | Status: active
+External Contributor,wangql18@qq.com,wangqilin18,Alibaba,write,General,Yes,Submitted: 9/1/2026 | Status: active
