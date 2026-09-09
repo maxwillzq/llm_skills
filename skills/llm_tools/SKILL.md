@@ -115,6 +115,54 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/export_markdown_to_gdoc.py <pa
 
 ---
 
+## GitHub CLI (gh) 与仓库管理员特权安全防护准则
+
+> [!CAUTION]
+> **高特权仓库特别警示**：
+> 当前用户拥有 `https://github.com/vllm-project/vllm-torchtpu` 及相关核心仓库的 **ADMINISTRATOR（管理员）特权**。
+> Agent 在调用 `gh` 命令行工具或 `git` 远程推送命令时，**必须无条件遵守**以下操作权限边界与安全约束。
+
+### 1. 操作分级与自主权限边界
+
+#### A. 允许 Agent 自主执行的操作（只读巡检与本地开发）
+Agent 无需等待用户交互确认，可直接自主执行：
+* **PR / Issue 巡检与只读读取**：
+  `gh pr view`, `gh pr diff`, `gh pr list`, `gh pr checks`, `gh issue view`, `gh issue list`
+* **CI 工作流与构建日志读取**：
+  `gh run view`, `gh run list`, `gh run watch`
+* **只读 API 查询**：
+  `gh api repos/...`（仅限 `GET` 只读请求）
+* **本地 Git 开发与特性分支推送**：
+  创建分支（`git checkout -b johnqiangzhang/<topic>`）、本地代码提交（`git commit`）、仅推送至**自己名下的特性分支**（`git push -u origin johnqiangzhang/<topic>`）。
+
+#### B. 严格禁止自主执行的高危操作（必须获得用户明确书面授权）
+**在任何情况下，严禁 Agent 自主触发或静默执行以下操作**，除非用户在当前对话中下达了明确的、无歧义的指令：
+
+1. **绝对禁止自主合并 PR（No Autonomous PR Merge）**：
+   * 严禁执行 `gh pr merge`（无论是 `--squash`、`--merge`、`--rebase` 还是 `--auto`）。
+   * 严禁使用管理员特权绕过门禁合并（严禁 `--admin` 标志）。所有 PR 的合并必须由人类工程师最终触发或明确下令。
+2. **绝对禁止直推/强推主分支与受保护分支（No Direct/Force Push to Protected Branches）**：
+   * 严禁执行 `git push origin main`、`git push origin master`。
+   * 严禁对远端分支执行任何形式的强推（`git push -f` / `--force`）。所有改动必须通过 Pull Request 流程流转。
+3. **绝对禁止修改仓库全局设置与协作者权限（No Mutation of Repo Settings or Roles）**：
+   * 严禁修改仓库属性：`gh repo edit`、`gh repo delete`、`gh repo archive`、`gh repo set-default`。
+   * 严禁批量提升协作者权限为 `admin`，严禁未经确认移除现有的 Maintainer / Collaborator。
+4. **绝对禁止修改 CI 凭据、变量与 Webhook（No Secrets or Hooks Mutation）**：
+   * 严禁创建、更新或删除仓库 Secrets 和环境变量：`gh secret set/delete`、`gh variable set/delete`。
+   * 严禁擅自修改 `.github/workflows/` 中的核心门禁安全策略。
+5. **绝对禁止批量删除远端分支、Tags 或 Releases（No Deletions on Origin）**：
+   * 严禁删除远端分支（`git push origin --delete <branch>`）、删除发布版本（`gh release delete`）或批量关闭 Issue/PR（`gh pr close` / `gh issue close`）。
+
+### 2. 特权变更操作的“停步确认”协议（Stop-and-Verify Protocol）
+
+在确实需要对 `vllm-project/vllm-torchtpu` 执行具有修改远端状态的操作前，Agent 必须执行以下三步防护流程：
+
+1. **明确展示完整命令**：向用户打印即将执行的精确命令行、目标仓库（`owner/repo`）以及涉及的分支名称。
+2. **详细陈述影响半径（Blast Radius）**：清晰说明该操作将带来的后果（例如：“该操作将向用户 X 发送写权限邀请” 或 “该操作将向远端创建新的 PR #123”）。
+3. **挂起等待人工明确许可**：严禁在一个连续的脚本或复合命令中隐式夹带特权变更。必须停步等待用户回复明确的确认指令后，方可继续执行。
+
+---
+
 ## General References
 
 ### Infrastructure & Cloud TPU Environment
