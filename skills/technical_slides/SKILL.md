@@ -104,9 +104,16 @@ Always explain to the user *what* technology will be used to build the deck and 
    - Sets `.stage { width: calc(var(--u) * 100); height: calc(var(--u) * 56.25); }`.
    - All typography, padding, and SVG dimensions scale proportionally with `--u`.
    - **Why:** Guarantees **zero text clipping, zero vertical scrollbars, and pixel-identical 16:9 presentation layout** across laptops, ultrawide monitors, and conference room projectors.
-2. **Handcrafted Inline `<svg>` Diagrams & Charts:**
+2. **Markdown-First Maintainability via `scripts/build_slides.py`:**
+   - Instead of maintaining raw, thousand-line HTML files, slide authors write clean Markdown (`slides.md`).
+   - The reusable compiler script in this skill (`scripts/build_slides.py`) compiles `slides.md` into Zipline-styled `index.html`:
+     ```bash
+     python3 /usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/technical_slides/scripts/build_slides.py <slides.md> [output.html]
+     ```
+   - Authors can modify slide titles, lead paragraphs, code blocks, or fine captions directly in Markdown without wrestling with HTML/CSS.
+3. **Handcrafted Inline `<svg>` Diagrams & Charts:**
    - **Why:** Unlike external chart libraries (Chart.js / Mermaid CDN) that fail offline or render blurry fonts, inline `<svg viewBox="...">` renders crisp vector boxes, arrows, tensor grids, and bar charts instantly with zero external dependencies.
-3. **Cloud Run Versioned Hosting (`lj report upload -p <deck-name>`):**
+4. **Cloud Run Versioned Hosting (`lj report upload -p <deck-name>`):**
    - Publishes immutable snapshots plus a `/latest/` pointer to Google Cloud Run for instant team review.
 
 ---
@@ -114,7 +121,12 @@ Always explain to the user *what* technology will be used to build the deck and 
 ## 🚀 Gate 5: Execution & Verification Checklist
 
 Only after the author approves Gates 1–4:
-1. Generate the complete `index.html` implementing the approved outline and SVG diagrams.
-2. Verify every number against the dataset selected in Gate 1.
-3. Confirm the **Author attribution** and **Prototype RFC status badge** appear on the cover and footer chrome.
-4. Deploy via `lj report upload` and verify the live endpoint responds with HTTP 200.
+1. Maintain source content in `slides.md`.
+2. Compile to HTML using the skill script:
+   ```bash
+   python3 /usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/technical_slides/scripts/build_slides.py slides.md index.html
+   ```
+3. Verify every number against the dataset selected in Gate 1.
+4. Confirm the **Author attribution** and **Prototype RFC status badge** appear on the cover and footer chrome.
+5. Deploy via `lj report upload` and verify the live endpoint responds with HTTP 200.
+
