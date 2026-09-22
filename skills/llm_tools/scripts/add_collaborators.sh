@@ -16,6 +16,7 @@ REPO="vllm-project/vllm-torchtpu"
 PERMISSION="push"  # 'push' corresponds to Write access in GitHub API
 FILE_INPUT=""
 DRY_RUN=true
+VERIFY_ACCOUNTS=true
 RAW_INPUT=()
 
 # Color codes for output
@@ -36,12 +37,17 @@ Safely extracts GitHub accounts from CSV files (auto-matching 'GitHub Account'),
 Default behavior: DRY-RUN mode is active by default to prevent accidental invites.
 Use --execute (-x) to apply changes.
 
+Every handle is verified against the GitHub users API before any invite is
+attempted, in dry-run and live mode alike, so typos are caught before they
+consume the 50-invitations-per-24h quota.
+
 Options:
   -x, --execute              Execute actual API invitations (disables default dry-run mode)
   -d, --dry-run              Explicitly run in dry-run mode (default behavior)
   -r, --repo OWNER/REPO      Target repository (default: $REPO)
   -p, --permission PERM      Permission level: push (write), pull (read), maintain, admin, triage (default: $PERMISSION)
   -f, --file FILE            CSV file (e.g. merged_developers.csv) or text file containing GitHub handles
+      --no-verify            Skip the GitHub account existence check (not recommended)
   -h, --help                 Display this help message
 
 Examples:
@@ -66,6 +72,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -d|--dry-run)
             DRY_RUN=true
+            shift
+            ;;
+        --no-verify)
+            VERIFY_ACCOUNTS=false
             shift
             ;;
         -r|--repo)
@@ -244,7 +254,7 @@ echo "Target Repository : $REPO"
 echo "Default Permission: $PERMISSION"
 echo "Parsed Handles (${#CLEANED_USERS[@]}) : ${CLEANED_USERS[*]}"
 if [[ "$DRY_RUN" == true ]]; then
-    echo -e "Execution Mode    : ${YELLOW}${BOLD}DRY-RUN (Safe mode - no API calls made)${NC}"
+    echo -e "Execution Mode    : ${YELLOW}${BOLD}DRY-RUN (Safe mode - read-only API calls, no invitations sent)${NC}"
 else
     echo -e "Execution Mode    : ${RED}${BOLD}LIVE (Applying invitations to GitHub)${NC}"
 fi
@@ -259,6 +269,28 @@ for username in "${CLEANED_USERS[@]}"; do
     target_perm="${USER_TARGET_PERM[$lower_name]:-$PERMISSION}"
 
     echo -n "Checking '$username' (Target: '$target_perm')... "
+
+    # Account existence check (runs in BOTH dry-run and live mode).
+    # The collaborator-permission endpoint below returns 404 both for "user is
+    # not a collaborator" and for "user does not exist", so a typo would
+    # otherwise look identical to a valid new invitee and only surface after
+    # the live PUT has already burned part of the 50-invites/24h quota.
+    if [[ "$VERIFY_ACCOUNTS" == true ]]; then
+        account_json=$(gh api "users/$username" --jq '[(.name // "-"), .type] | @tsv' 2>/dev/null) || account_json=""
+        if [[ -z "$account_json" ]]; then
+            echo -e "${RED}INVALID (no such GitHub account: '$username')${NC}"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+            continue
+        fi
+        account_name=$(cut -f1 <<<"$account_json")
+        account_type=$(cut -f2 <<<"$account_json")
+        if [[ "$account_type" != "User" ]]; then
+            echo -e "${RED}INVALID (account '$username' is a $account_type, not a User)${NC}"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+            continue
+        fi
+        echo -n "[exists: ${account_name}] "
+    fi
 
     # Read-only permission check via gh api --jq
     curr_perm=$(gh api "repos/$REPO/collaborators/$username/permission" --jq '.permission' 2>/dev/null || echo "none")
@@ -308,8 +340,15 @@ done
 
 echo "-----------------------------------"
 if [[ "$DRY_RUN" == true ]]; then
-    echo -e "${YELLOW}${BOLD}Dry run finished cleanly.${NC} Evaluated ${#CLEANED_USERS[@]} user(s)."
+    if [[ $FAIL_COUNT -gt 0 ]]; then
+        echo -e "${RED}${BOLD}Dry run finished with $FAIL_COUNT invalid account(s).${NC} Evaluated ${#CLEANED_USERS[@]} user(s), $SUCCESS_COUNT ready to invite."
+        echo -e "${RED}Fix the handles listed above before running with -x; invalid names waste the 50-invites/24h quota.${NC}"
+        exit 1
+    fi
+    echo -e "${YELLOW}${BOLD}Dry run finished cleanly.${NC} Evaluated ${#CLEANED_USERS[@]} user(s), all accounts verified to exist."
     echo -e "To send actual invitations, run the command again with ${BOLD}-x${NC} or ${BOLD}--execute${NC}."
 else
     echo -e "${GREEN}Completed: $SUCCESS_COUNT processed ($SKIP_COUNT skipped high permissions), $FAIL_COUNT failed.${NC}"
+    [[ $FAIL_COUNT -gt 0 ]] && exit 1
 fi
+exit 0

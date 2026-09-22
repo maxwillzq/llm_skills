@@ -53,6 +53,38 @@ This guide defines a disciplined, high-velocity engineering workflow. It balance
 
 ---
 
+## 🧪 Mandatory Bug Fix Discipline: Test-First (Red-Green) Workflow
+
+When resolving bug reports or fixing regressions, always follow strict Test-Driven Development (TDD) with atomic git checkpoints:
+
+```
+┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│ 1. Add Failing Test │ ──► │ 2. Confirm RED      │ ──► │ 3. Commit Test      │
+│    (Regression Test)│     │    (Verify Failure) │     │    (Atomic Checkpt) │
+└─────────────────────┘     └─────────────────────┘     └─────────────────────┘
+                                                               │
+                                                               ▼
+┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│ 6. Commit Fix       │ ◄── │ 5. Confirm GREEN    │ ◄── │ 4. Surgical Fix     │
+│    (Atomic Checkpt) │     │    (Verify Pass)    │     │    (Root Cause)     │
+└─────────────────────┘     └─────────────────────┘     └─────────────────────┘
+```
+
+1. **Step 1: Reproduce with a Minimal Test**: Add a targeted unit or regression test covering the edge case described in the issue.
+2. **Step 2: Make Test Fail First (RED Phase)**: Execute the test runner and verify that the test fails with the expected error. *Never implement or commit a fix without first confirming the test fails.*
+3. **Step 3: Checkpoint Failing Test**: Create an atomic commit for the failing test:
+   ```bash
+   git commit -s -m "test(<scope>): add regression test for <issue-description> (#<issue_number>)"
+   ```
+4. **Step 4: Implement Surgical Fix**: Apply the minimal, non-invasive code change addressing the root cause.
+5. **Step 5: Verify GREEN**: Re-run the regression test and the full test suite to guarantee zero regressions.
+6. **Step 6: Checkpoint Fix**: Create an atomic commit for the fix:
+   ```bash
+   git commit -s -m "fix(<scope>): <fix-summary> (#<issue_number>)"
+   ```
+
+---
+
 ## 💡 Examples & Anti-Patterns
 
 ### ❌ Anti-Patterns

@@ -93,6 +93,19 @@ When submitting a PR or requesting reviews (`gh pr create` or `gh pr edit --add-
 
 ---
 
+## Repository-Specific Tooling & Virtualenv Standards
+
+### `vllm-project/vllm-torchtpu`
+`vllm-torchtpu` manages its own dedicated virtual environment located at:
+```bash
+projects/vllm-torchtpu/.venv
+```
+- **Pre-commit**: Always run `.venv/bin/pre-commit run ...` (or pass files). Do NOT invoke system `/usr/local/bin/pre-commit`, which may lack the required dependencies.
+- **Python / Pytest**: Always execute with `.venv/bin/python` or `.venv/bin/pytest` (or activate `.venv` first).
+- **Dependency Isolation**: Do not install global packages or modify system Python when working inside `vllm-torchtpu`.
+
+---
+
 ## Basic PR Information
 
 ### View PR Details
@@ -333,6 +346,66 @@ gh pr view <number> --repo <owner>/<repo> --json assignees --jq '.assignees[].lo
 ### Get Reviewers
 ```bash
 gh pr view <number> --repo <owner>/<repo> --json reviewRequests --jq '.reviewRequests[].login'
+```
+
+### Add Reviewers
+
+> [!WARNING]
+> **Do not use `gh pr edit --add-reviewer`.** Despite the name it behaves as *replace*,
+> not *append*: a second invocation silently drops the reviewers added by the first, and
+> a single comma-separated list may apply only one of the logins. `gh` exits **0** and
+> prints the PR URL either way, so there is no error to catch. (Observed on
+> `vllm-project/vllm-torchtpu`; appears to be `gh` issuing the `requestReviews` GraphQL
+> mutation without `union: true`, but that root cause is unconfirmed.)
+
+> [!CAUTION]
+> It is worse than "a second invocation loses the first". A **single** invocation with
+> two `--add-reviewer` flags destroyed pre-existing state:
+>
+> ```bash
+> # PR #1058, reviewers before: ["maxwillzq"]
+> gh pr edit 1058 --add-reviewer theminghuang --add-reviewer jparkerh   # exit 0, prints URL
+> # reviewers after: ["theminghuang"]
+> ```
+>
+> `maxwillzq` was requested **before the command ran** and was still evicted, and only one
+> of the two requested logins was applied. So the blast radius is not limited to reviewers
+> you added yourself — assume `gh pr edit --add-reviewer` can drop *anyone*, including the
+> person who asked you to preserve them.
+
+Snapshot the current list before mutating anything, so an accident is recoverable:
+
+```bash
+gh api repos/<owner>/<repo>/pulls/<number> --jq '[.requested_reviewers[].login]' \
+  | tee /tmp/pr<number>_reviewers_before.json
+```
+
+Then use the REST endpoint, passing every reviewer in **one** request:
+
+```bash
+gh api -X POST /repos/<owner>/<repo>/pulls/<number>/requested_reviewers \
+  -f 'reviewers[]=user-one' \
+  -f 'reviewers[]=user-two' \
+  --jq '.requested_reviewers[].login'
+
+# Team reviewers use a separate array (slug, not full org/slug path):
+gh api -X POST /repos/<owner>/<repo>/pulls/<number>/requested_reviewers \
+  -f 'team_reviewers[]=my-team-slug'
+```
+
+This endpoint is genuinely additive, and one `-f 'reviewers[]=...'` per call also works —
+repeated POSTs accumulate rather than replace, which is what makes recovery possible.
+
+Then **verify independently** — the POST response echoes intent, not committed state:
+
+```bash
+gh pr view <number> --repo <owner>/<repo> --json reviewRequests --jq '.reviewRequests[].login'
+```
+
+A reviewer request is also silently dropped if the user is not a collaborator. Check with:
+
+```bash
+gh api repos/<owner>/<repo>/collaborators/<login> -i | head -n 1   # 204 = is a collaborator
 ```
 
 ## Advanced Queries

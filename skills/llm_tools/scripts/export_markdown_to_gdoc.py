@@ -18,15 +18,21 @@ import urllib.request
 
 
 def extract_diagram_title(code: str, index: int) -> str:
-    """Try to infer a concise title from the first few lines of mermaid code."""
-    lines = [line.strip() for line in code.split("\n") if line.strip()]
+    """Try to infer a concise title from the mermaid code."""
+    cleaned = re.sub(r"%%\{.*?\}%%", "", code, flags=re.DOTALL)
+    lines = [line.strip() for line in cleaned.split("\n") if line.strip()]
     for line in lines:
         if line.startswith("title "):
             return line[6:].strip()
         if line.startswith("%%") and "title:" in line.lower():
             return line.split(":", 1)[1].strip()
-    diag_type = lines[0].split()[0] if lines else "Diagram"
-    return f"架构图 {index}: {diag_type}"
+    non_comment_lines = [l for l in lines if not l.startswith("%%")]
+    if non_comment_lines:
+        first = non_comment_lines[0].split()[0]
+        if first.lower() == "sequencediagram":
+            return f"Figure {index}: System Execution Sequence"
+        return f"Figure {index}: {first.capitalize()}"
+    return f"Figure {index}: Diagram"
 
 
 def render_mermaid_to_png(mermaid_code: str, output_path: str, timeout: int = 15) -> bool:
@@ -103,8 +109,8 @@ def process_markdown_file(markdown_path: str, img_dir: str = None, output_md: st
 
         placeholder = (
             f"\n\n---\n"
-            f"> 🖼️ **【此处插入 {title}】**\n"
-            f"> *(对应高清图: {img_path} ，在 Google Doc 中直接拖入或粘贴)*\n"
+            f"> **[Insert {title}]**\n"
+            f"> *(Local High-Res Asset: {img_path} - drag & drop into this placeholder)*\n"
             f"---\n\n"
         )
         replacements.append((m.span(), placeholder))

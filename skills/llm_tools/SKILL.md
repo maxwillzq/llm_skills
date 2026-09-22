@@ -81,18 +81,31 @@ A Python automation tool to audit GitHub pull requests and repository governance
 python3 ~/.gemini/config/skills/llm_tools/scripts/audit_repo_governance.py --repo <owner>/<repo> [--pr <PR_NUMBER>]
 ```
 
-### 8. `lj pr sync` (Mandatory PR Source Packaging Standard)
-When updating, uploading, or syncing `vllm-torchtpu` (or other repo) PR source code to GCS for remote CDK jobs, benchmark workloads, or cluster execution:
-- **ALWAYS use `lj pr sync <pr_number>`**.
-- **NEVER manually run `git archive` or `gcloud storage cp`** with custom tar prefixes.
-
-**Usage**:
-```bash
-# Package and sync local vllm-torchtpu branch for PR to GCS (Always Overwrites)
-lj pr sync <pr_number>
-```
-* **GCS Target**: `gs://llm-jobs-runs/repos/vllm-torchtpu/prs/pr<pr_number>.tar.gz`
-* **Guarantees**: Standard root-level flat archive (no nested prefix bugs), strict git-ref validation, and automated GCS overwrite.
+### 8. `lj pr sync` & Wheel Management (Mandatory PR Packaging Standards)
+When updating, uploading, or syncing PR code to GCS for remote CDK jobs, benchmark workloads, or cluster execution:
+- **For `vllm-torchtpu` Python source code**:
+  - **ALWAYS use `lj pr sync <pr_number>`**.
+  - **NEVER manually run `git archive` or `gcloud storage cp`** with custom tar prefixes.
+  - **GCS Target**: `gs://llm-jobs-runs/repos/vllm-torchtpu/prs/pr<pr_number>.tar.gz`
+  - **Guarantees**: Standard root-level flat archive (no nested prefix bugs), strict git-ref validation, and automated GCS overwrite.
+- **For `torch_tpu` C++/XLA Wheels**:
+  - **Pull pre-built wheel from CI (zero local compile)**:
+    ```bash
+    lj pr sync <pr_number> --repo torch_tpu
+    ```
+    Automatically matches the PR's latest commit SHA, queries GitHub Actions workflow runs, downloads the Python 3.14 wheel from `gs://torch-tpu-ci-transient/artifacts/...`, and stores it at `gs://llm-jobs-runs/runs/repos/torch_tpu/prs/pr<pr_number>.whl`.
+  - **Build local changes using read-only RBE cache**:
+    ```bash
+    lj pr sync latest --repo torch_tpu
+    ```
+    Compiles `//ci/wheel:torch_tpu_wheel` with `--config=remote_caching_readonly` and uploads to `latest.whl`.
+  - **Inspect & Run**:
+    ```bash
+    lj pr list --repo torch_tpu
+    lj job run profile --torch-tpu-pr <pr_number|latest> --stream
+    # Co-testing both application PR and C++/XLA engine PR:
+    lj job run profile --pr 610 --torch-tpu-pr 4004 --stream
+    ```
 
 ### 9. `export_markdown_to_gdoc.py`
 A Python utility to extract all Mermaid diagrams from a Markdown document, render them into high-resolution PNGs via Kroki, save them to a local `images/` directory, and generate a `*_for_gdocs.md` file with explicit visual anchor placeholders ready for `codemind:create_document`.
@@ -202,15 +215,17 @@ Agent 无需等待用户交互确认，可直接自主执行：
 - [GKE TPU Setup Guide](references/set_dev_env_using_gke.md): Reference guide to set up a GKE cluster with multi-TPU types and deploy/test workloads on GKE.
 
 ### GitHub, Code Review & Governance
-- [Disciplined Engineering & Problem Solving](references/collaborative_problem_solving.md): Action tier matrix (Tier 1/2/3), blast radius control, and disciplined debugging loop.
+- [Disciplined Engineering & Problem Solving](references/collaborative_problem_solving.md): Action tier matrix, blast radius control, and **mandatory Test-First (Red-Green) bug fix workflow**.
 - [Karpathy LLM Coding Guidelines](references/karpathy_guidelines.md): Behavioral guidelines to reduce LLM pitfalls (Simplicity First, Surgical Changes, Goal-Driven Loops).
 - [GitHub CLI Guide & PR Commit Standards](references/gh_and_git_guide.md): Commands for accessing PR diffs, review comments, commit organization principles, and conventional commit message templates.
 - [PR Code Review Checklist](references/code_review_checklist.md): Standard criteria and severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit) for structured code reviews.
+- [Proving a Refactor Changed Nothing (Equivalence Verification)](references/refactor_equivalence_guide.md): The baseline-capture-and-diff loop, float noise fixes, and constraints auditing for behaviour-preserving refactors.
 - [Pre-Public Development Guide (`vllm-torchtpu`)](file:///usr/local/google/home/johnqiangzhang/projects/vllm-torchtpu/docs/PRE_PUBLIC_DEV_GUIDE.md): Binding developer workflow, DCO sign-offs, reviewer assignments, and guarded merge SOP for the pre-public phase.
 - [General Contribution Guide (`vllm-torchtpu`)](file:///usr/local/google/home/johnqiangzhang/projects/vllm-torchtpu/CONTRIBUTING.md): Core contribution guidelines, pre-commit formatting, directory layout, and testing standards.
 - [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors.
 
 ### Profiling & CI Debugging
+- [CI Verification Guide](references/ci_verification_guide.md): Confirming CI runs are genuinely green, local reproduction without venv leakage, and common linter traps (shellcheck, etc.).
 - [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation.
 - [`lj` (`llm_jobs`) Documentation Index](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/): Fast ML workflows, TPU performance playbooks, CLI reference, and experiment artifacts.
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Headless credential setup, avoiding GraphQL errors, and extracting job logs.
