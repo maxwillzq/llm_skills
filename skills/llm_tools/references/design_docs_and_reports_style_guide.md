@@ -50,7 +50,7 @@ This guide establishes the mandatory writing and organizational standards for en
   * Adding spaces (`ms / step`) breaks URL autolink regexes, preventing false-positive hyperlinking while maintaining clean, standard scientific unit notation.
 
 ### 1.6 Author & Contributor Metadata: GitHub Profile Links ("作者与贡献者账号规范")
-* **Rule**: In design documents, RFCs, and technical one-pagers, **never use internal corporate emails** (e.g., `user@google.com`). Always format authors and contributors with their name and clickable GitHub profile link.
+* **Rule**: In design documents, RFCs, and technical one-pagers, **never use internal corporate emails** (e.g., `author@example.com`). Always format authors and contributors with their name and clickable GitHub profile link.
 * **Optionality Rule for Contributors ("只有存在实际协作者时才添加")**:
   * `Contributors` is **strictly optional**. Only include the `**Contributors:**` field when there are explicit, actual co-authors or collaborating engineers on the specific work.
   * For solo-authored PRs, RFCs, or technical one-pagers, **do NOT add a dummy, empty, or speculative `Contributors` line**—only include `Author`, `Date`, and `Status`.

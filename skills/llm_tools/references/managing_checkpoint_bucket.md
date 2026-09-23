@@ -7,9 +7,9 @@ models in CI/CD.
 
 ## 1. Upload the model checkpoint directly to the CI/CD bucket
 
-The recommended way to populate the CI/CD bucket is to download the model on your **Cloudtop** (where you have working credentials) and then upload it directly to GCS. This avoids authentication issues often encountered on remote TPU VMs.
+The recommended way to populate the CI/CD bucket is to download the model on your **workstation** (where you have working credentials) and then upload it directly to GCS. This avoids authentication issues often encountered on remote TPU VMs.
 
-### Step 1: Download the model on Cloudtop
+### Step 1: Download the model on workstation
 
 Use the `hf` CLI (Hugging Face Hub CLI) with the `--local-dir` option to download the model files directly to a local folder. This avoids the complex symlink structure of the default cache.
 
@@ -33,7 +33,7 @@ gcloud storage rsync -r ~/hf_downloads/models--Qwen--Qwen3-0.6B gs://tpu-inferen
 
 ### Step 3: Clean up
 
-Remove the local files to save space on your Cloudtop.
+Remove the local files to save space on your workstation.
 ```bash
 rm -rf ~/hf_downloads/models--Qwen--Qwen3-0.6B
 ```

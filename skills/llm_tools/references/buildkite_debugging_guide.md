@@ -1,6 +1,6 @@
 # Buildkite CLI & API Debugging Guide
 
-This guide details best practices for debugging Buildkite pipelines, downloading cleaned logs, and retrieving job artifacts in headless terminal environments (e.g., Cloudtop).
+This guide details best practices for debugging Buildkite pipelines, downloading cleaned logs, and retrieving job artifacts in headless terminal environments (e.g., workstation).
 
 ---
 

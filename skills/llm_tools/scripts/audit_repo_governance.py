@@ -10,8 +10,8 @@ import sys
 from datetime import datetime, timezone, timedelta
 
 REPO = "vllm-project/vllm-torchtpu"
-DEFAULT_RECIPIENT = "johnqiangzhang@google.com"
-DEFAULT_SENDER = '"vLLM-Torchtpu Governance Audit (No-Reply)" <johnqiangzhang@google.com>'
+DEFAULT_RECIPIENT = os.environ.get("GOVERNANCE_RECIPIENT", "alerts@example.com")
+DEFAULT_SENDER = os.environ.get("GOVERNANCE_SENDER", '"vLLM-Torchtpu Governance Audit" <noreply@example.com>')
 
 def load_recipients(cli_recipients=None, csv_path=None):
     recipients = []
@@ -596,20 +596,9 @@ def send_email_report(direct_pushes, premature_merges, all_merged_prs, recipient
     if not sender:
         sender = DEFAULT_SENDER
 
-    tool_path = shutil.which("sendgmr") or "/usr/local/google/home/johnqiangzhang/bin/sendgmr"
+    tool_path = shutil.which("sendmail") or shutil.which("mail")
     if not (tool_path and os.path.exists(tool_path)):
-        g3_dir = "/google/src/cloud/johnqiangzhang/vllm/google3"
-        candidate = f"{g3_dir}/blaze-bin/caribou/delivery/go/sendgmr"
-        if os.path.exists(candidate):
-            tool_path = candidate
-        elif os.path.exists(g3_dir):
-            print("\nsendgmr binary not found. Automatically building it in google3...")
-            run_command("blaze build //caribou/delivery/go:sendgmr", cwd=g3_dir)
-            if os.path.exists(candidate):
-                tool_path = candidate
-
-    if not (tool_path and os.path.exists(tool_path)):
-        print("\nError: Neither sendgmr nor build path could be located.", file=sys.stderr)
+        print("\nError: Mail transfer agent could not be located.", file=sys.stderr)
         return
 
     html_path = "/tmp/audit_report.html"

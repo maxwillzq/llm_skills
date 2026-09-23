@@ -12,13 +12,13 @@ This guide details best practices for logging, instrumenting custom code (Python
 flowchart LR
     A["Python / C++ / Bash\n(stdout / stderr)"] -->|"trace-start-event\ntrace-end-event"| B["Container Logs\n(GCS / CDK Pods)"]
     B -->|"CDK tracegen\n(Regex Parser)"| C["trace.json\n(Chrome Trace Format)"]
-    C -->|"trace-loader / Perfetto"| D["Interactive UI\n(go/cdk-perfetto/<JOB_ID>)"]
+    C -->|"trace-loader / Perfetto"| D["Interactive UI\n(Perfetto Viewer / <JOB_ID>)"]
 ```
 
 1. **Emission**: Running code prints formatted timestamped events to `stdout` or `stderr`.
 2. **Collection**: When a job finishes, CDK aggregates all pod logs into GCS (`gs://cloud-devkit/jobs/<JOB_ID>/logs/`).
 3. **Parsing**: CDK `tracegen` scans the raw logs, matches start/end markers, pairs corresponding timestamps, and generates `trace.json` (Chrome Trace Event format).
-4. **Visualization**: Traces are loaded into Perfetto at `https://trace-loader-32478767326.us-central1.run.app/<JOB_ID>` (or `go/cdk-perfetto/<JOB_ID>`).
+4. **Visualization**: Traces are loaded into Perfetto at `https://trace-loader-32478767326.us-central1.run.app/<JOB_ID>` (or generic trace viewer).
 
 ---
 
@@ -306,7 +306,7 @@ Prebuilt CDK Docker images (`vllm-torchtpu`, `vllm-torchax`) install packages in
 
 ```mermaid
 flowchart LR
-    A["Local Cloudtop\n(~/projects/vllm-torchtpu)"] -->|"rsync (excludes .venv, build)"| B["CPU VM Jump Host\n(johnqiangzhang-cpu-vm)"]
+    A["Local workstation\n(~/projects/vllm-torchtpu)"] -->|"rsync (excludes .venv, build)"| B["CPU VM Jump Host\n(tpu-cpu-jump-host)"]
     B -->|"mount -t nfs"| C["Google Filestore NFS\n(10.50.136.106:/share)"]
     C -->|"volumeMounts"| D["GKE TPU Pods\n(/root/cloud-devkit/vllm-torchtpu)"]
 ```
@@ -331,7 +331,7 @@ Because Filestore uses internal VPC IPs (e.g. `10.50.136.106`), initialize your 
    sudo chown -R $(whoami):$(whoami) /mnt/share/workspaces/<username>/
    ```
 
-3. **SSH alias in `~/.ssh/config` (on Cloudtop)**:
+3. **SSH alias in `~/.ssh/config` (on workstation)**:
    ```ssh
    Host <username>-cpu-vm
        HostName <EXTERNAL_IP>
@@ -344,9 +344,9 @@ Because Filestore uses internal VPC IPs (e.g. `10.50.136.106`), initialize your 
 
 ---
 
-### C. Daily Code Sync Command (from Cloudtop)
+### C. Daily Code Sync Command (from workstation)
 
-Run this high-speed `rsync` from Cloudtop whenever you make local code changes (skips large `.venv` environments, caches, and git metadata for 1-second syncs):
+Run this high-speed `rsync` from workstation whenever you make local code changes (skips large `.venv` environments, caches, and git metadata for 1-second syncs):
 
 ```bash
 rsync -avz \

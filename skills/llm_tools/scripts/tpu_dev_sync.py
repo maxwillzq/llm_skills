@@ -8,8 +8,8 @@ import sys
 
 def get_inferred_project_name():
     cwd = os.getcwd()
-    # Match /usr/local/google/home/<user>/projects/<project_name>
-    match = re.match(r"^/usr/local/google/home/[^/]+/projects/([^/]+)", cwd)
+    # Match ~/projects/<project_name>
+    match = re.search(r"/projects/([^/]+)", cwd)
     if match:
         return match.group(1)
     return None
@@ -58,7 +58,7 @@ def main():
         print(f"Usage: {sys.argv[0]} [push|pull|both] <project_name>")
         sys.exit(1)
         
-    local_dir = f"/usr/local/google/home/{user_name}/projects/{project_name}/"
+    local_dir = f"~/projects/{project_name}/"
     remote_dir = f"/mnt/pd_{user_name}/projects/{project_name}/"
     
     excludes = [

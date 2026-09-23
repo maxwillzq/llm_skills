@@ -41,7 +41,7 @@ docker run -it --privileged --net=host --shm-size=16g \
 If you want to temporarily use an idle Cloud TPU VM owned by someone else, you can attach and mount your own guest Persistent Disk (PD) to the VM. Follow these steps:
 
 ### 1. Attach your Persistent Disk to the TPU VM
-Run the following command from your local machine (or cloudtop) to attach the disk to the target TPU VM:
+Run the following command from your local machine (or workstation) to attach the disk to the target TPU VM:
 ```bash
 /usr/bin/gcloud alpha compute tpus tpu-vm attach-disk <TPU_NAME> \
   --disk=<PD_NAME> \
@@ -85,7 +85,7 @@ Once you are done, please make sure to unmount the disk inside the VM and detach
 sudo umount /mnt/pd_<username>
 ```
 
-**On your local machine (or cloudtop)**:
+**On your local machine (or workstation)**:
 ```bash
 /usr/bin/gcloud alpha compute tpus tpu-vm detach-disk <TPU_NAME> \
   --disk=<PD_NAME> \

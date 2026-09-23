@@ -108,7 +108,7 @@ Always explain to the user *what* technology will be used to build the deck and 
    - Instead of maintaining raw, thousand-line HTML files, slide authors write clean Markdown (`slides.md`).
    - The reusable compiler script in this skill (`scripts/build_slides.py`) compiles `slides.md` into Zipline-styled `index.html`:
      ```bash
-     python3 /usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/technical_slides/scripts/build_slides.py <slides.md> [output.html]
+     python3 skills/technical_slides/scripts/build_slides.py <slides.md> [output.html]
      ```
    - Authors can modify slide titles, lead paragraphs, code blocks, or fine captions directly in Markdown without wrestling with HTML/CSS.
 3. **Handcrafted Inline `<svg>` Diagrams & Charts:**
@@ -124,7 +124,7 @@ Only after the author approves Gates 1–4:
 1. Maintain source content in `slides.md`.
 2. Compile to HTML using the skill script:
    ```bash
-   python3 /usr/local/google/home/johnqiangzhang/projects/llm_skills/skills/technical_slides/scripts/build_slides.py slides.md index.html
+   python3 skills/technical_slides/scripts/build_slides.py slides.md index.html
    ```
 3. Verify every number against the dataset selected in Gate 1.
 4. Confirm the **Author attribution** and **Prototype RFC status badge** appear on the cover and footer chrome.

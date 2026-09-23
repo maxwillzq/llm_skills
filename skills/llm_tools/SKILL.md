@@ -10,7 +10,7 @@ This folder contains shared utility tools for development workflows. As more too
 ## Available Tools
 
 ### 1. `tpu_dev_sync.py`
-A Python script to synchronize code between local Cloudtop and remote TPU VMs. It maps a project directory from `~/projects/` locally to `/mnt/pd_<username>/projects/` on the remote VM.
+A Python script to synchronize code between local workstation and remote TPU VMs. It maps a project directory from `~/projects/` locally to `/mnt/pd_<username>/projects/` on the remote VM.
 
 **Usage**:
 ```bash
@@ -67,11 +67,11 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/fetch_buildkite_pr.py <PR_NUMB
 ### 6. `lj` (`llm_jobs` Unified Developer CLI)
 Unified CLI for Cloud TPU development, interactive Dev Pods, benchmark job orchestration, and hardware profiling on GKE & GCE.
 
-All authoritative and comprehensive documentation is maintained directly in [`llm_jobs/docs/`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/):
-- **Fast ML Developer Loop**: [`01_fast_ml_workflow.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/01_fast_ml_workflow.md)
-- **TPU Performance & Trace Playbook**: [`02_perf_optimization_guide.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/02_perf_optimization_guide.md)
-- **CLI & Parameter Reference**: [`03_cli_complete_reference.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/03_cli_complete_reference.md)
-- **Experiment Artifacts Specification**: [`04_experiment_artifacts.md`](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/04_experiment_artifacts.md)
+All authoritative and comprehensive documentation is maintained directly in [`llm_jobs/docs/`](https://github.com/maxwillzq/llm_jobs/blob/main/docs/):
+- **Fast ML Developer Loop**: [`01_fast_ml_workflow.md`](https://github.com/maxwillzq/llm_jobs/blob/main/docs/01_fast_ml_workflow.md)
+- **TPU Performance & Trace Playbook**: [`02_perf_optimization_guide.md`](https://github.com/maxwillzq/llm_jobs/blob/main/docs/02_perf_optimization_guide.md)
+- **CLI & Parameter Reference**: [`03_cli_complete_reference.md`](https://github.com/maxwillzq/llm_jobs/blob/main/docs/03_cli_complete_reference.md)
+- **Experiment Artifacts Specification**: [`04_experiment_artifacts.md`](https://github.com/maxwillzq/llm_jobs/blob/main/docs/04_experiment_artifacts.md)
 
 ### 7. `audit_repo_governance.py`
 A Python automation tool to audit GitHub pull requests and repository governance compliance (DCO sign-off checks, label taxonomy, reviewer assignments, and approval verification).
@@ -122,7 +122,7 @@ python3 ~/.gemini/config/skills/llm_tools/scripts/export_markdown_to_gdoc.py <pa
 > [!IMPORTANT]
 > **Strict Local-Only Policy for Cloud DevKit (CDK) Changes**:
 > - **NEVER commit or push CDK recipes, configurations, or workflow changes to remote repositories** (`cloud-devkit`).
-> - All CDK experiments, JobSet YAML files, recipes, and benchmarking scripts must remain **strictly within the local repository** (e.g. `cloud-devkit/recipes/experimental/johnqiangzhang/`).
+> - All CDK experiments, JobSet YAML files, recipes, and benchmarking scripts must remain **strictly within the local repository** (e.g. `cloud-devkit/recipes/experimental/<username>/`).
 > - Submit jobs directly from the local file path using `cdk job submit <local_recipe.yaml>`.
 > - Do not share or push proprietary recipes/configs to prevent unauthorized copying.
 
@@ -146,7 +146,7 @@ Agent 无需等待用户交互确认，可直接自主执行：
 * **只读 API 查询**：
   `gh api repos/...`（仅限 `GET` 只读请求）
 * **本地 Git 开发与特性分支推送**：
-  创建分支（`git checkout -b johnqiangzhang/<topic>`）、本地代码提交（`git commit`）、仅推送至**自己名下的特性分支**（`git push -u origin johnqiangzhang/<topic>`）。
+  创建分支（`git checkout -b <username>/<topic>`）、本地代码提交（`git commit`）、仅推送至**自己名下的特性分支**（`git push -u origin <username>/<topic>`）。
 
 #### B. 严格禁止自主执行的高危操作（必须获得用户明确书面授权）
 **在任何情况下，严禁 Agent 自主触发或静默执行以下操作**，除非用户在当前对话中下达了明确的、无歧义的指令：
@@ -220,14 +220,14 @@ Agent 无需等待用户交互确认，可直接自主执行：
 - [GitHub CLI Guide & PR Commit Standards](references/gh_and_git_guide.md): Commands for accessing PR diffs, review comments, commit organization principles, and conventional commit message templates.
 - [PR Code Review Checklist](references/code_review_checklist.md): Standard criteria and severity markers (🔴 Blocker, 🟡 Important, 🟢 Nit) for structured code reviews.
 - [Proving a Refactor Changed Nothing (Equivalence Verification)](references/refactor_equivalence_guide.md): The baseline-capture-and-diff loop, float noise fixes, and constraints auditing for behaviour-preserving refactors.
-- [Pre-Public Development Guide (`vllm-torchtpu`)](file:///usr/local/google/home/johnqiangzhang/projects/vllm-torchtpu/docs/PRE_PUBLIC_DEV_GUIDE.md): Binding developer workflow, DCO sign-offs, reviewer assignments, and guarded merge SOP for the pre-public phase.
-- [General Contribution Guide (`vllm-torchtpu`)](file:///usr/local/google/home/johnqiangzhang/projects/vllm-torchtpu/CONTRIBUTING.md): Core contribution guidelines, pre-commit formatting, directory layout, and testing standards.
+- [Pre-Public Development Guide (`vllm-torchtpu`)](https://github.com/vllm-project/vllm-torchtpu/blob/main/docs/PRE_PUBLIC_DEV_GUIDE.md): Binding developer workflow, DCO sign-offs, reviewer assignments, and guarded merge SOP for the pre-public phase.
+- [General Contribution Guide (`vllm-torchtpu`)](https://github.com/vllm-project/vllm-torchtpu/blob/main/CONTRIBUTING.md): Core contribution guidelines, pre-commit formatting, directory layout, and testing standards.
 - [Merged Developers Reference Data](references/merged_developers.csv): Consolidated reference dataset of internal developers and external contributors.
 
 ### Profiling & CI Debugging
 - [CI Verification Guide](references/ci_verification_guide.md): Confirming CI runs are genuinely green, local reproduction without venv leakage, and common linter traps (shellcheck, etc.).
 - [CDK Job & Tracegen Debugging Guide](references/cdk_debugging_guide.md): Cloud DevKit (CDK) log inspection, Perfetto trace analysis, and custom trace instrumentation.
-- [`lj` (`llm_jobs`) Documentation Index](file:///usr/local/google/home/johnqiangzhang/projects/llm_jobs/docs/): Fast ML workflows, TPU performance playbooks, CLI reference, and experiment artifacts.
+- [`lj` (`llm_jobs`) Documentation Index](https://github.com/maxwillzq/llm_jobs/blob/main/docs/): Fast ML workflows, TPU performance playbooks, CLI reference, and experiment artifacts.
 - [Buildkite CLI & API Debugging Guide](references/buildkite_debugging_guide.md): Headless credential setup, avoiding GraphQL errors, and extracting job logs.
 
 ### Technical Writing & Design Documentation

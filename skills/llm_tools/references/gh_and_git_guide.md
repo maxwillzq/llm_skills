@@ -52,7 +52,7 @@ feat(lora): implement static weight pool and XLA einsum linear layer on TPU
   - StableHLO Select: `torch.where(has_lora, y_base + delta, y_base)`
 - Eliminate CPU host scheduling stalls, dynamic slice allocations, and HBM roundtrip thrashing.
 
-Signed-off-by: John Zhang <johnqiangzhang@google.com>
+Signed-off-by: John Zhang <user@example.com>
 ```
 
 ### 3. Commit Re-structuring Recipe

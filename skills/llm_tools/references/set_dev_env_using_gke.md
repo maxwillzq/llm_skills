@@ -192,8 +192,8 @@ export REGISTRY="us-central1-docker.pkg.dev/tpu-prod-env-one-vm/vllm-tpu-repo"
 docker build \
   --build-arg VLLM_COMMIT_HASH=${VLLM_COMMIT_HASH} \
   -t ${REGISTRY}/vllm-tpu:v4 \
-  -f /usr/local/google/home/${USER}/projects/tpu-inference/docker/Dockerfile \
-  /usr/local/google/home/${USER}/projects/tpu-inference
+  -f ~/projects/tpu-inference/docker/Dockerfile \
+  ~/projects/tpu-inference
 ```
 
 ### 2. Push to Artifact Registry
@@ -252,7 +252,7 @@ curl http://localhost:8000/v1/completions \
 For PyTorch/XLA-based workloads, we deploy `torchtpu-vllm` which wraps PyTorch compilation and uses custom kernels for TPU execution.
 
 ### 1. Build Docker Image (dev:latest target)
-We build the developer image target stage (`dev`), which copies the local `torchtpu-vllm` repository files and installs the package in editable mode with test and benchmarking dependencies. See [docker_readme.md](file:///usr/local/google/home/johnqiangzhang/projects/torchtpu-vllm/docker/docker_readme.md) for more details on build targets and helper options.
+We build the developer image target stage (`dev`), which copies the local `torchtpu-vllm` repository files and installs the package in editable mode with test and benchmarking dependencies. See [docker_readme.md](file://~//projects/torchtpu-vllm/docker/docker_readme.md) for more details on build targets and helper options.
 
 
 ```bash
@@ -278,7 +278,7 @@ Apply the interactive pod manifest `torchtpu-vllm-dev-pod.yaml`. This pod keeps 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: johnqiangzhang-tpu-dev-pod
+  name: <user>-tpu-dev-pod
 spec:
   containers:
   - name: vllm-tpu-dev
@@ -324,7 +324,7 @@ kubectl apply -f torchtpu-vllm-dev-pod.yaml
 
 Exec into the running pod:
 ```bash
-kubectl exec -it johnqiangzhang-tpu-dev-pod -- /bin/bash
+kubectl exec -it <user>-tpu-dev-pod -- /bin/bash
 ```
 
 Run offline inference inside the container with `VLLM_XLA_CACHE_PATH` set to test compilation caching:
